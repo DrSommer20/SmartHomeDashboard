@@ -1,0 +1,31 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+group = 'com.mosbach'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	implementation 'commons-dbcp:commons-dbcp:1.4'
+	implementation group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+	
+	implementation group: 'com.amazonaws', name: 'aws-java-sdk-sqs', version: '1.11.880'
+	implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+}
+
+test {
+	useJUnitPlatform()
+}

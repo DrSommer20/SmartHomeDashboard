@@ -1,0 +1,5 @@
+mosbach\dhbw\de\tasks\TasksBackendApplication.class
+mosbach\dhbw\de\tasks\controller\MappingController.class
+mosbach\dhbw\de\tasks\model\Task.class
+mosbach\dhbw\de\tasks\model\TokenTask.class
+mosbach\dhbw\de\tasks\model\MessageAnswer.class

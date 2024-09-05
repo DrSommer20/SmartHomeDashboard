@@ -1,0 +1,11 @@
+---
+applications:
+- name: TimFrontend
+  instances: 1
+  host: TimFrontend{random-word}
+  path: .
+  buildpacks:
+    - php_buildpack
+  random-route: true
+  memory: 1G
+# buildpack: https://github.com/dmikusa-pivotal/cf-php-apache-buildpack.git
