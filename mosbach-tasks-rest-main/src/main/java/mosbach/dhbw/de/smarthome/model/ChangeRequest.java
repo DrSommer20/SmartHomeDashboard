@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserChangeRequest {
+public class ChangeRequest {
 
     @JsonProperty("change")
     private Change change;
@@ -23,7 +23,7 @@ public class UserChangeRequest {
      * No args constructor for use in serialization
      * 
      */
-    public UserChangeRequest() {
+    public ChangeRequest() {
     }
 
     /**
@@ -31,7 +31,7 @@ public class UserChangeRequest {
      * @param change
      * @param token
      */
-    public UserChangeRequest(Change change, String token) {
+    public ChangeRequest(Change change, String token) {
         super();
         this.change = change;
         this.token = token;

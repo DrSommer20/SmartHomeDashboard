@@ -6,21 +6,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import mosbach.dhbw.de.smarthome.model.AuthMessage;
+import mosbach.dhbw.de.smarthome.model.DeviceCreateRequest;
+import mosbach.dhbw.de.smarthome.model.DeviceGetResponse;
 import mosbach.dhbw.de.smarthome.model.MailTokenRequest;
 import mosbach.dhbw.de.smarthome.model.MessageAnswer;
 import mosbach.dhbw.de.smarthome.model.MessageReason;
 import mosbach.dhbw.de.smarthome.model.MessageToken;
 import mosbach.dhbw.de.smarthome.model.User;
-import mosbach.dhbw.de.smarthome.model.UserChangeRequest;
+import mosbach.dhbw.de.smarthome.model.ChangeRequest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
-
-
-
-
+import org.springframework.web.bind.annotation.PathVariable;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -111,13 +110,13 @@ public class MappingController {
     }
 
     @PutMapping("/user")
-    public ResponseEntity<?> changeUser(@RequestBody UserChangeRequest changeRequest) {
+    public ResponseEntity<?> changeUser(@RequestBody ChangeRequest changeRequest) {
         //TODO: process PUT request
         if (changeRequest.getToken() == "123456") {
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account updated"), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Token"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -125,12 +124,81 @@ public class MappingController {
     //######################################################
      //device
      //######################################################
-     
+     @GetMapping(
+        path = "/device",
+        consumes = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public ResponseEntity<?> getAllDevices(@RequestBody MessageToken messageToken) { //TODO: Get Device Implementation
+        if(messageToken.getToken() == "123456"){
+            return new ResponseEntity<>(new User("Tim", "Sommer", "test@test.com", "pw"), HttpStatus.OK);   //TODO: DeviceListResponse
+        }
+        else {
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+        }
+    }
 
-     
+    @PostMapping(
+        path = "/device",
+        consumes = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public ResponseEntity<?> createDevice(@RequestBody DeviceCreateRequest createRequest) { //TODO: Create device Implementation
+        if(createRequest.getToken() == "123456"){
+            return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device created"), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    @GetMapping(
+        path = "/device/{id}",
+        consumes = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public ResponseEntity<?> getDevice(@PathVariable String id, @RequestBody MessageToken tokenRequest) { //TODO: Delete User Implementation
+        if(tokenRequest.getToken() == "123456" && id == "device01"){
+            return new ResponseEntity<DeviceGetResponse>(new DeviceGetResponse("device01","Test Device","outlet","bedroom","active"), HttpStatus.OK);
+        }
+        else if(tokenRequest.getToken() == "123456"){
+            return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+        }
+        else {
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+        }
+    } 
 
+    
+    @DeleteMapping(
+        path = "/device/{id}",
+        consumes = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public ResponseEntity<?> deleteDevice(@PathVariable String id, @RequestBody MessageToken tokenRequest) { //TODO: Delete User Implementation
+        if(tokenRequest.getToken() == "123456" && id == "device01"){
+            return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device deleted"), HttpStatus.OK);
+        }
+        else if(tokenRequest.getToken() == "123456"){
+            return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+        }
+        else {
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+        }
+    } 
 
+    @PutMapping(
+        path = "/device/{id}",
+        consumes = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public ResponseEntity<?> putMethodName(@PathVariable String id, @RequestBody ChangeRequest changeRequest) {
+        if (changeRequest.getToken() == "123456" && id == "device01") {
+            return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account updated"), HttpStatus.OK);
+        }
+        else if(changeRequest.getToken() == "123456"){
+            return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+        }
+        else {
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+        }
+    }
+    
      //######################################################
      //routine
      //######################################################
