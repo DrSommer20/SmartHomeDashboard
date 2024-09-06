@@ -1,5 +1,5 @@
 
-package mosbach.dhbw.de.tasks.model;
+package mosbach.dhbw.de.smarthome.model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -10,13 +10,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+public class MessageAnswer {
 
-public class TokenTask {
-
-    @JsonProperty("token")
-    private String token;
-    @JsonProperty("task")
-    private Task task;
+    @JsonProperty("message")
+    private String message;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -24,38 +21,26 @@ public class TokenTask {
      * No args constructor for use in serialization
      * 
      */
-    public TokenTask() {
+    public MessageAnswer() {
     }
 
     /**
      * 
-     * @param task
-     * @param token
+     * @param message
      */
-    public TokenTask(String token, Task task) {
+    public MessageAnswer(String message) {
         super();
-        this.token = token;
-        this.task = task;
+        this.message = message;
     }
 
-    @JsonProperty("token")
-    public String getToken() {
-        return token;
+    @JsonProperty("message")
+    public String getMessage() {
+        return message;
     }
 
-    @JsonProperty("token")
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    @JsonProperty("task")
-    public Task getTask() {
-        return task;
-    }
-
-    @JsonProperty("task")
-    public void setTask(Task task) {
-        this.task = task;
+    @JsonProperty("message")
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @JsonAnyGetter

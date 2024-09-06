@@ -1,5 +1,6 @@
-c:\Users\TSO\Documents\GitRepo\SmartHomeDB\SmartHomeDashboard\mosbach-tasks-rest-main\src\main\java\mosbach\dhbw\de\tasks\controller\MappingController.java
-c:\Users\TSO\Documents\GitRepo\SmartHomeDB\SmartHomeDashboard\mosbach-tasks-rest-main\src\main\java\mosbach\dhbw\de\tasks\model\MessageAnswer.java
-c:\Users\TSO\Documents\GitRepo\SmartHomeDB\SmartHomeDashboard\mosbach-tasks-rest-main\src\main\java\mosbach\dhbw\de\tasks\model\Task.java
-c:\Users\TSO\Documents\GitRepo\SmartHomeDB\SmartHomeDashboard\mosbach-tasks-rest-main\src\main\java\mosbach\dhbw\de\tasks\model\TokenTask.java
-c:\Users\TSO\Documents\GitRepo\SmartHomeDB\SmartHomeDashboard\mosbach-tasks-rest-main\src\main\java\mosbach\dhbw\de\tasks\TasksBackendApplication.java
+C:\Users\TSO\Documents\GitRepo\SmartHomeDB\SmartHomeDashboard\mosbach-tasks-rest-main\src\main\java\mosbach\dhbw\de\smarthome\controller\MappingController.java
+C:\Users\TSO\Documents\GitRepo\SmartHomeDB\SmartHomeDashboard\mosbach-tasks-rest-main\src\main\java\mosbach\dhbw\de\smarthome\model\AuthMessage.java
+C:\Users\TSO\Documents\GitRepo\SmartHomeDB\SmartHomeDashboard\mosbach-tasks-rest-main\src\main\java\mosbach\dhbw\de\smarthome\model\MessageAnswer.java
+C:\Users\TSO\Documents\GitRepo\SmartHomeDB\SmartHomeDashboard\mosbach-tasks-rest-main\src\main\java\mosbach\dhbw\de\smarthome\model\MessageReason.java
+C:\Users\TSO\Documents\GitRepo\SmartHomeDB\SmartHomeDashboard\mosbach-tasks-rest-main\src\main\java\mosbach\dhbw\de\smarthome\model\MessageToken.java
+C:\Users\TSO\Documents\GitRepo\SmartHomeDB\SmartHomeDashboard\mosbach-tasks-rest-main\src\main\java\mosbach\dhbw\de\smarthome\SmartHomeBackendApplication.java

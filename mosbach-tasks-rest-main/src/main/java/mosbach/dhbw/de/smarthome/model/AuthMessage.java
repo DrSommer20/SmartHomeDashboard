@@ -1,5 +1,5 @@
 
-package mosbach.dhbw.de.tasks.model;
+package  mosbach.dhbw.de.smarthome.model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -10,36 +10,52 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MessageAnswer {
 
-    @JsonProperty("message")
-    private String message;
+public class AuthMessage {
+
+    @JsonProperty("email")
+    private String email;
+    @JsonProperty("passwort")
+    private String passwort;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     /**
      * No args constructor for use in serialization
+     * 
      */
-    public MessageAnswer() {
+    public AuthMessage() {
     }
 
     /**
      * 
-     * @param message
+     * @param passwort
+     * @param email
      */
-    public MessageAnswer(String message) {
+    public AuthMessage(String email, String passwort) {
         super();
-        this.message = message;
+        this.email = email;
+        this.passwort = passwort;
     }
 
-    @JsonProperty("message")
-    public String getMessage() {
-        return message;
+    @JsonProperty("email")
+    public String getEmail() {
+        return email;
     }
 
-    @JsonProperty("message")
-    public void setMessage(String message) {
-        this.message = message;
+    @JsonProperty("email")
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @JsonProperty("passwort")
+    public String getPasswort() {
+        return passwort;
+    }
+
+    @JsonProperty("passwort")
+    public void setPasswort(String passwort) {
+        this.passwort = passwort;
     }
 
     @JsonAnyGetter

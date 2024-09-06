@@ -1,10 +1,10 @@
 ---
 applications:
-- name: TimBackend
+- name: SmartHomeBackend
   instances: 1
-  host: TimBackend{random-word}
+  host: SmartHomeBackend{random-word}
   # create JAR with "mvn package" and use the path to the JAR file:
-  path: target/timBackend-0.0.1-SNAPSHOT.jar
+  path: target/smartHomeBackend-0.0.1-SNAPSHOT.jar
   # Necessary:
   random-route: true
   memory: 1G
