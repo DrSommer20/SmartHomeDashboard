@@ -172,7 +172,24 @@ body {
   background-color: var(--secondary-color);
   color: var(--light-color);
   margin: -30px -30px 30px -35px;
+  align-items: center;
+  display: flex;
 }
+
+.add-button{
+  padding: 10px;
+  color: var(--light-color);
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: auto;
+}
+.add-button:hover{
+  background-color: var(--light-color);
+  color:var(--secondary-color);
+}
+
 .content{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -198,3 +215,5 @@ body {
 .device-button:hover{
   background-color: var(--dark-color);
 }
+
+
