@@ -1,21 +1,102 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Mosbach Task Organizer</title>
-</head>
-
-<body>
-
-<h1>Mosbach Task Organizer</h1>
-<h2>This is the homepage</h2>
-
-<p>
-    Welcome to the Mosbach Task Organizer.<br><br>
-
-    <a href="tasks/ServerAlive.html">Here you can test the Server</a> and <a href="tasks/AddTask.html">Here you can add a Task</a>
-
-    HUNGERRRRRRRRRRRRR
-</p>
-</body>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Home Hub</title>
+    <!-- Linking Google Font Link For Icons -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <aside class="sidebar" , id="sidebar">
+      <div class="sidebar-header">
+        <img src="../ressources/logo.png" alt="logo" width="60" />
+        <h2>Smart Home <br />Hub</h2>
+      </div>
+      <ul class="sidebar-links">
+        <h4>
+          <span>Menu</span>
+          <div class="menu-separator"></div>
+        </h4>
+        <li>
+          <a href="#">
+            <span class="material-symbols-outlined"> dashboard </span
+            >Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><span class="material-symbols-outlined"> overview</span>Routines</a
+          >
+        </li>
+      </ul>
+      <div class="user-profile">
+        <div class="user-initials">
+          <h3 id="initials">TS</h3>
+        </div>
+        <div class="user-detail">
+          <h3 id="firstname">Tim</h3>
+          <h3 id="lastname">Sommer</h3>
+        </div>
+      </div>
+    </aside>
+    <main class="main-pane" , id="main-pane">
+      <div class="header">
+        <h1>Devices</h1>
+      </div>
+      <div class="content" id="content">
+        <div class="device">
+          <div class="device-header">
+            <h3>
+              <span class="material-symbols-outlined"> light </span> Celling
+              ligth
+            </h3>
+          </div>
+          <div class="device-separator"></div>
+          <div class="device-info">
+            <p>Type: Light</p>
+            <p>Location: Kitchen</p>
+            <p>State: Off</p>
+            <br />
+            <button class="device-button">Turn On</button>
+          </div>
+        </div>
+        <div class="device">
+          <div class="device-header">
+            <h3><span class="material-symbols-outlined"> outlet </span> TV</h3>
+          </div>
+          <div class="device-separator"></div>
+          <div class="device-info">
+            <p>Type: Outlet</p>
+            <p>Location: Living Room</p>
+            <p>State: On</p>
+            <br />
+            <button class="device-button">Turn Off</button>
+          </div>
+        </div>
+        <div class="device">
+          <div class="device-header">
+            <h3>
+              <span class="material-symbols-outlined"> table_lamp </span>
+              Nightstand
+            </h3>
+          </div>
+          <div class="device-separator"></div>
+          <div class="device-info">
+            <p>Type: Light</p>
+            <p>Location: Bedroom</p>
+            <p>State: Off</p>
+            <br />
+            <button class="device-button">Turn On</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+  <!-- Linking JavaScript File -->
+  <!--<script src="js/sidebar-expanding.js"></script>-->
 </html>

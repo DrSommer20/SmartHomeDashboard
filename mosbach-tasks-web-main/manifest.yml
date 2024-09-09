@@ -1,8 +1,8 @@
 ---
 applications:
-- name: TimFrontend
+- name: SmartHomeFrontend
   instances: 1
-  host: TimFrontend{random-word}
+  host: SmartHomeFrontend{random-word}
   path: .
   buildpacks:
     - php_buildpack
