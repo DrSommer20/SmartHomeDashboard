@@ -81,14 +81,14 @@ public class MappingController {
     )
     public ResponseEntity<?> getUser(@RequestBody MailTokenRequest mailTokenRequest) {
         User user = UserService.getUserByEmail(mailTokenRequest.getEmail());
-        if(mailTokenRequest.getToken() == "123456" && user != null){
+        if(mailTokenRequest.getToken().equals("123456") && user != null){
             return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
         }
         else if (user == null) {
             return new ResponseEntity<MessageReason>(new MessageReason("User not found"), HttpStatus.BAD_REQUEST);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -112,7 +112,7 @@ public class MappingController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> deleteUser(@RequestBody MailTokenRequest mailTokenRequest) {        
-        if(mailTokenRequest.getToken() == "123456" && UserService.getUserByEmail(mailTokenRequest.getEmail()) != null){
+        if(mailTokenRequest.getToken().equals("123456") && UserService.getUserByEmail(mailTokenRequest.getEmail()) != null){
             UserService.deleteUser(mailTokenRequest.getEmail());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account deleted"), HttpStatus.OK);
         }
@@ -120,18 +120,18 @@ public class MappingController {
             return new ResponseEntity<MessageReason>(new MessageReason("User not found"), HttpStatus.BAD_REQUEST);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/user")
     public ResponseEntity<?> changeUser(@RequestBody ChangeRequest changeRequest) {
         //TODO: process PUT request
-        if (changeRequest.getToken() == "123456") {
+        if (changeRequest.getToken().equals("123456")) {
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account updated"), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -144,7 +144,7 @@ public class MappingController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> getAllDevices(@RequestBody MessageToken messageToken) { 
-        if(messageToken.getToken() == "123456"){
+        if(messageToken.getToken().equals("123456")){
             List<DeviceGetResponse> devicesDTO = new ArrayList<>();
             List<Device> devices = DeviceService.getDevices(messageToken.getToken());
 
@@ -154,7 +154,7 @@ public class MappingController {
             return new ResponseEntity<AllDevices>(new AllDevices(devicesDTO), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -163,13 +163,13 @@ public class MappingController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> createDevice(@RequestBody DeviceCreateRequest createRequest) { //TODO: Create device Implementation
-        if(createRequest.getToken() == "123456"){
+        if(createRequest.getToken().equals("123456")){
             Device device = new Device(createRequest.getDevice().getName(), createRequest.getDevice().getType(), createRequest.getDevice().getLocation());
             DeviceService.addDevice(device, createRequest.getToken());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device created"), HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -179,14 +179,14 @@ public class MappingController {
     )
     public ResponseEntity<?> getDevice(@PathVariable String id, @RequestBody MessageToken tokenRequest) {
         Device device = DeviceService.getDeviceById(id, tokenRequest.getToken());
-        if(tokenRequest.getToken() == "123456" && device != null){
+        if(tokenRequest.getToken().equals("123456") && device != null){
             return new ResponseEntity<DeviceGetResponse>(new DeviceGetResponse(device), HttpStatus.OK);
         }
         else if(device == null){
             return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
         }
     } 
 
@@ -197,7 +197,7 @@ public class MappingController {
     )
     public ResponseEntity<?> deleteDevice(@PathVariable String id, @RequestBody MessageToken tokenRequest) { 
         Device device = DeviceService.getDeviceById(id, tokenRequest.getToken());
-        if(tokenRequest.getToken() == "123456" && device != null){
+        if(tokenRequest.getToken().equals("123456") && device != null){
             DeviceService.deleteDevice(Integer.parseInt(id), tokenRequest.getToken());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device deleted"), HttpStatus.OK);
         }
@@ -205,7 +205,7 @@ public class MappingController {
             return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credential"), HttpStatus.BAD_REQUEST);
         }
     } 
 
@@ -213,11 +213,11 @@ public class MappingController {
         path = "/device/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?> changedevice(@PathVariable String id, @RequestBody ChangeRequest changeRequest) {
+    public ResponseEntity<?> changeDevice(@PathVariable String id, @RequestBody ChangeRequest changeRequest) {
         Device device = DeviceService.getDeviceById(id, changeRequest.getToken());
 
         
-        if (changeRequest.getToken() == "123456" && device != null) {
+        if (changeRequest.getToken().equals("123456") && device != null) {
             switch(changeRequest.getChange().getField()){
                 case "name":
                     device.setName(changeRequest.getChange().getNewValue());
@@ -240,7 +240,7 @@ public class MappingController {
             return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credetials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
         }
     }
     
