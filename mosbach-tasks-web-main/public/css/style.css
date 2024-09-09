@@ -176,7 +176,7 @@ body {
   display: flex;
 }
 
-.add-button{
+.head-button{
   padding: 10px;
   color: var(--light-color);
   background-color: var(--secondary-color);
@@ -185,7 +185,7 @@ body {
   cursor: pointer;
   margin-left: auto;
 }
-.add-button:hover{
+.head-button:hover{
   background-color: var(--light-color);
   color:var(--secondary-color);
 }
