@@ -46,17 +46,28 @@
     </aside>
     <main class="main-pane" , id="main-pane">
       <div class="header">
-        <h1>Devices</h1>
+        <h1>Add New Device</h1>
           <!--Add Head Button-->
-          <button id="HeadButton" class="head-button">Add Device</button>
-          <script src="js/HeadButton.js"></script>
+          <button onclick="location.href='../Homepage.html'" id="HeadButton" class="head-button">Back</button>
+          
       </div>
-      <div class="content" id="content">
-        <!-- Add Device Mask -->
-      </div>
+        <div class="content-input" id="content">
+              <label class="input-label">Device Name:</label>
+              <input type="text" id="deviceName"  required>
+
+              <label class="input-label">Device Type:</label>
+              <input type="text" id="deviceType" name="deviceType" required>
+
+              <label class="input-label">Location:</label>
+              <input type="text" id="deviceLocation" name="deviceLocation" required>
+
+              <button class="submit-button" id="AddDeviceSubmit">  Add</button>
+        </div>
     </main>
   </body>
   <!-- Linking JavaScript File -->
   <script src="../js/sidebar-expanding.js"></script>
-  </html>
+  <script src="../js/jquery-3.6.0.min.js"></script>
+<script src="../js/AddDeviceJquery.js"></script>
+</html>
 
