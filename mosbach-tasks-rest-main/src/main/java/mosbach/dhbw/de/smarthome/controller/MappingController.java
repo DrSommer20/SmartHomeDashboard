@@ -229,8 +229,8 @@ public class MappingController {
     public ResponseEntity<?> changeDevice(@PathVariable String id, @RequestBody ChangeRequest changeRequest) {
         User user = AuthService.getUser(changeRequest.getToken());
 
-        
-        if (changeRequest.getToken().equals("123456")) {
+
+        if (user != null) {
             Device device = DeviceService.getDeviceById(id, user);
             if(device == null){
                 return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
