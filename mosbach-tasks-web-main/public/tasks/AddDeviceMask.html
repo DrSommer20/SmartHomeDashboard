@@ -1,18 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Device Mask</title>
-    <link rel="stylesheet" href="styles.css"> <!-- CSS -->
-</head>
-<body>
-    <h1>Add New Device</h1>
-    <!-- Formular -->
-     <div>
-        
-     </div>
-</body>
-</html>
-
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Home Hub</title>
+    <!-- Linking Google Font Link For Icons -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <aside class="sidebar" , id="sidebar">
+      <div class="sidebar-header">
+        <img src="../../ressources/logo.png" alt="logo" width="60" />
+        <h2>Smart Home <br />Hub</h2>
+      </div>
+      <ul class="sidebar-links">
+        <h4>
+          <span>Menu</span>
+          <div class="menu-separator"></div>
+        </h4>
+        <li>
+          <a href="#">
+            <span class="material-symbols-outlined"> dashboard </span
+            >Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><span class="material-symbols-outlined"> overview</span>Routines</a
+          >
+        </li>
+      </ul>
+      <div class="user-profile">
+        <div class="user-initials">
+          <h3 id="initials">TS</h3>
+        </div>
+        <div class="user-detail">
+          <h3 id="firstname">Tim</h3>
+          <h3 id="lastname">Sommer</h3>
+        </div>
+      </div>
+    </aside>
+    <main class="main-pane" , id="main-pane">
+      <div class="header">
+        <h1>Devices</h1>
+          <!--Add Head Button-->
+          <button id="HeadButton" class="head-button">Add Device</button>
+          <script src="js/HeadButton.js"></script>
+      </div>
+      <div class="content" id="content">
+        <!-- Add Device Mask -->
+      </div>
+    </main>
+  </body>
+  <!-- Linking JavaScript File -->
+  <script src="../js/sidebar-expanding.js"></script>
+  </html>
 
