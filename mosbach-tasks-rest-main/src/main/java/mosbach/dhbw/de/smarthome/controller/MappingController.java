@@ -22,6 +22,7 @@ import mosbach.dhbw.de.smarthome.dto.RoutinePostRequest;
 import mosbach.dhbw.de.smarthome.dto.UserDTO;
 import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.User;
+import mosbach.dhbw.de.smarthome.service.AuthService;
 import mosbach.dhbw.de.smarthome.service.DeviceService;
 import mosbach.dhbw.de.smarthome.service.UserService;
 
@@ -51,9 +52,16 @@ public class MappingController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> signIn(@RequestBody AuthMessage authMessage) { //Sign in implementation
-        if(authMessage.getEmail().equals("test") && authMessage.getPasswort().equals("test")) {
-            return new ResponseEntity<MessageToken>(new MessageToken("1234567890"), HttpStatus.OK);
-        } else {
+        User user = UserService.getUserByEmail(authMessage.getEmail());
+        if(user != null && user.getPasswort().equals(authMessage.getPasswort())) {
+            if(AuthService.checkUser(user)){
+                return new ResponseEntity<MessageToken>(new MessageToken(AuthService.getToken(user)), HttpStatus.OK);
+            } else {
+                String token = AuthService.addUser(user);
+                return new ResponseEntity<MessageToken>(new MessageToken(token), HttpStatus.OK);
+            }
+        }
+        else {
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Wrong credentials"), HttpStatus.BAD_REQUEST);
         }
     }
@@ -81,7 +89,7 @@ public class MappingController {
     )
     public ResponseEntity<?> getUser(@RequestBody MailTokenRequest mailTokenRequest) {
         User user = UserService.getUserByEmail(mailTokenRequest.getEmail());
-        if(mailTokenRequest.getToken().equals("123456") && user != null){
+        if(AuthService.getUser(mailTokenRequest.getToken()) != null && user != null){
             return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
         }
         else if (user == null) {
@@ -112,7 +120,7 @@ public class MappingController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> deleteUser(@RequestBody MailTokenRequest mailTokenRequest) {        
-        if(mailTokenRequest.getToken().equals("123456") && UserService.getUserByEmail(mailTokenRequest.getEmail()) != null){
+        if(AuthService.getUser(mailTokenRequest.getToken()) != null && UserService.getUserByEmail(mailTokenRequest.getEmail()) != null){
             UserService.deleteUser(mailTokenRequest.getEmail());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account deleted"), HttpStatus.OK);
         }
@@ -127,7 +135,7 @@ public class MappingController {
     @PutMapping("/user")
     public ResponseEntity<?> changeUser(@RequestBody ChangeRequest changeRequest) {
         //TODO: process PUT request
-        if (changeRequest.getToken().equals("123456")) {
+        if (AuthService.getUser(changeRequest.getToken()) != null) {
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account updated"), HttpStatus.OK);
         }
         else {
@@ -144,9 +152,10 @@ public class MappingController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> getAllDevices(@RequestBody MessageToken messageToken) { 
-        if(messageToken.getToken().equals("123456")){
+        User user = AuthService.getUser(messageToken.getToken());
+        if(user != null){
             List<DeviceGetResponse> devicesDTO = new ArrayList<>();
-            List<Device> devices = DeviceService.getDevices(messageToken.getToken());
+            List<Device> devices = DeviceService.getDevices(user);
 
             for (Device device : devices) {
                 devicesDTO.add(new DeviceGetResponse(device));
@@ -163,9 +172,10 @@ public class MappingController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> createDevice(@RequestBody DeviceCreateRequest createRequest) { //TODO: Create device Implementation
-        if(createRequest.getToken().equals("123456")){
+        User user = AuthService.getUser(createRequest.getToken());
+        if(user != null){
             Device device = new Device(createRequest.getDevice().getName(), createRequest.getDevice().getType(), createRequest.getDevice().getLocation());
-            DeviceService.addDevice(device, createRequest.getToken());
+            DeviceService.addDevice(device, user);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device created"), HttpStatus.OK);
         }
         else{
@@ -178,12 +188,13 @@ public class MappingController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> getDevice(@PathVariable String id, @RequestBody MessageToken tokenRequest) {
-        Device device = DeviceService.getDeviceById(id, tokenRequest.getToken());
-        if(tokenRequest.getToken().equals("123456") && device != null){
+        User user = AuthService.getUser(tokenRequest.getToken());
+        if(tokenRequest.getToken().equals("123456")){
+            Device device = DeviceService.getDeviceById(id, user);
+            if(device == null){
+                return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<DeviceGetResponse>(new DeviceGetResponse(device), HttpStatus.OK);
-        }
-        else if(device == null){
-            return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
         }
         else {
             return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
@@ -196,13 +207,15 @@ public class MappingController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> deleteDevice(@PathVariable String id, @RequestBody MessageToken tokenRequest) { 
-        Device device = DeviceService.getDeviceById(id, tokenRequest.getToken());
-        if(tokenRequest.getToken().equals("123456") && device != null){
-            DeviceService.deleteDevice(Integer.parseInt(id), tokenRequest.getToken());
+        User user = AuthService.getUser(tokenRequest.getToken());
+        
+        if(tokenRequest.getToken().equals("123456")){
+            Device device = DeviceService.getDeviceById(id, user);
+            if(device == null){
+                return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+            }
+            DeviceService.deleteDevice(Integer.parseInt(id), user);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device deleted"), HttpStatus.OK);
-        }
-        else if(device == null){
-            return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
         }
         else {
             return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credential"), HttpStatus.BAD_REQUEST);
@@ -214,10 +227,14 @@ public class MappingController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> changeDevice(@PathVariable String id, @RequestBody ChangeRequest changeRequest) {
-        Device device = DeviceService.getDeviceById(id, changeRequest.getToken());
+        User user = AuthService.getUser(changeRequest.getToken());
 
         
-        if (changeRequest.getToken().equals("123456") && device != null) {
+        if (changeRequest.getToken().equals("123456")) {
+            Device device = DeviceService.getDeviceById(id, user);
+            if(device == null){
+                return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+            }
             switch(changeRequest.getChange().getField()){
                 case "name":
                     device.setName(changeRequest.getChange().getNewValue());
@@ -235,9 +252,6 @@ public class MappingController {
                     return new ResponseEntity<MessageReason>(new MessageReason("Wrong Field"), HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account updated"), HttpStatus.OK);
-        }
-        else if(device == null){
-            return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
         }
         else {
             return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
