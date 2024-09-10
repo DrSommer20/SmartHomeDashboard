@@ -8,6 +8,10 @@ import mosbach.dhbw.de.smarthome.model.User;
 public class UserService {
         private static List<User> users = new ArrayList<>();
 
+        static{
+            users.add(new User("Max", "Mustermann", "max@mustermann.de", "1234"));
+        }
+
         public static void addUser(User user) {
             users.add(user);
         }
