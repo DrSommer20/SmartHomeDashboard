@@ -3,6 +3,7 @@ package mosbach.dhbw.de.smarthome.service;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import mosbach.dhbw.de.smarthome.model.User;
 
 public class UserService {
@@ -26,16 +27,13 @@ public class UserService {
         }
 
 
-        public static boolean updateUser(String email, User updatedUser) {
-            User existingUser = getUserByEmail(email);
-            if (existingUser != null) {
-                existingUser.setFirstName(updatedUser.getFirstName());
-                existingUser.setLastName(updatedUser.getLastName());
-                existingUser.setPasswort(updatedUser.getPasswort());
-                existingUser.setEmail(updatedUser.getEmail());
-                return true;
+        public static void updateUser(User oldUser, String field, String value) {
+            switch (field) {
+                case "firstName"-> oldUser.setFirstName(value);
+                case "lastName"-> oldUser.setLastName(value);
+                case "email" -> oldUser.setEmail(value);
+                case "passwort" -> oldUser.setPasswort(value);
             }
-            return false;
         }
 
         public static boolean deleteUser(String email) {

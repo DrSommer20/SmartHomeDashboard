@@ -53,7 +53,7 @@ public class MappingController {
     )
     public ResponseEntity<?> signIn(@RequestBody AuthMessage authMessage) { //Sign in implementation
         User user = UserService.getUserByEmail(authMessage.getEmail());
-        if(user != null && user.getPasswort().equals(authMessage.getPasswort())) {
+        if(user != null && user.checkPasswort(authMessage.getPasswort())) {
             if(AuthService.checkUser(user)){
                 return new ResponseEntity<MessageToken>(new MessageToken(AuthService.getToken(user)), HttpStatus.OK);
             } else {
@@ -134,8 +134,9 @@ public class MappingController {
 
     @PutMapping("/user")
     public ResponseEntity<?> changeUser(@RequestBody ChangeRequest changeRequest) {
-        //TODO: process PUT request
-        if (AuthService.getUser(changeRequest.getToken()) != null) {
+        User user = AuthService.getUser(changeRequest.getToken());
+        if (user != null) {
+            UserService.updateUser(user, changeRequest.getChange().getField(), changeRequest.getChange().getNewValue());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account updated"), HttpStatus.OK);
         }
         else {
