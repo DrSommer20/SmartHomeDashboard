@@ -208,8 +208,7 @@ public class MappingController {
     )
     public ResponseEntity<?> deleteDevice(@PathVariable String id, @RequestBody MessageToken tokenRequest) { 
         User user = AuthService.getUser(tokenRequest.getToken());
-        
-        if(tokenRequest.getToken().equals("123456")){
+        if(user != null){
             Device device = DeviceService.getDeviceById(id, user);
             if(device == null){
                 return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
