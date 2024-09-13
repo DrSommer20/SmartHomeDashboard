@@ -6,30 +6,31 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import mosbach.dhbw.de.smarthome.model.Device;
+import mosbach.dhbw.de.smarthome.model.User;
 
 public class DeviceService {
-    private static HashMap<String, HashSet<Device>> deviceMap = new HashMap<String, HashSet<Device>>();
+    private static HashMap<User, HashSet<Device>> deviceMap = new HashMap<User, HashSet<Device>>();
 
-    public static void addDevice(Device device, String token) {
-        if (deviceMap.containsKey(token)) {
-            deviceMap.get(token).add(device);
+    public static void addDevice(Device device, User user) {
+        if (deviceMap.containsKey(user)) {
+            deviceMap.get(user).add(device);
         } else {
             HashSet<Device> devices = new HashSet<Device>();
             devices.add(device);
-            deviceMap.put(token, devices);
+            deviceMap.put(user, devices);
         }
     }
 
-    public static List<Device> getDevices(String token) {
-        if (deviceMap.containsKey(token)) {
-            return new ArrayList<Device>(deviceMap.get(token));
+    public static List<Device> getDevices(User user) {
+        if (deviceMap.containsKey(user)) {
+            return new ArrayList<Device>(deviceMap.get(user));
         }
         return new ArrayList<Device>();
     }
 
-    public static Device getDeviceById(String id, String token) {
-        if (deviceMap.containsKey(token)) {
-            for (Device device : deviceMap.get(token)) {
+    public static Device getDeviceById(String id, User user) {
+        if (deviceMap.containsKey(user)) {
+            for (Device device : deviceMap.get(user)) {
                 if (device.getId() == Integer.parseInt(id)) {
                     return device;
                 }
@@ -38,9 +39,9 @@ public class DeviceService {
         return null;
     }
 
-    public static boolean updateDevice(int id, Device updatedDevice, String token) {
-        if (deviceMap.containsKey(token)) {
-            for (Device device : deviceMap.get(token)) {
+    public static boolean updateDevice(int id, Device updatedDevice, User user) {
+        if (deviceMap.containsKey(user)) {
+            for (Device device : deviceMap.get(user)) {
                 if (device.getId() == id) {
                     device.setName(updatedDevice.getName());
                     device.setType(updatedDevice.getType());
@@ -53,11 +54,11 @@ public class DeviceService {
         return false;
     }
 
-    public static boolean deleteDevice(int id, String token) {
-        if (deviceMap.containsKey(token)) {
-            for (Device device : deviceMap.get(token)) {
+    public static boolean deleteDevice(int id, User user) {
+        if (deviceMap.containsKey(user)) {
+            for (Device device : deviceMap.get(user)) {
                 if (device.getId() == id) {
-                    deviceMap.get(token).remove(device);
+                    deviceMap.get(user).remove(device);
                     return true;
                 }
             }
