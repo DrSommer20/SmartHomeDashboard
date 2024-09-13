@@ -29,7 +29,7 @@ import mosbach.dhbw.de.smarthome.service.UserService;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "https://smarthomefrontend-surprised-oryx-bl.apps.01.cf.eu01.stackit.cloud", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api")
 public class MappingController {
@@ -147,12 +147,9 @@ public class MappingController {
     //######################################################
      //device
      //######################################################
-     @GetMapping(
-        path = "/device",
-        consumes = {MediaType.APPLICATION_JSON_VALUE}
-    )
-    public ResponseEntity<?> getAllDevices(@RequestBody MessageToken messageToken) { 
-        User user = AuthService.getUser(messageToken.getToken());
+     @GetMapping("/device")
+    public ResponseEntity<?> getAllDevices(@RequestHeader("Authorization") String token) {
+        User user = AuthService.getUser(token);
         if(user != null){
             List<DeviceGetResponse> devicesDTO = new ArrayList<>();
             List<Device> devices = DeviceService.getDevices(user);

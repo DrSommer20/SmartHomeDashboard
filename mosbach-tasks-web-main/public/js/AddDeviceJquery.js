@@ -13,7 +13,7 @@ $("#AddDeviceSubmit").click(function() {
 
         },
 
-           token: "123456"
+           token: "08b4bb99-0d0a-42c2-a5ea-40326105c6f3"
 
         };
 
