@@ -8,6 +8,7 @@ switchers.forEach(item => {
 })
 
 // Login-Funktion
+
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault(); // Verhindert das Standardverhalten (Seiten-Reload)
 
@@ -21,31 +22,23 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         password: password
     };
 
-    try {
-        // POST-Anfrage an den Server senden
-        const response = await fetch('/api/auth', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(loginData)
-        });
-
-        const data = await response.json(); // Antwort in JSON umwandeln
-
-        if (response.ok) {
-            // Login erfolgreich - Token speichern
+    $.ajax({
+        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/auth',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data) {
             alert('Login successful!');
             localStorage.setItem('authToken', data.token); // Token im Local Storage speichern
             window.location.href = '/Homepage.html'; // Weiterleitung auf eine andere Seite
-        } else {
-            // Fehlgeschlagener Login - Fehlermeldung anzeigen
-            alert(data.message || 'Login failed. Please try again.');
+        },
+        data: JSON.stringify(loginData),
+        contentType: "application/json; charset=UTF-8",
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log('Error: ' + xhr.status + '   ' + thrownError);
+            alert('An error occurred during login. Please try again.');
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred during login. Please try again.');
-    }
+    });
 });
 
 // Sign-up-Funktion
