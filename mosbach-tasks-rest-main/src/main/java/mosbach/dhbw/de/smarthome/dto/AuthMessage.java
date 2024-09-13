@@ -15,8 +15,8 @@ public class AuthMessage {
 
     @JsonProperty("email")
     private String email;
-    @JsonProperty("passwort")
-    private String passwort;
+    @JsonProperty("password")
+    private String password;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -29,13 +29,13 @@ public class AuthMessage {
 
     /**
      * 
-     * @param passwort
+     * @param password
      * @param email
      */
-    public AuthMessage(String email, String passwort) {
+    public AuthMessage(String email, String password) {
         super();
         this.email = email;
-        this.passwort = passwort;
+        this.password = password;
     }
 
     @JsonProperty("email")
@@ -48,14 +48,14 @@ public class AuthMessage {
         this.email = email;
     }
 
-    @JsonProperty("passwort")
-    public String getPasswort() {
-        return passwort;
+    @JsonProperty("password")
+    public String getPassword() {
+        return password;
     }
 
-    @JsonProperty("passwort")
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
+    @JsonProperty("password")
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @JsonAnyGetter
