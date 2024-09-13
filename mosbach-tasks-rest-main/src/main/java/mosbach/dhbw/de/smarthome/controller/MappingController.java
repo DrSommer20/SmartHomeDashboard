@@ -53,7 +53,7 @@ public class MappingController {
     )
     public ResponseEntity<?> signIn(@RequestBody AuthMessage authMessage) { //Sign in implementation
         User user = UserService.getUserByEmail(authMessage.getEmail());
-        if(user != null && user.getPasswort().equals(authMessage.getPasswort())) {
+        if(user != null && user.getPasswort().equals(authMessage.getPassword())) {
             if(AuthService.checkUser(user)){
                 return new ResponseEntity<MessageToken>(new MessageToken(AuthService.getToken(user)), HttpStatus.OK);
             } else {
