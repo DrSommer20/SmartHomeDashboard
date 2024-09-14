@@ -2,6 +2,7 @@
 package mosbach.dhbw.de.smarthome.dto;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -10,12 +11,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoutinePostRequest {
 
-    @JsonProperty("token")
-    private String token;
-    @JsonProperty("routine")
-    private RoutineDTO routine;
+public class AllRooms {
+
+    @JsonProperty("rooms")
+    private List<RoomDTO> rooms;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -23,38 +23,26 @@ public class RoutinePostRequest {
      * No args constructor for use in serialization
      * 
      */
-    public RoutinePostRequest() {
+    public AllRooms() {
     }
 
     /**
      * 
-     * @param routine
-     * @param token
+     * @param rooms
      */
-    public RoutinePostRequest(String token, RoutineDTO routine) {
+    public AllRooms(List<RoomDTO> rooms) {
         super();
-        this.token = token;
-        this.routine = routine;
+        this.rooms = rooms;
     }
 
-    @JsonProperty("token")
-    public String getToken() {
-        return token;
+    @JsonProperty("rooms")
+    public List<RoomDTO> getRooms() {
+        return rooms;
     }
 
-    @JsonProperty("token")
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    @JsonProperty("routine")
-    public RoutineDTO getRoutine() {
-        return routine;
-    }
-
-    @JsonProperty("routine")
-    public void setRoutine(RoutineDTO routine) {
-        this.routine = routine;
+    @JsonProperty("rooms")
+    public void setRooms(List<RoomDTO> rooms) {
+        this.rooms = rooms;
     }
 
     @JsonAnyGetter

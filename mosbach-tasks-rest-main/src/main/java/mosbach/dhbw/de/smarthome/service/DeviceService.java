@@ -25,7 +25,7 @@ public class DeviceService {
         if (deviceMap.containsKey(user)) {
             return new ArrayList<Device>(deviceMap.get(user));
         }
-        return new ArrayList<Device>();
+        return null;
     }
 
     public static Device getDeviceById(String id, User user) {
@@ -54,10 +54,10 @@ public class DeviceService {
         return false;
     }
 
-    public static boolean deleteDevice(int id, User user) {
+    public static boolean deleteDevice(String id, User user) {
         if (deviceMap.containsKey(user)) {
             for (Device device : deviceMap.get(user)) {
-                if (device.getId() == id) {
+                if (device.getId() == Integer.parseInt(id)) {
                     deviceMap.get(user).remove(device);
                     return true;
                 }
