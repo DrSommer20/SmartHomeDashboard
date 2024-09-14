@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $.ajax({
-        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/device', // Ersetze dies durch die tatsächliche URL
+        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/device',
         type: 'GET',
         headers: {
             'Authorization': "08b4bb99-0d0a-42c2-a5ea-40326105c6f3"
@@ -36,6 +36,7 @@ function displayDevices(devices) {
         `;
         contentDiv.appendChild(deviceDiv);
     });
+
 }  
     //Symbole
     function getDeviceIcon(type) {
