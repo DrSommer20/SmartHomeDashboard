@@ -31,7 +31,7 @@ public class DeviceService {
     public static Device getDeviceById(String id, User user) {
         if (deviceMap.containsKey(user)) {
             for (Device device : deviceMap.get(user)) {
-                if (device.getId() == Integer.parseInt(id)) {
+                if (device.getId().equals(id)) {
                     return device;
                 }
             }
@@ -39,25 +39,10 @@ public class DeviceService {
         return null;
     }
 
-    public static boolean updateDevice(int id, Device updatedDevice, User user) {
-        if (deviceMap.containsKey(user)) {
-            for (Device device : deviceMap.get(user)) {
-                if (device.getId() == id) {
-                    device.setName(updatedDevice.getName());
-                    device.setType(updatedDevice.getType());
-                    device.setStatus(updatedDevice.getStatus());
-                    device.setLocation(updatedDevice.getLocation());
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     public static boolean deleteDevice(String id, User user) {
         if (deviceMap.containsKey(user)) {
             for (Device device : deviceMap.get(user)) {
-                if (device.getId() == Integer.parseInt(id)) {
+                if (device.getId().equals(id)) {
                     deviceMap.get(user).remove(device);
                     return true;
                 }
@@ -65,5 +50,4 @@ public class DeviceService {
         }
         return false;
     }
-
 }
