@@ -21,7 +21,6 @@ import mosbach.dhbw.de.smarthome.dto.AllDevices;
 import mosbach.dhbw.de.smarthome.dto.AllRooms;
 import mosbach.dhbw.de.smarthome.dto.AuthMessage;
 import mosbach.dhbw.de.smarthome.dto.ChangeRequest;
-import mosbach.dhbw.de.smarthome.dto.DeviceCreateRequest;
 import mosbach.dhbw.de.smarthome.dto.DeviceDTO;
 import mosbach.dhbw.de.smarthome.dto.DeviceGetResponse;
 import mosbach.dhbw.de.smarthome.dto.MessageAnswer;
