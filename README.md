@@ -415,7 +415,7 @@
 <pre><code class="has-line-data" data-line-start="307" data-line-end="309">Authorization: 1234
 </code></pre>
 
-### Contributors
+<h2 class="code-line" data-line-start=303 data-line-end=304 ><a id="Contributers"></a>Contributors</h2>
 - <a href="https://github.com/DrSommer20">**Tim Sommer**</a> - Backend Developer
 - <a href="https://github.com/paulib24">**Paula Bauer**</a> - Frontend Developer / Designer
 - <a href="https://github.com/Chris-laws">**Chris David Kaufmann**</a> - Frontend Developer / Designer
@@ -424,5 +424,5 @@
   <img src="https://contrib.rocks/image?repo=DrSommer20/SmartHomeDashboard" />
 </a>
 
-### License
+<h2 class="code-line" data-line-start=303 data-line-end=304 ><a id="License"></a>License</h2>
 This project is licensed under the Apache 2.0 License.
