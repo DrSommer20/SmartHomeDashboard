@@ -22,6 +22,8 @@ public class UserDTO {
     private String email;
     @JsonProperty("passwort")
     private String passwort;
+    @JsonProperty("pat")
+    private String pat;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -39,12 +41,13 @@ public class UserDTO {
      * @param passwort
      * @param email
      */
-    public UserDTO(String firstName, String lastName, String email, String passwort) {
+    public UserDTO(String firstName, String lastName, String email, String passwort, String pat) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.passwort = passwort;
+        this.pat = pat;
     }
 
     public UserDTO(User user) {
@@ -92,6 +95,16 @@ public class UserDTO {
     @JsonProperty("passwort")
     public void setPasswort(String passwort) {
         this.passwort = passwort;
+    }
+
+    @JsonProperty("pat")
+    public String getPat(){
+        return pat;
+    }
+
+    @JsonProperty("pat")
+    public void setPat(String pat){
+        this.pat = pat;
     }
 
     @JsonAnyGetter
