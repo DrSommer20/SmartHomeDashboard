@@ -40,11 +40,6 @@ import mosbach.dhbw.de.smarthome.service.SmartThings;
 import mosbach.dhbw.de.smarthome.service.RoomService;
 import mosbach.dhbw.de.smarthome.service.UserService;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-
 @CrossOrigin(origins = "https://smarthomefrontend-surprised-oryx-bl.apps.01.cf.eu01.stackit.cloud", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api")
@@ -205,7 +200,7 @@ public class MappingController {
     public ResponseEntity<?> createDevice(@RequestHeader("Authorization") String token, @RequestBody DeviceDTO deviceDTO) {
         User user = AuthService.getUser(token);
         if(user != null){
-            Device device = new Device(deviceDTO.getName(), deviceDTO.getType(), deviceDTO.getLocation());
+            Device device = new Device(deviceDTO.getDeviceId(),deviceDTO.getName(), deviceDTO.getType(), deviceDTO.getLocation());
             DeviceService.addDevice(device, user);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device created"), HttpStatus.OK);
         }
@@ -270,9 +265,6 @@ public class MappingController {
                 case "location":
                     device.setLocation(changeRequest.getNewValue());
                     break;
-                case "status":
-                    device.setStatus(changeRequest.getNewValue());
-                    break;
                 default:
                     return new ResponseEntity<MessageReason>(new MessageReason("Field not available"), HttpStatus.BAD_REQUEST);
             }
@@ -288,7 +280,10 @@ public class MappingController {
         User user = AuthService.getUser(token);
         List<DeviceGetResponse> deviceGetResponse = new ArrayList<>();
         if(user != null){
-            for(DeviceST deviceST : SmartThings.getAllDevices("personaAccessTOken").getItems()){  //TODO: PAT einpflegen
+            if(user.getPat().isBlank()){
+                return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.BAD_REQUEST);
+            }
+            for(DeviceST deviceST : SmartThings.getAllDevices(user.getPat()).getItems()){  //TODO: PAT einpflegen
                 if(DeviceService.getDeviceById(deviceST.getDeviceId(), user) == null ) deviceGetResponse.add(new DeviceGetResponse(deviceST.getDeviceId(), deviceST.getLabel(), "", "", ""));
             }
             return new ResponseEntity<>(new AllDevices(deviceGetResponse), HttpStatus.OK);
@@ -302,8 +297,11 @@ public class MappingController {
     public ResponseEntity<?> GetHealth(@PathVariable String id, @RequestHeader("Authorization") String token) {
         User user = AuthService.getUser(token);
         if(user != null){
+            if(user.getPat().isBlank()){
+                return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.BAD_REQUEST);
+            }
             if(DeviceService.getDeviceById(id, user) != null){
-                if(SmartThings.isOnline(id, "personaAccessTOken")) return new ResponseEntity<>(new MessageAnswer("Online"), HttpStatus.OK); //TODO: PAT einpflegen
+                if(SmartThings.isOnline(id, user.getPat())) return new ResponseEntity<>(new MessageAnswer("Online"), HttpStatus.OK);
                 else return new ResponseEntity<>(new MessageAnswer("Offline"), HttpStatus.OK);  
             }
             else return new  ResponseEntity<>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
@@ -317,7 +315,10 @@ public class MappingController {
     public ResponseEntity<?> setDeviceSwitchStatus(@PathVariable String id, @PathVariable String action, @RequestHeader("Authorization") String token) {
         User user = AuthService.getUser(token);
         if(user != null){if(DeviceService.getDeviceById(id, user) != null){
-            if(SmartThings.setDeviceStatus(action,id, "switch","personaAccessTOken")) return new ResponseEntity<>(new MessageAnswer("Accepted"), HttpStatus.OK); //TODO: PAT einpflegen
+            if(user.getPat().isBlank()){
+                return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.BAD_REQUEST);
+            }
+            if(SmartThings.setDeviceStatus(action,id, "switch",user.getPat())) return new ResponseEntity<>(new MessageAnswer("Accepted"), HttpStatus.OK);
             else return new ResponseEntity<>(new MessageAnswer("Connection error"), HttpStatus.BAD_REQUEST);  
         }
             else return new  ResponseEntity<>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);

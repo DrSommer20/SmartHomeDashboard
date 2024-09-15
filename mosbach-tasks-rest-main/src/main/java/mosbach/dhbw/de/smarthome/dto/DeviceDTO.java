@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeviceDTO {
 
+    @JsonProperty("device_id")
+    private String deviceId;
     @JsonProperty("name")
     private String name;
     @JsonProperty("type")
@@ -30,15 +32,27 @@ public class DeviceDTO {
 
     /**
      * 
+     * @param deviceId
      * @param name
      * @param location
      * @param type
      */
-    public DeviceDTO(String name, String type, String location) {
+    public DeviceDTO(String deviceId, String name, String type, String location) {
         super();
+        this.deviceId = deviceId;
         this.name = name;
         this.type = type;
         this.location = location;
+    }
+
+    @JsonProperty("device_id")
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    @JsonProperty("device_id")
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
     @JsonProperty("name")
