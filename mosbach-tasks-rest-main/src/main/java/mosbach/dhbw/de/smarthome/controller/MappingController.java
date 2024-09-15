@@ -29,14 +29,21 @@ import mosbach.dhbw.de.smarthome.dto.MessageToken;
 import mosbach.dhbw.de.smarthome.dto.RoomDTO;
 import mosbach.dhbw.de.smarthome.dto.RoutineDTO;
 import mosbach.dhbw.de.smarthome.dto.UserDTO;
+import mosbach.dhbw.de.smarthome.dto.smartthings.DeviceST;
 import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.Room;
 import mosbach.dhbw.de.smarthome.model.User;
 import mosbach.dhbw.de.smarthome.service.AuthService;
 import mosbach.dhbw.de.smarthome.service.DeviceService;
+
+import mosbach.dhbw.de.smarthome.service.SmartThings;
 import mosbach.dhbw.de.smarthome.service.RoomService;
 import mosbach.dhbw.de.smarthome.service.UserService;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @CrossOrigin(origins = "https://smarthomefrontend-surprised-oryx-bl.apps.01.cf.eu01.stackit.cloud", allowedHeaders = "*")
 @RestController
@@ -275,6 +282,54 @@ public class MappingController {
             return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/device/smartthings")
+    public ResponseEntity<?> getAllSmartThingsDevices(@RequestHeader("Authorization") String token) {
+        User user = AuthService.getUser(token);
+        List<DeviceGetResponse> deviceGetResponse = new ArrayList<>();
+        if(user != null){
+            for(DeviceST deviceST : SmartThings.getAllDevices("personaAccessTOken").getItems()){  //TODO: PAT einpflegen
+                if(DeviceService.getDeviceById(deviceST.getDeviceId(), user) == null ) deviceGetResponse.add(new DeviceGetResponse(deviceST.getDeviceId(), deviceST.getLabel(), "", "", ""));
+            }
+            return new ResponseEntity<>(new AllDevices(deviceGetResponse), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/device/{id}/health-check")
+    public ResponseEntity<?> GetHealth(@PathVariable String id, @RequestHeader("Authorization") String token) {
+        User user = AuthService.getUser(token);
+        if(user != null){
+            if(DeviceService.getDeviceById(id, user) != null){
+                if(SmartThings.isOnline(id, "personaAccessTOken")) return new ResponseEntity<>(new MessageAnswer("Online"), HttpStatus.OK); //TODO: PAT einpflegen
+                else return new ResponseEntity<>(new MessageAnswer("Offline"), HttpStatus.OK);  
+            }
+            else return new  ResponseEntity<>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+        }
+        else{
+            return new ResponseEntity<>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @PostMapping("/device/{id}/switch/{action}")
+    public ResponseEntity<?> setDeviceSwitchStatus(@PathVariable String id, @PathVariable String action, @RequestHeader("Authorization") String token) {
+        User user = AuthService.getUser(token);
+        if(user != null){if(DeviceService.getDeviceById(id, user) != null){
+            if(SmartThings.setDeviceStatus(action,id, "switch","personaAccessTOken")) return new ResponseEntity<>(new MessageAnswer("Accepted"), HttpStatus.OK); //TODO: PAT einpflegen
+            else return new ResponseEntity<>(new MessageAnswer("Connection error"), HttpStatus.BAD_REQUEST);  
+        }
+            else return new  ResponseEntity<>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+        }
+        else{
+            return new ResponseEntity<>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+    
+    
+    
     
      //######################################################
      //routine
