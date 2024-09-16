@@ -121,6 +121,15 @@ body {
   border-radius: 4px;
 }
 
+#UserInfoBtn {
+  text-decoration: none;
+}
+
+#UserInfoBtn:hover .user-profile{
+  background: var(--dark-color);
+  color: var(--light-color);
+}
+
 .user-profile {
   margin-top: auto;
   padding: 12px 10px;
@@ -129,6 +138,7 @@ body {
   align-items: center;
   color: var(--dark-color);
 }
+
 
 .user-profile .user-initials {
   border-radius: 50%;

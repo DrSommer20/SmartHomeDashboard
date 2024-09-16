@@ -11,6 +11,9 @@ $(document).ready(function() {
             $('#userlastName').val(response.lastName);
             $('#useremail').val(response.email);
             $('#userpassword').val(response.password);
+            $('#sidebarfirstname').html(response.firstName);
+            $('#sidebarlastname').html(response.lastName);
+            $('#sidebarinitials').html(response.firstName.charAt(0) + response.lastName.charAt(0));
             //$('#userpat').val(response.pat);
         },
         error: function(error) {
@@ -80,7 +83,8 @@ function updateField(field, newValue) {
         },
         error: function(error) {
             console.error(`Fehler beim Aktualisieren von ${field}:`, error);
-        }
+        },
+        async: false
     });
+     location.reload(true);
 }
-
