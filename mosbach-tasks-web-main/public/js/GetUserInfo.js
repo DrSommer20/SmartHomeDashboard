@@ -61,10 +61,8 @@ $("#user-editButton").click(function() {
 
 function updateField(field, newValue) {
     const data = {
-        change: {
             "new-value": newValue,
             "field": field
-        }
     };
 
     console.log(`Feld ${field} wird aktualisiert auf: ${newValue}`);
