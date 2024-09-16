@@ -30,7 +30,7 @@ $("#AddDeviceSubmit").click(function() {
         contentType: 'application/json',
 
         success: function (data) {
-            location.href='../Homepage.html';
+            location.href='../homepage.html';
         },
 
         data: JSON.stringify(AddNewDevice),

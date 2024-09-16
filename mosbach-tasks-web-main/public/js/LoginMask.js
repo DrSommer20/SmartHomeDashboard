@@ -30,7 +30,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         success: function (data) {
             alert('Login successful!');
             localStorage.setItem('authToken', data.token); // Token im Local Storage speichern
-            window.location.href = '../Homepage.html'; // Weiterleitung auf eine andere Seite
+            window.location.href = '../homepage.html'; // Weiterleitung auf eine andere Seite
         },
         data: JSON.stringify(loginData),
         contentType: "application/json; charset=UTF-8",
