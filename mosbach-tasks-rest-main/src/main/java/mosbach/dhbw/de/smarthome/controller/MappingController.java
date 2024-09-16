@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -73,7 +74,7 @@ public class MappingController {
             }
         }
         else {
-            return new ResponseEntity<MessageAnswer>(new MessageAnswer("Wrong credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageAnswer>(new MessageAnswer("Wrong credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
     
@@ -87,7 +88,7 @@ public class MappingController {
             AuthService.removeUser(user);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Logout successful"), HttpStatus.OK);
         } else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Logout failed"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Logout failed"), HttpStatus.UNAUTHORIZED);
         }
      }
 
@@ -106,7 +107,7 @@ public class MappingController {
             return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -138,7 +139,7 @@ public class MappingController {
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account deleted"), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -168,7 +169,7 @@ public class MappingController {
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account updated"), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -189,7 +190,7 @@ public class MappingController {
             return new ResponseEntity<AllDevices>(new AllDevices(devicesDTO), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -205,7 +206,7 @@ public class MappingController {
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device created"), HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -217,11 +218,11 @@ public class MappingController {
         User user = AuthService.getUser(token);
         if(user != null){
             Device device = DeviceService.getDeviceById(id, user);
-            if(device == null) return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+            if(device == null) return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<DeviceGetResponse>(new DeviceGetResponse(device), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     } 
 
@@ -234,11 +235,11 @@ public class MappingController {
         User user = AuthService.getUser(token);
         if(user != null){
             boolean result = DeviceService.deleteDevice(id, user);
-            if(!result) return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+            if(!result) return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device deleted"), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credential"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credential"), HttpStatus.UNAUTHORIZED);
         }
     } 
 
@@ -253,7 +254,7 @@ public class MappingController {
         if (user != null) {
             Device device = DeviceService.getDeviceById(id, user);
             if(device == null){
-                return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
             }
             switch(changeRequest.getField()){
                 case "name":
@@ -271,7 +272,7 @@ public class MappingController {
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device updated"), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -281,7 +282,7 @@ public class MappingController {
         List<DeviceGetResponse> deviceGetResponse = new ArrayList<>();
         if(user != null){
             if(user.getPat().isBlank()){
-                return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
             }
             for(DeviceST deviceST : SmartThings.getAllDevices(user.getPat()).getItems()){  //TODO: PAT einpflegen
                 if(DeviceService.getDeviceById(deviceST.getDeviceId(), user) == null ) deviceGetResponse.add(new DeviceGetResponse(deviceST.getDeviceId(), deviceST.getLabel(), "", "", ""));
@@ -289,7 +290,7 @@ public class MappingController {
             return new ResponseEntity<>(new AllDevices(deviceGetResponse), HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -298,16 +299,16 @@ public class MappingController {
         User user = AuthService.getUser(token);
         if(user != null){
             if(user.getPat().isBlank()){
-                return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
             }
             if(DeviceService.getDeviceById(id, user) != null){
                 if(SmartThings.isOnline(id, user.getPat())) return new ResponseEntity<>(new MessageAnswer("Online"), HttpStatus.OK);
                 else return new ResponseEntity<>(new MessageAnswer("Offline"), HttpStatus.OK);  
             }
-            else return new  ResponseEntity<>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+            else return new  ResponseEntity<>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
         }
         else{
-            return new ResponseEntity<>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
     
@@ -316,15 +317,15 @@ public class MappingController {
         User user = AuthService.getUser(token);
         if(user != null){if(DeviceService.getDeviceById(id, user) != null){
             if(user.getPat().isBlank()){
-                return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
             }
             if(SmartThings.setDeviceStatus(action,id, "switch",user.getPat())) return new ResponseEntity<>(new MessageAnswer("Accepted"), HttpStatus.OK);
             else return new ResponseEntity<>(new MessageAnswer("Connection error"), HttpStatus.BAD_REQUEST);  
         }
-            else return new  ResponseEntity<>(new MessageReason("Device not found"), HttpStatus.BAD_REQUEST);
+            else return new  ResponseEntity<>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
         }
         else{
-            return new ResponseEntity<>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
 
     }
@@ -343,7 +344,7 @@ public class MappingController {
     )
     public ResponseEntity<?> getAllRoutines(@RequestBody MessageToken messageToken) { 
         //TODO: Get All Routine Implementation
-        return null;
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @PostMapping(
@@ -352,7 +353,7 @@ public class MappingController {
     )
     public ResponseEntity<?> createRoutine(@RequestBody RoutineDTO routinePostRequest) {
         //TODO: Create Routine Implementation
-        return null;
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @GetMapping(
@@ -361,7 +362,7 @@ public class MappingController {
     )
     public ResponseEntity<?> getRoutine(@PathVariable String id, @RequestBody MessageToken tokenRequest) {
         //TODO: Get Routine Implementation
-        return null;
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @DeleteMapping(
@@ -369,7 +370,7 @@ public class MappingController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> deleteRoutine(@PathVariable String id, @RequestBody MessageToken tokenRequest) {
-        return null;
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
         //TODO: Delete Routine Implementation
     }
      
@@ -379,7 +380,7 @@ public class MappingController {
     )
     public ResponseEntity<?> changeRoutine(@PathVariable String id, @RequestBody ChangeRequest changeRequest) {
         //TODO: Put Routine Implementation
-        return null;
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     //######################################################
@@ -401,7 +402,7 @@ public class MappingController {
             return new ResponseEntity<AllRooms>(new AllRooms(roomDTOs), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
 
     }
@@ -418,7 +419,7 @@ public class MappingController {
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Room created"), HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -429,11 +430,11 @@ public class MappingController {
         User user = AuthService.getUser(token);
         if(user != null){
             Room room = RoomService.getRoomById(id, user);
-            if(room == null) return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.BAD_REQUEST);
+            if(room == null) return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<RoomDTO>(new RoomDTO(room), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -446,12 +447,12 @@ public class MappingController {
         if(user != null){
             boolean result = RoomService.removeRoom(id, user);
             if(!result){
-                return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Room deleted"), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credential"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credential"), HttpStatus.UNAUTHORIZED);
         }
     }
      
@@ -466,7 +467,7 @@ public class MappingController {
         if (user != null) {
             Room room = RoomService.getRoomById(id, user);
             if(room == null){
-                return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
             }
             switch(changeRequest.getField()){
                 case "name":
@@ -478,7 +479,7 @@ public class MappingController {
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Room updated"), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
 

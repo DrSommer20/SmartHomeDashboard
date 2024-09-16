@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.Room;
 import mosbach.dhbw.de.smarthome.model.User;
 
