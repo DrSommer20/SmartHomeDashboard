@@ -19,9 +19,9 @@ function displayDevices(devices) {
     const contentDiv = document.getElementById('content');
     var index = 1; 
     devices.forEach(device => {
-        const uniqueId = 'toggleCheckbox§{index}';
+        const uniqueId = 'toggleCheckbox' + index;
         const deviceDiv = document.createElement('div');
-        deviceDiv.classList.add('col-sm-12 col-md-12 col-lg-6 col-xl-4');
+        deviceDiv.classList.add('col-sm-12', 'col-md-12', 'col-lg-6', 'col-xl-4');
         deviceDiv.innerHTML = `
         <div class="device">
             <div class="device-header">
