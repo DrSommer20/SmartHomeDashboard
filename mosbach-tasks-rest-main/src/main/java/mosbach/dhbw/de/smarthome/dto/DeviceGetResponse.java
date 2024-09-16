@@ -20,7 +20,7 @@ public class DeviceGetResponse {
     private String name;
     @JsonProperty("type")
     private String type;
-    @JsonProperty("loaction")
+    @JsonProperty("location")
     private String loaction;
     @JsonProperty("status")
     private String status;
