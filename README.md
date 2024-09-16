@@ -225,11 +225,11 @@
 <p class="has-line-data" data-line-start="162" data-line-end="163"><strong>PUT /user</strong></p>
 <ul>
 <li class="has-line-data" data-line-start="163" data-line-end="164">Update account information.</li>
-<li class="has-line-data" data-line-start="164" data-line-end="173"><strong>Data in:</strong><pre><code class="has-line-data" data-line-start="166" data-line-end="173" class="language-json">{
-  "<span class="hljs-attribute">change</span>": <span class="hljs-value">{
+<li class="has-line-data" data-line-start="164" data-line-end="173"><strong>Data in:</strong><pre><code class="has-line-data" data-line-start="166" data-line-end="173" class="language-json">
+  <span class="hljs-value">{
     "<span class="hljs-attribute">new-value</span>": <span class="hljs-value"><span class="hljs-string">"Schulz"</span></span>,
     "<span class="hljs-attribute">field</span>": <span class="hljs-value"><span class="hljs-string">"lastname"</span>
-  </span>}
+  </span>
 </span>}
 </code></pre>
 </li>
