@@ -121,12 +121,13 @@ body {
   border-radius: 4px;
 }
 
-#UserInfoBtn{
-text-decoration: none;
-hover: {
-  color: var(--light-color);
-  background: var(--dark-color);
+#UserInfoBtn {
+  text-decoration: none;
 }
+
+#UserInfoBtn:hover .user-profile{
+  background: var(--dark-color);
+  color: var(--light-color);
 }
 
 .user-profile {

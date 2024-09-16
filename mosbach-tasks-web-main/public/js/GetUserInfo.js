@@ -83,6 +83,8 @@ function updateField(field, newValue) {
         },
         error: function(error) {
             console.error(`Fehler beim Aktualisieren von ${field}:`, error);
-        }
+        },
+        async: false
     });
+     location.reload(true);
 }
