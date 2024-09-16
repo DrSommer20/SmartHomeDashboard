@@ -11,6 +11,9 @@ $(document).ready(function() {
             $('#userlastName').val(response.lastName);
             $('#useremail').val(response.email);
             $('#userpassword').val(response.password);
+            $('#firstname').val(response.firstName);
+            $('#lastname').val(response.lastName);
+            $('#initials').val(response.firstName.charAt(0) + response.lastName.charAt(0));
             //$('#userpat').val(response.pat);
         },
         error: function(error) {
@@ -84,3 +87,6 @@ function updateField(field, newValue) {
     });
 }
 
+$("#user-profile").click(function() {
+    location.href = 'SubPages/UserInfo.html';
+}
