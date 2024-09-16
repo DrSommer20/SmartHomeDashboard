@@ -7,6 +7,7 @@ $(document).ready(function() {
         },
         success: function(response) {
             console.log('Erfolgreiche Antwort:', response);
+            displayDevices(response.devices);
         },
         error: function(error) {
             console.error('Fehler bei der Anfrage:', error);
@@ -22,14 +23,14 @@ function displayDevices(devices) {
         deviceDiv.innerHTML = `
             <div class="device-header">
                 <h3>
-                    <span class="material-symbols-outlined">${getIcon(device.type)}</span> ${device.name}
+                    <span class="material-symbols-outlined">${getDeviceIcon(device.type)}</span> ${device.name}
                 </h3>
             </div>
             <div class="device-separator"></div>
             <div class="device-info">
                 <p>Type: ${device.type}</p>
                 <p>Location: ${device.location}</p>
-                <p>State: ${device.state}</p>
+                <p>State: ${device.status}</p>
                 <br />
                 <button class="device-button">${device.state === 'On' ? 'Turn Off' : 'Turn On'}</button>
             </div>
