@@ -123,7 +123,12 @@ body {
 
 #UserInfoBtn{
 text-decoration: none;
+hover: {
+  color: var(--light-color);
+  background: var(--dark-color);
 }
+}
+
 .user-profile {
   margin-top: auto;
   padding: 12px 10px;
