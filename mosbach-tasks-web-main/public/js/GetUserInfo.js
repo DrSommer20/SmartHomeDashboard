@@ -7,11 +7,11 @@ $(document).ready(function() {
         },
         success: function(response) {
             console.log('Erfolgreiche Antwort:', response);
-            $('#firstName').val(response.firstName);
-            $('#lastName').val(response.lastName);
-            $('#email').val(response.email);
-            $('#password').val(response.passwort);
-            $('#pat').val(response.pat);
+            $('#userfirstName').val(response.firstName);
+            $('#userlastName').val(response.lastName);
+            $('#useremail').val(response.email);
+            $('#userpassword').val(response.passwort);
+            $('#userpat').val(response.pat);
         },
         error: function(error) {
             console.error('Fehler bei der Anfrage:', error);
