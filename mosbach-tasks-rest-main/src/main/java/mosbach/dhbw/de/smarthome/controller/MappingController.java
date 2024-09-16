@@ -96,10 +96,7 @@ public class MappingController {
      //user
      //######################################################
 
-    @GetMapping(
-        path = "/user",
-        consumes = {MediaType.APPLICATION_JSON_VALUE}
-    )
+    @GetMapping("/user")
     public ResponseEntity<?> getUser(@RequestHeader("Authorization") String token) {
         User user = AuthService.getUser(token);
         if(user != null){
