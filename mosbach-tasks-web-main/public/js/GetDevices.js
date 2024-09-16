@@ -16,11 +16,14 @@ $(document).ready(function() {
 });
 
 function displayDevices(devices) {
-    const contentDiv = document.getElementById('content'); 
+    const contentDiv = document.getElementById('content');
+    var index = 1; 
     devices.forEach(device => {
+        const uniqueId = 'toggleCheckbox' + index;
         const deviceDiv = document.createElement('div');
-        deviceDiv.classList.add('device');
+        deviceDiv.classList.add('col-sm-12', 'col-md-12', 'col-lg-6', 'col-xl-4');
         deviceDiv.innerHTML = `
+        <div class="device">
             <div class="device-header">
                 <h3>
                     <span class="material-symbols-outlined">${getDeviceIcon(device.type)}</span> ${device.name}
@@ -31,11 +34,16 @@ function displayDevices(devices) {
                 <p>Type: ${device.type}</p>
                 <p>Location: ${device.location}</p>
                 <p>State: ${device.status}</p>
-                <br />
-                <button class="device-button">${device.state === 'On' ? 'Turn Off' : 'Turn On'}</button>
-            </div>
-        `;
+                 <input type="checkbox" id="`+uniqueId+`" class="toggleCheckbox" />
+            <label for="`+uniqueId+`" class="toggleContainer">
+            <div>OFF</div>
+            <div>ON</div>
+          </label>
+        </div>
+      </div>
+    `;
         contentDiv.appendChild(deviceDiv);
+        index++;
     });
 
 }  

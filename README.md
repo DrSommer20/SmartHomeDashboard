@@ -45,10 +45,8 @@
 <ul>
 <li class="has-line-data" data-line-start="37" data-line-end="38">Update an existing device.</li>
 <li class="has-line-data" data-line-start="38" data-line-end="47"><strong>Data in:</strong><pre><code class="has-line-data" data-line-start="40" data-line-end="47" class="language-json">{
-  "<span class="hljs-attribute">change</span>": <span class="hljs-value">{
     "<span class="hljs-attribute">new-value</span>": <span class="hljs-value"><span class="hljs-string">"New Value"</span></span>,
-    "<span class="hljs-attribute">field</span>": <span class="hljs-value"><span class="hljs-string">"Field to update"</span>
-  </span>}
+    "<span class="hljs-attribute">field</span>": <span class="hljs-value"><span class="hljs-string">"Field to update"</span> 
 </span>}
 </code></pre>
 </li>
@@ -305,11 +303,9 @@
 <ul>
 <li class="has-line-data" data-line-start="221" data-line-end="222">Update room information.</li>
 <li class="has-line-data" data-line-start="222" data-line-end="231"><strong>Data in:</strong><pre><code class="has-line-data" data-line-start="224" data-line-end="231" class="language-json">{
-  "<span class="hljs-attribute">change</span>": <span class="hljs-value">{
     "<span class="hljs-attribute">new-value</span>": <span class="hljs-value"><span class="hljs-string">"Schlafzimmer"</span></span>,
     "<span class="hljs-attribute">field</span>": <span class="hljs-value"><span class="hljs-string">"name"</span>
   </span>}
-</span>}
 </code></pre>
 </li>
 <li class="has-line-data" data-line-start="231" data-line-end="235"><strong>Data out:</strong>
@@ -382,10 +378,8 @@
 <ul>
 <li class="has-line-data" data-line-start="283" data-line-end="284">Update a routine.</li>
 <li class="has-line-data" data-line-start="284" data-line-end="293"><strong>Data in:</strong><pre><code class="has-line-data" data-line-start="286" data-line-end="293" class="language-json">{
-  "<span class="hljs-attribute">change</span>": <span class="hljs-value">{
     "<span class="hljs-attribute">new-value</span>": <span class="hljs-value"><span class="hljs-string">"Guten Abend"</span></span>,
     "<span class="hljs-attribute">field</span>": <span class="hljs-value"><span class="hljs-string">"name"</span>
-  </span>}
 </span>}
 </code></pre>
 </li>
