@@ -1,21 +1,25 @@
 
-package mosbach.dhbw.de.smarthome.dto;
+package mosbach.dhbw.de.smarthome.dto.smartthings;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MailTokenRequest {
+@JsonPropertyOrder({
+    "value"
+})
+@Generated("jsonschema2pojo")
+public class DeviceWatchEnroll {
 
-    @JsonProperty("email")
-    private String email;
-    @JsonProperty("token")
-    private String token;
+    @JsonProperty("value")
+    private Object value;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -23,38 +27,26 @@ public class MailTokenRequest {
      * No args constructor for use in serialization
      * 
      */
-    public MailTokenRequest() {
+    public DeviceWatchEnroll() {
     }
 
     /**
      * 
-     * @param email
-     * @param token
+     * @param value
      */
-    public MailTokenRequest(String email, String token) {
+    public DeviceWatchEnroll(Object value) {
         super();
-        this.email = email;
-        this.token = token;
+        this.value = value;
     }
 
-    @JsonProperty("email")
-    public String getEmail() {
-        return email;
+    @JsonProperty("value")
+    public Object getValue() {
+        return value;
     }
 
-    @JsonProperty("email")
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @JsonProperty("token")
-    public String getToken() {
-        return token;
-    }
-
-    @JsonProperty("token")
-    public void setToken(String token) {
-        this.token = token;
+    @JsonProperty("value")
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     @JsonAnyGetter

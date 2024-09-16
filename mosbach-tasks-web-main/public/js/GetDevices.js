@@ -3,7 +3,7 @@ $(document).ready(function() {
         url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/device',
         type: 'GET',
         headers: {
-            'Authorization': "08b4bb99-0d0a-42c2-a5ea-40326105c6f3"
+            'Authorization': localStorage.getItem('authToken')
         },
         success: function(response) {
             console.log('Erfolgreiche Antwort:', response);

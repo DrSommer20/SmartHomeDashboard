@@ -1,21 +1,26 @@
 
-package mosbach.dhbw.de.smarthome.dto;
+package mosbach.dhbw.de.smarthome.dto.smartthings;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoutinePostRequest {
+@JsonPropertyOrder({
+    "results"
+})
+@Generated("jsonschema2pojo")
+public class SetStatusResponse {
 
-    @JsonProperty("token")
-    private String token;
-    @JsonProperty("routine")
-    private RoutineDTO routine;
+    @JsonProperty("results")
+    private List<Result> results;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -23,38 +28,26 @@ public class RoutinePostRequest {
      * No args constructor for use in serialization
      * 
      */
-    public RoutinePostRequest() {
+    public SetStatusResponse() {
     }
 
     /**
      * 
-     * @param routine
-     * @param token
+     * @param results
      */
-    public RoutinePostRequest(String token, RoutineDTO routine) {
+    public SetStatusResponse(List<Result> results) {
         super();
-        this.token = token;
-        this.routine = routine;
+        this.results = results;
     }
 
-    @JsonProperty("token")
-    public String getToken() {
-        return token;
+    @JsonProperty("results")
+    public List<Result> getResults() {
+        return results;
     }
 
-    @JsonProperty("token")
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    @JsonProperty("routine")
-    public RoutineDTO getRoutine() {
-        return routine;
-    }
-
-    @JsonProperty("routine")
-    public void setRoutine(RoutineDTO routine) {
-        this.routine = routine;
+    @JsonProperty("results")
+    public void setResults(List<Result> results) {
+        this.results = results;
     }
 
     @JsonAnyGetter

@@ -1,15 +1,14 @@
 package mosbach.dhbw.de.smarthome.model;
 
 public class Device {
-    private static int idCounter = 0;
-    private int id;
+    private String id;
     private String name;
     private String type;
     private String status;
     private String location;
 
-    public Device(String name, String type, String location) {
-        id = idCounter++;
+    public Device(String id, String name, String type, String location) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.location = location;
@@ -36,7 +35,7 @@ public class Device {
         this.status = status;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

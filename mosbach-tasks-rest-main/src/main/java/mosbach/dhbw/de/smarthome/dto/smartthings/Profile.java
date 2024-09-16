@@ -1,22 +1,25 @@
 
-package  mosbach.dhbw.de.smarthome.dto;
+package mosbach.dhbw.de.smarthome.dto.smartthings;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "id"
+})
+@Generated("jsonschema2pojo")
+public class Profile {
 
-public class AuthMessage {
-
-    @JsonProperty("email")
-    private String email;
-    @JsonProperty("password")
-    private String password;
+    @JsonProperty("id")
+    private String id;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -24,38 +27,26 @@ public class AuthMessage {
      * No args constructor for use in serialization
      * 
      */
-    public AuthMessage() {
+    public Profile() {
     }
 
     /**
      * 
-     * @param password
-     * @param email
+     * @param id
      */
-    public AuthMessage(String email, String password) {
+    public Profile(String id) {
         super();
-        this.email = email;
-        this.password = password;
+        this.id = id;
     }
 
-    @JsonProperty("email")
-    public String getEmail() {
-        return email;
+    @JsonProperty("id")
+    public String getId() {
+        return id;
     }
 
-    @JsonProperty("email")
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @JsonProperty("password")
-    public String getPassword() {
-        return password;
-    }
-
-    @JsonProperty("password")
-    public void setPassword(String password) {
-        this.password = password;
+    @JsonProperty("id")
+    public void setId(String id) {
+        this.id = id;
     }
 
     @JsonAnyGetter

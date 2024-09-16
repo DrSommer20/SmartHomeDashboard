@@ -1,21 +1,28 @@
 
-package mosbach.dhbw.de.smarthome.dto;
+package mosbach.dhbw.de.smarthome.dto.smartthings;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DeviceTokenRequest {
+@JsonPropertyOrder({
+    "id",
+    "version"
+})
+@Generated("jsonschema2pojo")
+public class Capability {
 
-    @JsonProperty("token")
-    private String token;
-    @JsonProperty("device_id")
-    private String deviceId;
+    @JsonProperty("id")
+    private String id;
+    @JsonProperty("version")
+    private Integer version;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -23,38 +30,38 @@ public class DeviceTokenRequest {
      * No args constructor for use in serialization
      * 
      */
-    public DeviceTokenRequest() {
+    public Capability() {
     }
 
     /**
      * 
-     * @param deviceId
-     * @param token
+     * @param id
+     * @param version
      */
-    public DeviceTokenRequest(String token, String deviceId) {
+    public Capability(String id, Integer version) {
         super();
-        this.token = token;
-        this.deviceId = deviceId;
+        this.id = id;
+        this.version = version;
     }
 
-    @JsonProperty("token")
-    public String getToken() {
-        return token;
+    @JsonProperty("id")
+    public String getId() {
+        return id;
     }
 
-    @JsonProperty("token")
-    public void setToken(String token) {
-        this.token = token;
+    @JsonProperty("id")
+    public void setId(String id) {
+        this.id = id;
     }
 
-    @JsonProperty("device_id")
-    public String getDeviceId() {
-        return deviceId;
+    @JsonProperty("version")
+    public Integer getVersion() {
+        return version;
     }
 
-    @JsonProperty("device_id")
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+    @JsonProperty("version")
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @JsonAnyGetter

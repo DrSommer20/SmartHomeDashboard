@@ -1,5 +1,5 @@
 
-package  mosbach.dhbw.de.smarthome.dto;
+package mosbach.dhbw.de.smarthome.dto;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,14 +9,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import mosbach.dhbw.de.smarthome.model.Room;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
-public class AuthMessage {
+public class RoomDTO {
 
-    @JsonProperty("email")
-    private String email;
-    @JsonProperty("password")
-    private String password;
+    @JsonProperty("room_id")
+    private String roomId;
+    @JsonProperty("name")
+    private String name;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -24,38 +26,43 @@ public class AuthMessage {
      * No args constructor for use in serialization
      * 
      */
-    public AuthMessage() {
+    public RoomDTO() {
     }
 
     /**
      * 
-     * @param password
-     * @param email
+     * @param name
+     * @param roomId
      */
-    public AuthMessage(String email, String password) {
+    public RoomDTO(String roomId, String name) {
         super();
-        this.email = email;
-        this.password = password;
+        this.roomId = roomId;
+        this.name = name;
     }
 
-    @JsonProperty("email")
-    public String getEmail() {
-        return email;
+    public RoomDTO(Room room) {
+        this.roomId = ""+room.getRoomId();
+        this.name = room.getName();
     }
 
-    @JsonProperty("email")
-    public void setEmail(String email) {
-        this.email = email;
+    @JsonProperty("room_id")
+    public String getRoomId() {
+        return roomId;
     }
 
-    @JsonProperty("password")
-    public String getPassword() {
-        return password;
+    @JsonProperty("room_id")
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 
-    @JsonProperty("password")
-    public void setPassword(String password) {
-        this.password = password;
+    @JsonProperty("name")
+    public String getName() {
+        return name;
+    }
+
+    @JsonProperty("name")
+    public void setName(String name) {
+        this.name = name;
     }
 
     @JsonAnyGetter

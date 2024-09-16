@@ -1,21 +1,28 @@
 
-package mosbach.dhbw.de.smarthome.dto;
+package mosbach.dhbw.de.smarthome.dto.smartthings;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Change {
+@JsonPropertyOrder({
+    "id",
+    "status"
+})
+@Generated("jsonschema2pojo")
+public class Result {
 
-    @JsonProperty("new-value")
-    private String newValue;
-    @JsonProperty("field")
-    private String field;
+    @JsonProperty("id")
+    private String id;
+    @JsonProperty("status")
+    private String status;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -23,38 +30,38 @@ public class Change {
      * No args constructor for use in serialization
      * 
      */
-    public Change() {
+    public Result() {
     }
 
     /**
      * 
-     * @param newValue
-     * @param field
+     * @param id
+     * @param status
      */
-    public Change(String newValue, String field) {
+    public Result(String id, String status) {
         super();
-        this.newValue = newValue;
-        this.field = field;
+        this.id = id;
+        this.status = status;
     }
 
-    @JsonProperty("new-value")
-    public String getNewValue() {
-        return newValue;
+    @JsonProperty("id")
+    public String getId() {
+        return id;
     }
 
-    @JsonProperty("new-value")
-    public void setNewValue(String newValue) {
-        this.newValue = newValue;
+    @JsonProperty("id")
+    public void setId(String id) {
+        this.id = id;
     }
 
-    @JsonProperty("field")
-    public String getField() {
-        return field;
+    @JsonProperty("status")
+    public String getStatus() {
+        return status;
     }
 
-    @JsonProperty("field")
-    public void setField(String field) {
-        this.field = field;
+    @JsonProperty("status")
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @JsonAnyGetter

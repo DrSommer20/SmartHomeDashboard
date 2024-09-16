@@ -1,7 +1,8 @@
 
-package  mosbach.dhbw.de.smarthome.dto;
+package mosbach.dhbw.de.smarthome.dto;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -11,12 +12,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
-public class AuthMessage {
+public class AllRooms {
 
-    @JsonProperty("email")
-    private String email;
-    @JsonProperty("password")
-    private String password;
+    @JsonProperty("rooms")
+    private List<RoomDTO> rooms;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -24,38 +23,26 @@ public class AuthMessage {
      * No args constructor for use in serialization
      * 
      */
-    public AuthMessage() {
+    public AllRooms() {
     }
 
     /**
      * 
-     * @param password
-     * @param email
+     * @param rooms
      */
-    public AuthMessage(String email, String password) {
+    public AllRooms(List<RoomDTO> rooms) {
         super();
-        this.email = email;
-        this.password = password;
+        this.rooms = rooms;
     }
 
-    @JsonProperty("email")
-    public String getEmail() {
-        return email;
+    @JsonProperty("rooms")
+    public List<RoomDTO> getRooms() {
+        return rooms;
     }
 
-    @JsonProperty("email")
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @JsonProperty("password")
-    public String getPassword() {
-        return password;
-    }
-
-    @JsonProperty("password")
-    public void setPassword(String password) {
-        this.password = password;
+    @JsonProperty("rooms")
+    public void setRooms(List<RoomDTO> rooms) {
+        this.rooms = rooms;
     }
 
     @JsonAnyGetter

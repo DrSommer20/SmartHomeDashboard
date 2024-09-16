@@ -1,22 +1,25 @@
 
-package  mosbach.dhbw.de.smarthome.dto;
+package mosbach.dhbw.de.smarthome.dto.smartthings;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "switch"
+})
+@Generated("jsonschema2pojo")
+public class GetStatusResponseSwitch {
 
-public class AuthMessage {
-
-    @JsonProperty("email")
-    private String email;
-    @JsonProperty("password")
-    private String password;
+    @JsonProperty("switch")
+    private Switch _switch;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -24,38 +27,26 @@ public class AuthMessage {
      * No args constructor for use in serialization
      * 
      */
-    public AuthMessage() {
+    public GetStatusResponseSwitch() {
     }
 
     /**
      * 
-     * @param password
-     * @param email
+     * @param _switch
      */
-    public AuthMessage(String email, String password) {
+    public GetStatusResponseSwitch(Switch _switch) {
         super();
-        this.email = email;
-        this.password = password;
+        this._switch = _switch;
     }
 
-    @JsonProperty("email")
-    public String getEmail() {
-        return email;
+    @JsonProperty("switch")
+    public Switch getSwitch() {
+        return _switch;
     }
 
-    @JsonProperty("email")
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @JsonProperty("password")
-    public String getPassword() {
-        return password;
-    }
-
-    @JsonProperty("password")
-    public void setPassword(String password) {
-        this.password = password;
+    @JsonProperty("switch")
+    public void setSwitch(Switch _switch) {
+        this._switch = _switch;
     }
 
     @JsonAnyGetter

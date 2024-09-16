@@ -12,10 +12,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChangeRequest {
 
-    @JsonProperty("change")
-    private Change change;
-    @JsonProperty("token")
-    private String token;
+    @JsonProperty("new-value")
+    private String newValue;
+    @JsonProperty("field")
+    private String field;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -28,33 +28,33 @@ public class ChangeRequest {
 
     /**
      * 
-     * @param change
-     * @param token
+     * @param newValue
+     * @param field
      */
-    public ChangeRequest(Change change, String token) {
+    public ChangeRequest(String newValue, String field) {
         super();
-        this.change = change;
-        this.token = token;
+        this.newValue = newValue;
+        this.field = field;
     }
 
-    @JsonProperty("change")
-    public Change getChange() {
-        return change;
+    @JsonProperty("new-value")
+    public String getNewValue() {
+        return newValue;
     }
 
-    @JsonProperty("change")
-    public void setChange(Change change) {
-        this.change = change;
+    @JsonProperty("new-value")
+    public void setNewValue(String newValue) {
+        this.newValue = newValue;
     }
 
-    @JsonProperty("token")
-    public String getToken() {
-        return token;
+    @JsonProperty("field")
+    public String getField() {
+        return field;
     }
 
-    @JsonProperty("token")
-    public void setToken(String token) {
-        this.token = token;
+    @JsonProperty("field")
+    public void setField(String field) {
+        this.field = field;
     }
 
     @JsonAnyGetter

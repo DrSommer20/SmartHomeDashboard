@@ -1,21 +1,25 @@
 
-package mosbach.dhbw.de.smarthome.dto;
+package mosbach.dhbw.de.smarthome.dto.smartthings;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DeviceCreateRequest {
+@JsonPropertyOrder({
+    "value"
+})
+@Generated("jsonschema2pojo")
+public class HealthStatus {
 
-    @JsonProperty("token")
-    private String token;
-    @JsonProperty("device")
-    private DeviceDTO device;
+    @JsonProperty("value")
+    private Object value;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -23,38 +27,26 @@ public class DeviceCreateRequest {
      * No args constructor for use in serialization
      * 
      */
-    public DeviceCreateRequest() {
+    public HealthStatus() {
     }
 
     /**
      * 
-     * @param device
-     * @param token
+     * @param value
      */
-    public DeviceCreateRequest(String token, DeviceDTO device) {
+    public HealthStatus(Object value) {
         super();
-        this.token = token;
-        this.device = device;
+        this.value = value;
     }
 
-    @JsonProperty("token")
-    public String getToken() {
-        return token;
+    @JsonProperty("value")
+    public Object getValue() {
+        return value;
     }
 
-    @JsonProperty("token")
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    @JsonProperty("device")
-    public DeviceDTO getDevice() {
-        return device;
-    }
-
-    @JsonProperty("device")
-    public void setDevice(DeviceDTO device) {
-        this.device = device;
+    @JsonProperty("value")
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     @JsonAnyGetter

@@ -1,25 +1,28 @@
 
-package mosbach.dhbw.de.smarthome.dto;
+package mosbach.dhbw.de.smarthome.dto.smartthings;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DeviceDTO {
+@JsonPropertyOrder({
+    "name",
+    "categoryType"
+})
+@Generated("jsonschema2pojo")
+public class Category {
 
-    @JsonProperty("device_id")
-    private String deviceId;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("type")
-    private String type;
-    @JsonProperty("location")
-    private String location;
+    @JsonProperty("categoryType")
+    private String categoryType;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -27,32 +30,18 @@ public class DeviceDTO {
      * No args constructor for use in serialization
      * 
      */
-    public DeviceDTO() {
+    public Category() {
     }
 
     /**
      * 
-     * @param deviceId
+     * @param categoryType
      * @param name
-     * @param location
-     * @param type
      */
-    public DeviceDTO(String deviceId, String name, String type, String location) {
+    public Category(String name, String categoryType) {
         super();
-        this.deviceId = deviceId;
         this.name = name;
-        this.type = type;
-        this.location = location;
-    }
-
-    @JsonProperty("device_id")
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    @JsonProperty("device_id")
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+        this.categoryType = categoryType;
     }
 
     @JsonProperty("name")
@@ -65,24 +54,14 @@ public class DeviceDTO {
         this.name = name;
     }
 
-    @JsonProperty("type")
-    public String getType() {
-        return type;
+    @JsonProperty("categoryType")
+    public String getCategoryType() {
+        return categoryType;
     }
 
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    @JsonProperty("location")
-    public String getLocation() {
-        return location;
-    }
-
-    @JsonProperty("location")
-    public void setLocation(String location) {
-        this.location = location;
+    @JsonProperty("categoryType")
+    public void setCategoryType(String categoryType) {
+        this.categoryType = categoryType;
     }
 
     @JsonAnyGetter
