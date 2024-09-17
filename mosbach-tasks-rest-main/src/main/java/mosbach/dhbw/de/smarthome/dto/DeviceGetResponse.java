@@ -24,6 +24,8 @@ public class DeviceGetResponse {
     private String loaction;
     @JsonProperty("status")
     private String status;
+    @JsonProperty("state")
+    private String state;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -42,13 +44,15 @@ public class DeviceGetResponse {
      * @param deviceId
      * @param status
      */
-    public DeviceGetResponse(String deviceId, String name, String type, String loaction, String status) {
+    public DeviceGetResponse(String deviceId, String name, String type, String loaction, String status, String state) {
         super();
         this.deviceId = deviceId;
         this.name = name;
         this.type = type;
         this.loaction = loaction;
         this.status = status;
+        this.state = state;
+
     }
 
     public DeviceGetResponse(Device device) {
@@ -57,6 +61,7 @@ public class DeviceGetResponse {
         this.type = device.getType();
         this.loaction = device.getLocation();
         this.status = device.getStatus();
+        this.state = device.getState();
     }
 
     @JsonProperty("device_id")
@@ -107,6 +112,16 @@ public class DeviceGetResponse {
     @JsonProperty("status")
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @JsonProperty("state")
+    public String getState() {
+        return state;
+    }
+
+    @JsonProperty("state")
+    public void setState(String state) {
+        this.state = state;
     }
 
     @JsonAnyGetter

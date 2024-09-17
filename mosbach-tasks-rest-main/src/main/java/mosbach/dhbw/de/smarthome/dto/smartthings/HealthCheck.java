@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "DeviceWatch-DeviceStatus"
 })
 @Generated("jsonschema2pojo")
-public class GetStatusResponseHealthCheck {
+public class HealthCheck {
 
     @JsonProperty("checkInterval")
     private CheckInterval checkInterval;
@@ -36,7 +36,7 @@ public class GetStatusResponseHealthCheck {
      * No args constructor for use in serialization
      * 
      */
-    public GetStatusResponseHealthCheck() {
+    public HealthCheck() {
     }
 
     /**
@@ -46,7 +46,7 @@ public class GetStatusResponseHealthCheck {
      * @param deviceWatchDeviceStatus
      * @param deviceWatchEnroll
      */
-    public GetStatusResponseHealthCheck(CheckInterval checkInterval, HealthStatus healthStatus, DeviceWatchEnroll deviceWatchEnroll, DeviceWatchDeviceStatus deviceWatchDeviceStatus) {
+    public HealthCheck(CheckInterval checkInterval, HealthStatus healthStatus, DeviceWatchEnroll deviceWatchEnroll, DeviceWatchDeviceStatus deviceWatchDeviceStatus) {
         super();
         this.checkInterval = checkInterval;
         this.healthStatus = healthStatus;

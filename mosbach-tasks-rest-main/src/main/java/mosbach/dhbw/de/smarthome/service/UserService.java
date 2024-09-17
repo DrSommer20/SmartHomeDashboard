@@ -46,4 +46,8 @@ public class UserService {
             }
             return false;
         }
+
+        static List<User> getAllUsers() {
+            return users;
+        }
 }

@@ -17,7 +17,7 @@ $(document).ready(function() {
 
 function displayDevices(devices) {
     const contentDiv = document.getElementById('content');
-    var index = 1; 
+    var index = 1;
     devices.forEach(device => {
         const uniqueId = 'toggleCheckbox' + index;
         const deviceDiv = document.createElement('div');
@@ -43,10 +43,21 @@ function displayDevices(devices) {
       </div>
     `;
         contentDiv.appendChild(deviceDiv);
+        // Set checkbox to checked if the device state is "On"
+        const checkbox = document.getElementById(uniqueId);
+        if (device.state === 'On') {
+            checkbox.checked = true;
+        }
+
+        function handleCheckboxChange() {
+            handleChange(this.checked, device.device_id, uniqueId, this);
+        }
+
+        checkbox.addEventListener('change', handleCheckboxChange);
         index++;
     });
 
-}  
+}
     //Symbole
     function getDeviceIcon(type) {
         switch(type.toLowerCase()) {
@@ -56,3 +67,46 @@ function displayDevices(devices) {
             default: return 'device_unknown';
         }
     }
+
+
+    function handleChange(isChecked, device_id, uniqueId, checkboxElement){
+            $.ajax({
+                url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/device/' + device_id + '/switch/'  + (isChecked ? 'on' : 'off'),
+                method: 'POST',
+                headers: {
+                            'Authorization': localStorage.getItem('authToken')
+                        },
+                success: function(response) {
+                    console.log('Device updated successfully:', response);
+                    onSuccess(device_id, uniqueId);
+                },
+                error: function(error) {
+                   console.error('Error updating device:', error);
+                }
+           });
+    }
+
+    function onSuccess(device_id, uniqueId){
+        $.ajax({
+                url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/device/' + device_id,
+                type: 'GET',
+                headers: {
+                    'Authorization': localStorage.getItem('authToken')
+                },
+                success: function(response) {
+                    console.log('Erfolgreiche Antwort:', response);
+                    const checkbox = document.getElementById(uniqueId);
+                            if (response.state === 'On') {
+                                checkbox.checked = true;
+                            }
+                            else{
+                                checkbox.checked = false;
+                            }
+                },
+                error: function(error) {
+                    console.error('Fehler bei der Anfrage:', error);
+                }
+            });
+    }
+
+

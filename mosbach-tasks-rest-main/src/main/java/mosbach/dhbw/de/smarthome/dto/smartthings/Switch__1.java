@@ -13,13 +13,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "switch"
+    "value",
+    "timestamp"
 })
 @Generated("jsonschema2pojo")
-public class Switch {
+public class Switch__1 {
 
-    @JsonProperty("switch")
-    private Switch__1 _switch;
+    @JsonProperty("value")
+    private String value;
+    @JsonProperty("timestamp")
+    private String timestamp;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -27,26 +30,38 @@ public class Switch {
      * No args constructor for use in serialization
      * 
      */
-    public Switch() {
+    public Switch__1() {
     }
 
     /**
      * 
-     * @param _switch
+     * @param value
+     * @param timestamp
      */
-    public Switch(Switch__1 _switch) {
+    public Switch__1(String value, String timestamp) {
         super();
-        this._switch = _switch;
+        this.value = value;
+        this.timestamp = timestamp;
     }
 
-    @JsonProperty("switch")
-    public Switch__1 getSwitch() {
-        return _switch;
+    @JsonProperty("value")
+    public String getValue() {
+        return value;
     }
 
-    @JsonProperty("switch")
-    public void setSwitch(Switch__1 _switch) {
-        this._switch = _switch;
+    @JsonProperty("value")
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    @JsonProperty("timestamp")
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    @JsonProperty("timestamp")
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     @JsonAnyGetter
