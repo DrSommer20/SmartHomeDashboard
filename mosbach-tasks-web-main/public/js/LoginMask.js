@@ -1,12 +1,46 @@
-const switchers = [...document.querySelectorAll('.switcher')]
+document.querySelector('.sign-up').addEventListener('click', function() {
+    document.querySelector('.login-box').style.height="650px"
+});
 
-switchers.forEach(item => {
-	item.addEventListener('click', function() {
-		switchers.forEach(item => item.parentElement.classList.remove('is-active'))
-		this.parentElement.classList.add('is-active')
-	})
-})
+document.querySelector('.sign-in').addEventListener('click', function() {
+    document.querySelector('.login-box').style.height="500px" // Zurück zur normalen Größe
 
+});    
+
+// On login
+function loginUser(token, rememberMe) {
+    if (rememberMe) {
+      localStorage.setItem('authToken', token);
+    } else {
+      sessionStorage.setItem('authToken', token);
+    }
+  }
+  
+  // On page load
+  function checkAuth() {
+    let token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+    
+    if (token) {
+      // Validate the token with the server
+      validateToken(token).then(isValid => {
+        if (isValid) {
+          // User is authenticated
+          console.log("User is signed in");
+        } else {
+          // Token is invalid
+          localStorage.removeItem('authToken');
+          sessionStorage.removeItem('authToken');
+        }
+      });
+    }
+  }
+  
+  // Validate token with the server
+  async function validateToken(token) {
+    // Implement token validation with your backend
+    return true; // or false based on actual validation
+  }
+  
 // Login-Funktion
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault(); // Verhindert das Standardverhalten (Seiten-Reload)
