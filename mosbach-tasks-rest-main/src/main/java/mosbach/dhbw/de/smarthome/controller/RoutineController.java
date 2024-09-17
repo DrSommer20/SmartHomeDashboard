@@ -23,6 +23,7 @@ import mosbach.dhbw.de.smarthome.dto.RoutineDTO;
 public class RoutineController {
     
     @GetMapping(
+        path = "",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> getAllRoutines(@RequestBody MessageToken messageToken) { 
@@ -31,6 +32,7 @@ public class RoutineController {
     }
 
     @PostMapping(
+        path = "",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> createRoutine(@RequestBody RoutineDTO routinePostRequest) {

@@ -26,7 +26,7 @@ import mosbach.dhbw.de.smarthome.service.UserService;
 @RequestMapping("/api/user")
 public class UserController {
     
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<?> getUser(@RequestHeader("Authorization") String token) {
         User user = AuthService.getUser(token);
         if(user != null){
@@ -38,6 +38,7 @@ public class UserController {
     }
 
     @PostMapping(
+        path = "",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> createUser(@RequestBody UserDTO userRequest) {
@@ -54,6 +55,7 @@ public class UserController {
     }
     
     @DeleteMapping(
+        path = "",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String token) {   
@@ -67,7 +69,7 @@ public class UserController {
         }
     }
 
-    @PutMapping
+    @PutMapping("")
     public ResponseEntity<?> changeUser(@RequestHeader("Authorization") String token, @RequestBody ChangeRequest changeRequest) {
         User user = AuthService.getUser(token);
         if (user != null) {

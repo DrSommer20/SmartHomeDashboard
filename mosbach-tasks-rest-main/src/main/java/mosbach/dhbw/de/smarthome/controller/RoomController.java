@@ -33,7 +33,7 @@ import mosbach.dhbw.de.smarthome.service.RoomService;
 public class RoomController {
     
     
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<?> getAllRooms(@RequestHeader("Authorization") String token) { 
         User user = AuthService.getUser(token);
         if(user != null){
@@ -52,6 +52,7 @@ public class RoomController {
     }
 
     @PostMapping(
+        path = "",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> createRoom(@RequestHeader("Authorization") String token, @RequestBody RoomDTO roomDTO) {
