@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,13 +24,12 @@ import mosbach.dhbw.de.smarthome.service.UserService;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @GetMapping("")
+    @GetMapping
     public String getAuth() {
         return "I am alive.";
     }
 
     @PostMapping(
-        path = "",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> signIn(@RequestBody AuthMessage authMessage) { //Sign in implementation
@@ -49,9 +47,11 @@ public class AuthController {
         }
     }
     
-    @DeleteMapping("")
-    public ResponseEntity<?> signOut(@RequestHeader("Authorization") String token ) { //Sign out implementation
-        User user = AuthService.getUser(token);
+    @DeleteMapping(
+        consumes = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public ResponseEntity<?> signOut(@RequestBody MessageToken messageToken) { //Sign out implementation
+        User user = AuthService.getUser(getAuth());
         if(user != null) {
             AuthService.removeUser(user);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Logout successful"), HttpStatus.OK);

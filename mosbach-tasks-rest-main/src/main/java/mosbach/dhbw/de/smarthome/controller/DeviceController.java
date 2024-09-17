@@ -35,7 +35,7 @@ import mosbach.dhbw.de.smarthome.service.SmartThings;
 @RequestMapping("/api/device")
 public class DeviceController {
     
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<?> getAllDevices(@RequestHeader("Authorization") String token) {
         User user = AuthService.getUser(token);
         if(user != null){
@@ -53,7 +53,6 @@ public class DeviceController {
     }
 
     @PostMapping(
-        path = "",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> createDevice(@RequestHeader("Authorization") String token, @RequestBody DeviceDTO deviceDTO) {
