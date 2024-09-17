@@ -11,6 +11,19 @@ import mosbach.dhbw.de.smarthome.model.User;
 public class DeviceService {
     private static HashMap<User, HashSet<Device>> deviceMap = new HashMap<User, HashSet<Device>>();
 
+    static{
+        Device device1 = new Device("35df5c2a-ec4a-4283-9c9a-af7ec3d62464", "Test Smart Plug", "Switch", "Living Room");
+        Device device2 = new Device("43837c08-b007-4ed8-b0b4-c669fbac8d58", "Schreibtischlampe", "Switch", "Living Room");
+        Device device3 = new Device("c0e7e30d-85f6-4284-a05c-f30a43f1886e", "Beamer", "Switch", "Living Room");
+        Device device4 = new Device("cf387b43-b9c4-4710-aeec-68f16f644c5e", "Ventilator", "Switch", "Living Room");
+        User user = UserService.getUserByEmail("max@mustermann.de");
+        user.setPat("81a66f03-0f26-4ca0-813a-fc27ba6343e5");
+        addDevice(device1, user);
+        addDevice(device2, user);
+        addDevice(device3, user);
+        addDevice(device4, user);
+    }
+
     public static void addDevice(Device device, User user) {
         if (deviceMap.containsKey(user)) {
             deviceMap.get(user).add(device);
@@ -49,5 +62,13 @@ public class DeviceService {
             }
         }
         return false;
+    }
+
+    static List<Device> getAllDevices() {
+        List<Device> devices = new ArrayList<>();
+        for (HashSet<Device> deviceSet : deviceMap.values()) {
+            devices.addAll(deviceSet);
+        }
+        return devices;
     }
 }

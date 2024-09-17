@@ -16,16 +16,21 @@ import org.apache.http.util.EntityUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import mosbach.dhbw.de.smarthome.dto.smartthings.AllDevices;
-import mosbach.dhbw.de.smarthome.dto.smartthings.Capability;
 import mosbach.dhbw.de.smarthome.dto.smartthings.DeviceST;
-import mosbach.dhbw.de.smarthome.dto.smartthings.GetStatusResponseHealthCheck;
-import mosbach.dhbw.de.smarthome.dto.smartthings.GetStatusResponseSwitch;
+import mosbach.dhbw.de.smarthome.dto.smartthings.GetFullStatusResponse;
+import mosbach.dhbw.de.smarthome.dto.smartthings.HealthCheck;
 import mosbach.dhbw.de.smarthome.dto.smartthings.SetStatusResponse;
+import mosbach.dhbw.de.smarthome.dto.smartthings.Switch;
 
 public class SmartThings {
 
     private static final String API_URL = "https://api.smartthings.com/v1/devices";
     private static ObjectMapper objectMapper = new ObjectMapper();
+ //35df5c2a-ec4a-4283-9c9a-af7ec3d62464
+    public static void main(String[] args) {
+        getDeviceFullStatus("35df5c2a-ec4a-4283-9c9a-af7ec3d62464","81a66f03-0f26-4ca0-813a-fc27ba6343e5");
+        System.out.println(isOnline("35df5c2a-ec4a-4283-9c9a-af7ec3d62464","81a66f03-0f26-4ca0-813a-fc27ba6343e5"));
+    }
     
     public static AllDevices getAllDevices(String accessToken){
         final HttpGet httpGet = new HttpGet(API_URL);	
@@ -35,11 +40,11 @@ public class SmartThings {
             String response = client.execute(httpGet, new MyResponseHandler());
             System.out.println(response);
             AllDevices deviceResponse = objectMapper.readValue(response, AllDevices.class);
-            for(DeviceST deviceST : deviceResponse.getItems()){
-                for(Capability capability :deviceST.getComponents().get(0).getCapabilities()){
-                    System.out.println("Capabilities: " + capability.getId());
-                }
-            }
+            // for(DeviceST deviceST : deviceResponse.getItems()){
+            //     for(Capability capability :deviceST.getComponents().get(0).getCapabilities()){
+            //         System.out.println("Capabilities: " + capability.getId());
+            //     }
+            // }
             
             return deviceResponse;
         }catch (Exception e) {
@@ -83,7 +88,20 @@ public class SmartThings {
         }catch (Exception e) {
             return false;
         }
-    }   
+    }
+    
+    public static GetFullStatusResponse getDeviceFullStatus(String deviceID, String accessToken ){
+        final HttpGet httpGet = new HttpGet(API_URL + "/" + deviceID + "/components/main/status");	
+        httpGet.setHeader("Authorization", "Bearer " + accessToken);
+
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            String response = client.execute(httpGet, new MyResponseHandler());
+            GetFullStatusResponse devicResponse = objectMapper.readValue(response, GetFullStatusResponse.class);
+            return devicResponse;
+        }catch (Exception e) {
+            return null;
+        }
+    }
     
     public static boolean isSwitchOn(String deviceID, String accessToken ){
         final HttpGet httpGet = new HttpGet(API_URL + "/" + deviceID + "/components/main/capabilities/switch/status");	
@@ -91,7 +109,7 @@ public class SmartThings {
 
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             String response = client.execute(httpGet, new MyResponseHandler());
-            GetStatusResponseSwitch devicResponse = objectMapper.readValue(response, GetStatusResponseSwitch.class);
+            Switch devicResponse = objectMapper.readValue(response, Switch.class);
             if(devicResponse.getSwitch().getValue().equals("on")) return true;
             else return false;
         }catch (Exception e) {
@@ -106,7 +124,7 @@ public class SmartThings {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             String response = client.execute(httpGet, new MyResponseHandler());
             System.out.println(response);
-            GetStatusResponseHealthCheck devicResponse = objectMapper.readValue(response, GetStatusResponseHealthCheck.class);
+            HealthCheck devicResponse = objectMapper.readValue(response, HealthCheck.class);
 
             if(devicResponse.getDeviceWatchDeviceStatus().getValue().equals("online")) return true;
             else return false;
