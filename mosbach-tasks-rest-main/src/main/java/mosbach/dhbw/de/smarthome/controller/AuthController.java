@@ -3,13 +3,7 @@ package mosbach.dhbw.de.smarthome.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import mosbach.dhbw.de.smarthome.dto.AuthMessage;
 import mosbach.dhbw.de.smarthome.dto.MessageAnswer;
@@ -34,7 +28,7 @@ public class AuthController {
     )
     public ResponseEntity<?> signIn(@RequestBody AuthMessage authMessage) { //Sign in implementation
         User user = UserService.getUserByEmail(authMessage.getEmail());
-        if(user != null && user.getPasswort().equals(authMessage.getPassword())) {
+        if(user != null && user.checkPassword(authMessage.getPassword())) {
             if(AuthService.checkUser(user)){
                 return new ResponseEntity<MessageToken>(new MessageToken(AuthService.getToken(user)), HttpStatus.OK);
             } else {
@@ -47,16 +41,24 @@ public class AuthController {
         }
     }
     
-    @DeleteMapping(
-        consumes = {MediaType.APPLICATION_JSON_VALUE}
-    )
-    public ResponseEntity<?> signOut(@RequestBody MessageToken messageToken) { //Sign out implementation
-        User user = AuthService.getUser(getAuth());
+    @DeleteMapping
+    public ResponseEntity<?> signOut(@RequestHeader("Authorization") String token) { //Sign out implementation
+        User user = AuthService.getUser(token);
         if(user != null) {
             AuthService.removeUser(user);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Logout successful"), HttpStatus.OK);
         } else {
             return new ResponseEntity<MessageReason>(new MessageReason("Logout failed"), HttpStatus.UNAUTHORIZED);
+        }
+     }
+
+     @PostMapping("/validate-token")
+    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String token){
+        if(AuthService.getUser(token) != null){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<MessageAnswer>(new MessageAnswer("Wrong credentials"), HttpStatus.UNAUTHORIZED);
         }
      }
 

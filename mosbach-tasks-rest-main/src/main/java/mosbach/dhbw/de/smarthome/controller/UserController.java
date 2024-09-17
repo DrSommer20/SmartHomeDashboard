@@ -82,7 +82,7 @@ public class UserController {
                     user.setEmail(changeRequest.getNewValue());
                     break;
                 case "passwort":
-                    user.setPasswort(changeRequest.getNewValue());
+                    user.setPassword(changeRequest.getNewValue());
                     break;
                 case "pat":
                     user.setPat(changeRequest.getNewValue());

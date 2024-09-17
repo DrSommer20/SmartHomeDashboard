@@ -1,26 +1,32 @@
 package mosbach.dhbw.de.smarthome.model;
 
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Objects;
+
 public class User {
     private static int userIDCounter;
     private int userID;
     private String firstName;
     private String lastName;
     private String email;
-    private String passwort;
+    private String password;
     private String pat;
+    private static PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
 
-    public User(String firstName, String lastName, String email, String passwort) {
+    public User(String firstName, String lastName, String email, String password) {
         this.userID = User.userIDCounter++;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.passwort = passwort;
+        this.password = passwordEncoder.encode(password);
         this.pat = "";
     }
 
-    public User(String firstName, String lastName, String email, String passwort, String pat) {
-        this(firstName, lastName, email, passwort);
+    public User(String firstName, String lastName, String email, String password, String pat) {
+        this(firstName, lastName, email, password);
         this.pat = pat;
     }
     // Getter and Setter
@@ -48,12 +54,8 @@ public class User {
         this.email = email;
     }
 
-    public String getPasswort() {
-        return passwort;
-    }
-
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
+    public void setPassword(String password) {
+        this.password = passwordEncoder.encode(password);
     }
 
     public String getPat() {
@@ -72,8 +74,12 @@ public class User {
         this.userID = userID;
     }
 
-    //Funnctions
+    //Functions
     public boolean checkToken(){
-        return pat != "";
+        return !pat.isEmpty();
+    }
+
+    public boolean checkPassword(String password) {
+        return passwordEncoder.matches(password, this.password);
     }
 }
