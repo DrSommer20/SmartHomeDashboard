@@ -67,10 +67,7 @@ public class DeviceController {
         }
     }
 
-    @GetMapping(
-        path = "/{id}",
-        consumes = {MediaType.APPLICATION_JSON_VALUE}
-    )
+    @GetMapping("/{id}")
     public ResponseEntity<?> getDevice(@PathVariable String id, @RequestHeader("Authorization") String token) {
         User user = AuthService.getUser(token);
         if(user != null){
@@ -172,13 +169,20 @@ public class DeviceController {
     @PostMapping("/{id}/switch/{action}")
     public ResponseEntity<?> setDeviceSwitchStatus(@PathVariable String id, @PathVariable String action, @RequestHeader("Authorization") String token) {
         User user = AuthService.getUser(token);
-        if(user != null){if(DeviceService.getDeviceById(id, user) != null){
-            if(user.getPat().isBlank()){
-                return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
+        if(user != null){
+            Device device = DeviceService.getDeviceById(id, user);
+            if(device != null){
+                if(user.getPat().isBlank()){
+                    return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
+                }
+                if(SmartThings.setDeviceStatus(action,id, "switch",user.getPat())) {
+                    if(SmartThings.isSwitchOn(id, user.getPat())) device.setState("On");
+                    else device.setState("Off");
+
+                    return new ResponseEntity<>(new MessageAnswer("Accepted"), HttpStatus.OK);
+                }
+                else return new ResponseEntity<>(new MessageAnswer("Connection error"), HttpStatus.BAD_REQUEST);
             }
-            if(SmartThings.setDeviceStatus(action,id, "switch",user.getPat())) return new ResponseEntity<>(new MessageAnswer("Accepted"), HttpStatus.OK);
-            else return new ResponseEntity<>(new MessageAnswer("Connection error"), HttpStatus.BAD_REQUEST);  
-        }
             else return new  ResponseEntity<>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
         }
         else{
