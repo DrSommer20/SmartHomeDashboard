@@ -15,29 +15,39 @@
   <title>Smart Home Dashboard</title>
 </head>
 <body>
-<nav class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <img src="../../ressources/logo.png" alt="logo" width="60" />
-    <h2>Smart Home <br />Hub</h2>
-  </div>
-  <ul class="sidebar-links">
-    <h4>
-      <span>Menu</span>
-      <div class="menu-separator"></div>
-    </h4>
-    <li>
-      <a href="#">
-            <span class="material-symbols-outlined"> dashboard </span
-            >Dashboard</a
-      >
-    </li>
-    <li>
-      <a href="#"
-      ><span class="material-symbols-outlined"> overview</span>Routines</a
-      >
-    </li>
-  </ul>
-  <a id="UserInfoBtn" href="user-info.html">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="../../ressources/logo.png" alt="logo" width="60" />
+      <h2>Smart Home <br />Hub</h2>
+    </div>
+    <ul class="sidebar-links">
+      <h4>
+        <span>Menu</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li>
+        <a href="../homepage.html">
+          <span class="material-symbols-outlined"> dashboard </span
+          >Dashboard</a>
+      </li>
+      <li>
+         <a href="Devices.html">
+          <span class="material-symbols-outlined"> Devices</span
+          >Devices</a>
+          </li>
+        </a>
+      <li>
+        <a href="Routines.html"
+          ><span class="material-symbols-outlined"> overview</span>Routines</a
+        >
+      </li>
+      <li>
+        <a href="Rooms.html"
+          ><span class="material-symbols-outlined">Room</span>Rooms</a
+        >
+      </li>
+    </ul>
+    <a id="UserInfoPBtn" href="sub-pages/user-info.html">
     <div class="user-profile">
       <div class="user-initials">
         <h3 id="sidebarinitials"></h3>
@@ -47,14 +57,14 @@
         <h3 id="sidebarlastname"></h3>
       </div>
     </div>
-  </a>
-</nav>
+    </a>
+  </nav>
 <div id="main-content">
   <header>
     <div class="header">
       <h1>Add New Device</h1>
       <!--Add Head Button-->
-      <button onclick="location.href='../homepage.html'" id="HeadButton" class="head-button">Back</button>
+      <button onclick="location.href='Devices.html'" id="HeadButton" class="head-button">Back</button>
     </div>
   </header>
   <div class="row">
@@ -77,9 +87,8 @@
     </div>
   </div>
 </div>
-<script src="../js/jquery-3.6.0.min.js"></script>
-<script src="../js/AddDeviceJquery.js"></script>
-<script src="../js/GetUserInfo.js"></script>
-<script src="../js/Sidebar.js"></script>
-</body>
+  <script src="../js/jquery-3.6.0.min.js"></script>
+  <script src="../js/GetUserInfo.js"></script>
+  <script src="../js/Sidebar.js"></script>
+  </body>
 </html>
