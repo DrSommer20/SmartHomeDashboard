@@ -64,7 +64,7 @@
 <li class="has-line-data" data-line-start="52" data-line-end="53">Retrieve a list of all devices.</li>
 <li class="has-line-data" data-line-start="53" data-line-end="63"><strong>Data out:</strong><pre><code class="has-line-data" data-line-start="55" data-line-end="62" class="language-json">{
   "<span class="hljs-attribute">devices</span>": <span class="hljs-value">[
-    { "<span class="hljs-attribute">device_id</span>": <span class="hljs-value"><span class="hljs-string">"id"</span></span>, "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"name"</span></span>, "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"type"</span></span>, "<span class="hljs-attribute">location</span>": <span class="hljs-value"><span class="hljs-string">"location"</span></span>, "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"online"</span> </span>},
+    { "<span class="hljs-attribute">device_id</span>": <span class="hljs-value"><span class="hljs-string">"id"</span></span>, "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"name"</span></span>, "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"type"</span></span>, "<span class="hljs-attribute">location</span>": <span class="hljs-value"><span class="hljs-string">"location"</span></span>, "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"online"</span> </span>,  "<span class="hljs-attribute">state</span>": <span class="hljs-value"><span class="hljs-string">"On"</span> </span>},
     ...
   ]
 </span>}
@@ -81,7 +81,8 @@
   "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"Device Name"</span></span>,
   "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"outlet"</span></span>,
   "<span class="hljs-attribute">location</span>": <span class="hljs-value"><span class="hljs-string">"Room Name"</span></span>,
-  "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"online"</span>
+  "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"online"</span>,
+  "<span class="hljs-attribute">state</span>": <span class="hljs-value"><span class="hljs-string">"On"</span> </span>
 </span>}
 </code></pre>
 </li>
@@ -165,6 +166,21 @@
 <li class="has-line-data" data-line-start="123" data-line-end="126"><strong>Data out:</strong>
 <ul>
 <li class="has-line-data" data-line-start="124" data-line-end="126"><code>{ &quot;message&quot;: &quot;Alive&quot; }</code></li>
+</ul>
+</li>
+</ul>
+</li>
+  <li class="has-line-data" data-line-start="102" data-line-end="115">
+<p class="has-line-data" data-line-start="102" data-line-end="103"><strong>POST /auth/validate-token</strong></p>
+<ul>
+<li class="has-line-data" data-line-start="103" data-line-end="104">Validates Token on request.</li>
+<li class="has-line-data" data-line-start="104" data-line-end="111"><strong>Data in (Header):</strong><pre><code class="has-line-data" data-line-start="307" data-line-end="309">Authorization: 1234
+</code></pre>
+</li>
+<li class="has-line-data" data-line-start="111" data-line-end="115"><strong>Data out:</strong>
+<ul>
+<li class="has-line-data" data-line-start="112" data-line-end="113">Success: 200</li>
+<li class="has-line-data" data-line-start="113" data-line-end="115">Failure: 401 <code>{ &quot;reason&quot;: &quot;Wrong credentials&quot; }</code></li>
 </ul>
 </li>
 </ul>
