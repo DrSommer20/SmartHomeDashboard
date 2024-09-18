@@ -55,6 +55,7 @@ public class UserDTO {
         this.lastName = user.getLastName();
         this.email = user.getEmail();
         this.passwort = "";
+        this.pat = user.getPat();
     }
 
     @JsonProperty("firstName")

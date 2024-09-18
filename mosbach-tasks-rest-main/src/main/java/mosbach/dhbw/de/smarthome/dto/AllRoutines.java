@@ -61,6 +61,7 @@ public class AllRoutines {
     }
 
     public static AllRoutines convertToDTO(List<Routine> routines) {
+        if(routines == null) return new AllRoutines(null);
         List<RoutineDTO> routineDTOs = new ArrayList<>();
         for (Routine routine : routines) {
             RoutineDTO routineDTO = RoutineDTO.convertToDTO(routine);

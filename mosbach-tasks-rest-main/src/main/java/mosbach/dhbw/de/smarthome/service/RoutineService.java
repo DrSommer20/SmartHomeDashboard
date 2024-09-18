@@ -7,7 +7,9 @@ import java.util.List;
 
 import mosbach.dhbw.de.smarthome.model.Routine;
 import mosbach.dhbw.de.smarthome.model.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoutineService {
     private static HashMap<User, HashSet<Routine>> routines = new HashMap<User, HashSet<Routine>>();
 

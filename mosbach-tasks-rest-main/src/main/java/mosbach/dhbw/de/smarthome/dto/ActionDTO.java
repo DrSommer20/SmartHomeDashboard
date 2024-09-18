@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import mosbach.dhbw.de.smarthome.model.Action;
+import mosbach.dhbw.de.smarthome.model.User;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
@@ -84,12 +85,12 @@ public class ActionDTO {
         return actionDTOs;
     }
 
-    public static List<Action> convertToModel(List<ActionDTO> actions) {
+    public static List<Action> convertToModel(List<ActionDTO> actions, User user) {
         List<Action> actionModels = null;
         if (actions != null) {
             actionModels = new ArrayList<Action>();
             for (ActionDTO actionDTO : actions) {
-                actionModels.add(new Action(actionDTO.getDeviceId(), actionDTO.getAction(), null));
+                actionModels.add(new Action(actionDTO.getDeviceId(), actionDTO.getAction(), user));
             }
         }
         return actionModels;

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import mosbach.dhbw.de.smarthome.model.Routine;
+import mosbach.dhbw.de.smarthome.model.User;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RoutineDTO {
@@ -115,8 +116,8 @@ public class RoutineDTO {
         return new RoutineDTO(routine.getID(), routine.getName(), ActionDTO.convertToDTO(routine.getActions()), Trigger.convertToDTO(routine.getTriggerTime()), routine.isState());
     }
 
-    public static Routine convertToModel(RoutineDTO routinePostRequest) {
-        return new Routine(routinePostRequest.getName(), ActionDTO.convertToModel(routinePostRequest.getActions()), routinePostRequest.getTrigger().getValue(), routinePostRequest.isState());
+    public static Routine convertToModel(RoutineDTO routinePostRequest, User user) {
+        return new Routine(routinePostRequest.getName(), ActionDTO.convertToModel(routinePostRequest.getActions(), user), routinePostRequest.getTrigger().getValue(), routinePostRequest.isState());
     }
 
 }

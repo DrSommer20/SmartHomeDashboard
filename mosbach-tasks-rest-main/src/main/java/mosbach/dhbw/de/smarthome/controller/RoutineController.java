@@ -45,7 +45,7 @@ public class RoutineController {
     public ResponseEntity<?> createRoutine(@RequestHeader("Authorization") String token, @RequestBody RoutineDTO routinePostRequest) {
         User user = AuthService.getUser(token);
         if(user != null){
-            Routine routine = RoutineDTO.convertToModel(routinePostRequest);
+            Routine routine = RoutineDTO.convertToModel(routinePostRequest, user);
             RoutineService.addRoutine(user, routine);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine created"),HttpStatus.OK);
         }
@@ -103,9 +103,10 @@ public class RoutineController {
             Routine routine = RoutineService.getRoutineByID(id, user);
             if(routine != null){
                 routine.setName(changeRequest.getName());
-                routine.setActions(ActionDTO.convertToModel(changeRequest.getActions()));
+                routine.setActions(ActionDTO.convertToModel(changeRequest.getActions(), user));
                 routine.setTriggerTime(changeRequest.getTrigger().getValue());
-                routine.setState(changeRequest.isState());    
+                routine.setState(changeRequest.isState());
+                routine.refresh();
                 return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine changed"), HttpStatus.OK);
             }
             else{

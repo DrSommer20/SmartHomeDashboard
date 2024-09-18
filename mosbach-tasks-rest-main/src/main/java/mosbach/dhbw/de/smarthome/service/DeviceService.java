@@ -7,7 +7,9 @@ import java.util.HashSet;
 
 import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DeviceService {
     private static HashMap<User, HashSet<Device>> deviceMap = new HashMap<User, HashSet<Device>>();
 
