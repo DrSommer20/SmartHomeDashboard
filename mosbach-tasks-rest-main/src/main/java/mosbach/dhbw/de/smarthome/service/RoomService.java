@@ -7,7 +7,9 @@ import java.util.HashSet;
 
 import mosbach.dhbw.de.smarthome.model.Room;
 import mosbach.dhbw.de.smarthome.model.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoomService {
     private static HashMap<User, HashSet<Room>> roomMap = new HashMap<User, HashSet<Room>>();
 

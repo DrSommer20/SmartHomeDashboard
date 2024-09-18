@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mosbach.dhbw.de.smarthome.model.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
         private static List<User> users = new ArrayList<>();
 

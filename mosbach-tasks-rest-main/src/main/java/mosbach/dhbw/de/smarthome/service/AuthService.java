@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import mosbach.dhbw.de.smarthome.model.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AuthService {
     private static HashMap<User, String> userMap = new HashMap<User, String>();
 

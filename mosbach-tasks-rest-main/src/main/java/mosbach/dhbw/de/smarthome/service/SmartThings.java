@@ -21,7 +21,9 @@ import mosbach.dhbw.de.smarthome.dto.smartthings.GetFullStatusResponse;
 import mosbach.dhbw.de.smarthome.dto.smartthings.HealthCheck;
 import mosbach.dhbw.de.smarthome.dto.smartthings.SetStatusResponse;
 import mosbach.dhbw.de.smarthome.dto.smartthings.Switch;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SmartThings {
 
     private static final String API_URL = "https://api.smartthings.com/v1/devices";
@@ -68,7 +70,6 @@ public class SmartThings {
 
     public static boolean setDeviceStatus(String status, String deviceID, String capabilityId, String accessToken){
         final HttpPost httpPost = new HttpPost(API_URL + "/" + deviceID + "/commands");	
-
         final String json = "{\"commands\":[{\"capability\":\""+capabilityId+"\",\"command\":\""+status+"\"}]}";
         StringEntity entity = null;
         try {
@@ -79,11 +80,12 @@ public class SmartThings {
         httpPost.setEntity(entity);
         httpPost.setHeader("Authorization", "Bearer " + accessToken);
         httpPost.setHeader("Content-type", "application/json");
-
+        System.out.println("Before Try");
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             String response = client.execute(httpPost, new MyResponseHandler());
-            SetStatusResponse devicResponse = objectMapper.readValue(response, SetStatusResponse.class);
-            if(devicResponse.getResults().get(0).getStatus().equals("ACCEPTED")) return true;
+            SetStatusResponse deviceResponse = objectMapper.readValue(response, SetStatusResponse.class);
+            System.out.println(response);
+            if(deviceResponse.getResults().get(0).getStatus().equals("ACCEPTED")) return true;
             else return false;
         }catch (Exception e) {
             return false;

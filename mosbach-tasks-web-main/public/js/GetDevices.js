@@ -1,23 +1,29 @@
 $(document).ready(function() {
-    $.ajax({
-        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/device',
-        type: 'GET',
-        headers: {
-            'Authorization': localStorage.getItem('authToken')
-        },
-        success: function(response) {
-            console.log('Erfolgreiche Antwort:', response);
-            displayDevices(response.devices);
-        },
-        error: function(error) {
-            console.error('Fehler bei der Anfrage:', error);
-        }
-    });
+     updateDevices();
+     setInterval(updateDevices, 30000);
 });
+
+function updateDevices(){
+     $.ajax({
+            url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/device',
+            type: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('authToken')
+            },
+            success: function(response) {
+                console.log('Erfolgreiche Antwort:', response);
+                displayDevices(response.devices);
+            },
+            error: function(error) {
+                console.error('Fehler bei der Anfrage:', error);
+            }
+        });
+}
 
 function displayDevices(devices) {
     const contentDiv = document.getElementById('content');
     var index = 1;
+    contentDiv.innerHTML = "";
     devices.forEach(device => {
         const uniqueId = 'toggleCheckbox' + index;
         const deviceDiv = document.createElement('div');
@@ -42,6 +48,7 @@ function displayDevices(devices) {
         </div>
       </div>
     `;
+
         contentDiv.appendChild(deviceDiv);
         // Set checkbox to checked if the device state is "On"
         const checkbox = document.getElementById(uniqueId);
