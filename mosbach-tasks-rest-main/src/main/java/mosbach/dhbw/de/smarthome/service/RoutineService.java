@@ -1,17 +1,9 @@
 package mosbach.dhbw.de.smarthome.service;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
+import java.util.List;
 
 import mosbach.dhbw.de.smarthome.model.Routine;
 import mosbach.dhbw.de.smarthome.model.User;
@@ -24,53 +16,37 @@ public class RoutineService {
             routines.put(user, new HashSet<Routine>());
         }
         routines.get(user).add(routine);
-
-        if(routine.isState()) {
-            RoutineScheduler routineScheduler = new RoutineScheduler();
-            routineScheduler.scheduleOrderExecution(LocalDateTime.of(0, 0, 0, 0, 0, 0));
+    }
+    public static List<Routine> getRoutines(User user) {
+        if (routines.containsKey(user)) {
+            return new ArrayList<Routine>(routines.get(user));
         }
+        return null;
     }
 
-    public static void removeRoutine(User user, Routine routine) {
+    public static Routine getRoutineByID(String id, User user) {
         if (routines.containsKey(user)) {
-            routines.get(user).remove(routine);
-            if(routine.isState()) {
-                //TODO: cancel scheduled task
+            for (Routine routine : routines.get(user)) {
+                if (routine.getID().equals(id)) {
+                    return routine;
+                }
             }
         }
+        return null;
     }
 
-
-}
-
-class RoutineScheduler {
-    private final TaskScheduler taskScheduler;
-    private ScheduledFuture<?> scheduledTask;
-
-    // Constructor to create the TaskScheduler instance
-    public RoutineScheduler() {
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
-        this.taskScheduler = new ConcurrentTaskScheduler(scheduledExecutorService);
-    }
-
-    // Method to schedule an order execution at a specific time
-    public void scheduleOrderExecution(LocalDateTime scheduleTime) {
-        // Cancel the previous task if already scheduled
-        if (scheduledTask != null && !scheduledTask.isCancelled()) {
-            scheduledTask.cancel(true);
+    public static boolean deleteRoutine(String id, User user) {
+        Routine routine = getRoutineByID(id, user);
+        if (routine != null) {
+            routines.get(user).remove(routine);
+            if(routine.isState()) {
+                routine.deactivateRoutine();
+            }
+            return true;
         }
-
-        // Convert LocalDateTime to Instant
-        Instant executionInstant = scheduleTime.atZone(ZoneId.systemDefault()).toInstant();
-
-        // Schedule the task using the new Instant-based schedule method
-        scheduledTask = taskScheduler.schedule(this::executeOrder, executionInstant);
-        System.out.println("Order execution scheduled for: " + scheduleTime);
+        return false;
     }
 
-    // Simulating order execution logic
-    private void executeOrder() {
-        System.out.println("Executing order at: " + LocalDateTime.now());
-        // Your order execution logic goes here
-    }
+
 }
+

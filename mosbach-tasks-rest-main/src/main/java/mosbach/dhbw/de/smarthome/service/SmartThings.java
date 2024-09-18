@@ -68,7 +68,6 @@ public class SmartThings {
 
     public static boolean setDeviceStatus(String status, String deviceID, String capabilityId, String accessToken){
         final HttpPost httpPost = new HttpPost(API_URL + "/" + deviceID + "/commands");	
-
         final String json = "{\"commands\":[{\"capability\":\""+capabilityId+"\",\"command\":\""+status+"\"}]}";
         StringEntity entity = null;
         try {

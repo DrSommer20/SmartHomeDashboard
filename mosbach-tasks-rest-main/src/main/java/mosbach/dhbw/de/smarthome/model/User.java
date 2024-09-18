@@ -3,8 +3,6 @@ package mosbach.dhbw.de.smarthome.model;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Objects;
-
 public class User {
     private static int userIDCounter;
     private int userID;

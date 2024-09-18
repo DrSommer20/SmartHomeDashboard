@@ -1,21 +1,26 @@
 
 package mosbach.dhbw.de.smarthome.dto;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Trigger {
+import mosbach.dhbw.de.smarthome.model.Routine;
 
-    @JsonProperty("type")
-    private String type;
-    @JsonProperty("value")
-    private String value;
+
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class AllRoutines {
+
+    @JsonProperty("routines")
+    private List<RoutineDTO> routineDTOs;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -23,38 +28,26 @@ public class Trigger {
      * No args constructor for use in serialization
      * 
      */
-    public Trigger() {
+    public AllRoutines() {
     }
 
     /**
      * 
-     * @param type
-     * @param value
+     * @param routineDTOs
      */
-    public Trigger(String type, String value) {
+    public AllRoutines(List<RoutineDTO> routineDTOs) {
         super();
-        this.type = type;
-        this.value = value;
+        this.routineDTOs = routineDTOs;
     }
 
-    @JsonProperty("type")
-    public String getType() {
-        return type;
+    @JsonProperty("routines")
+    public List<RoutineDTO> getRoutines() {
+        return routineDTOs;
     }
 
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    @JsonProperty("value")
-    public String getValue() {
-        return value;
-    }
-
-    @JsonProperty("value")
-    public void setValue(String value) {
-        this.value = value;
+    @JsonProperty("devices")
+    public void setRoutines(List<RoutineDTO> routineDTOs) {
+        this.routineDTOs = routineDTOs;
     }
 
     @JsonAnyGetter
@@ -67,8 +60,13 @@ public class Trigger {
         this.additionalProperties.put(name, value);
     }
 
-    public static Trigger convertToDTO(String triggerTime) {
-        return new Trigger("time", triggerTime);
+    public static AllRoutines convertToDTO(List<Routine> routines) {
+        List<RoutineDTO> routineDTOs = new ArrayList<>();
+        for (Routine routine : routines) {
+            RoutineDTO routineDTO = RoutineDTO.convertToDTO(routine);
+            routineDTOs.add(routineDTO);
+        }
+        return new AllRoutines(routineDTOs);
     }
 
 }

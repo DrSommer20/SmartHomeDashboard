@@ -4,11 +4,13 @@ public class Action {
 
     private String deviceID;
     private String action;
+    private User user;
 
 
-    public Action(String deviceID, String action) {
+    public Action(String deviceID, String action, User user) {
         this.deviceID = deviceID;
         this.action = action;
+        this.user = user;
     }
 
     public String getDeviceID() {
@@ -28,6 +30,14 @@ public class Action {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     

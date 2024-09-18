@@ -1,17 +1,22 @@
 
 package mosbach.dhbw.de.smarthome.dto;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import mosbach.dhbw.de.smarthome.model.Action;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
-public class Action {
+public class ActionDTO {
 
     @JsonProperty("device_id")
     private String deviceId;
@@ -24,7 +29,7 @@ public class Action {
      * No args constructor for use in serialization
      * 
      */
-    public Action() {
+    public ActionDTO() {
     }
 
     /**
@@ -32,7 +37,7 @@ public class Action {
      * @param action
      * @param deviceId
      */
-    public Action(String deviceId, String action) {
+    public ActionDTO(String deviceId, String action) {
         super();
         this.deviceId = deviceId;
         this.action = action;
@@ -66,6 +71,28 @@ public class Action {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public static List<ActionDTO> convertToDTO(List<Action> actions) {
+        List<ActionDTO> actionDTOs = null;
+        if (actions != null) {
+            actionDTOs = new ArrayList<ActionDTO>();
+            for (Action action : actions) {
+                actionDTOs.add(new ActionDTO(action.getDeviceID(), action.getAction()));
+            }
+        }
+        return actionDTOs;
+    }
+
+    public static List<Action> convertToModel(List<ActionDTO> actions) {
+        List<Action> actionModels = null;
+        if (actions != null) {
+            actionModels = new ArrayList<Action>();
+            for (ActionDTO actionDTO : actions) {
+                actionModels.add(new Action(actionDTO.getDeviceId(), actionDTO.getAction(), null));
+            }
+        }
+        return actionModels;
     }
 
 }
