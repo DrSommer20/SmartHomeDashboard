@@ -343,7 +343,7 @@
 <li class="has-line-data" data-line-start="240" data-line-end="256"><strong>Data in:</strong><pre><code class="has-line-data" data-line-start="242" data-line-end="256" class="language-json">{
   "<span class="hljs-attribute">routine</span>": <span class="hljs-value">{
     "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"Guten Morgen"</span></span>,
-    "<span class="hljs-attribute">actions</span>": <span class="hljs-value">[
+    "<span class="hljs-attribute">actions</span>": "Devices":<span class="hljs-value">[
       {"<span class="hljs-attribute">device_id</span>": <span class="hljs-value"><span class="hljs-string">"light01"</span></span>, "<span class="hljs-attribute">action</span>": <span class="hljs-value"><span class="hljs-string">"on"</span></span>},
       {"<span class="hljs-attribute">device_id</span>": <span class="hljs-value"><span class="hljs-string">"outlet1"</span></span>, "<span class="hljs-attribute">action</span>": <span class="hljs-value"><span class="hljs-string">"off"</span></span>}
     ]</span>,
@@ -393,10 +393,12 @@
 <p class="has-line-data" data-line-start="282" data-line-end="283"><strong>PUT /routine/{routine_id}</strong></p>
 <ul>
 <li class="has-line-data" data-line-start="283" data-line-end="284">Update a routine.</li>
-<li class="has-line-data" data-line-start="284" data-line-end="293"><strong>Data in:</strong><pre><code class="has-line-data" data-line-start="286" data-line-end="293" class="language-json">{
-    "<span class="hljs-attribute">new-value</span>": <span class="hljs-value"><span class="hljs-string">"Guten Abend"</span></span>,
-    "<span class="hljs-attribute">field</span>": <span class="hljs-value"><span class="hljs-string">"name"</span>
-</span>}
+<li class="has-line-data" data-line-start="284" data-line-end="293"><strong>Data in:</strong><pre><code class="has-line-data" data-line-start="274" data-line-end="281" class="language-json">{
+  "id": "routine01",
+  "name": "Guten Morgen",
+  "actions": [...],
+  "trigger": {...}
+}
 </code></pre>
 </li>
 <li class="has-line-data" data-line-start="293" data-line-end="297"><strong>Data out:</strong>
