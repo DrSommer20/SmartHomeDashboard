@@ -24,6 +24,7 @@ import mosbach.dhbw.de.smarthome.dto.DeviceGetResponse;
 import mosbach.dhbw.de.smarthome.dto.MessageAnswer;
 import mosbach.dhbw.de.smarthome.dto.MessageReason;
 import mosbach.dhbw.de.smarthome.dto.smartthings.DeviceST;
+import mosbach.dhbw.de.smarthome.dto.smartthings.GetFullStatusResponse;
 import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.User;
 import mosbach.dhbw.de.smarthome.service.AuthService;
@@ -39,6 +40,17 @@ public class DeviceController {
     public ResponseEntity<?> getAllDevices(@RequestHeader("Authorization") String token) {
         User user = AuthService.getUser(token);
         if(user != null){
+            DeviceService.getDevices(user).forEach(device -> {
+                GetFullStatusResponse response = SmartThings.getDeviceFullStatus(device.getId(), user.getPat());
+                boolean isOn = false;
+                boolean isOnline = false;
+                String status = response.getSwitch().getSwitch().getValue();
+                String state = response.getHealthCheck().getDeviceWatchDeviceStatus().getValue();
+                if(state != null) isOnline = state.equals("online");
+                if(status != null) isOn = status.equals("on");
+                device.setStatus(isOnline ? "Online" : "Offline");
+                device.setState(isOn ? "On" : "Off");
+            });
             List<DeviceGetResponse> devicesDTO = new ArrayList<>();
             List<Device> devices = DeviceService.getDevices(user);
 
