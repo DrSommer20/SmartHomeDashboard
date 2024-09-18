@@ -21,6 +21,7 @@ public class TimeScheduler {
                 if(status != null) isOn = status.equals("on");
                 device.setStatus(isOnline ? "Online" : "Offline");
                 device.setState(isOn ? "On" : "Off");
+                System.out.println("Device: " + device.getName() + " is " + device.getState() + " and " + device.getStatus());
             });
         });
     }
