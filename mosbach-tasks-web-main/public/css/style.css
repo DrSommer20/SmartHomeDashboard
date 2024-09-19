@@ -9,20 +9,21 @@
   --submit-color: #4CAF50;
   --grey-color:  #999;
   --textbox-color: #a1b4b4;
-
-
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
 
 body {
-  min-height: 100vh;
+  display: flex;
   background: var(--light-color);
+}
+
+#main-content{
+    flex-grow: 1;
+    margin-left: 90px;
+    padding: 30px;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar {
@@ -35,7 +36,7 @@ body {
   overflow-x: hidden;
   flex-direction: column;
   background: var(--dark-color);
-  padding: 25px 20px;
+  padding: 20px;
   transition: all 0.4s ease;
 }
 
@@ -96,6 +97,7 @@ body {
 }
 
 .sidebar-links { /* Sidebar Links UL List */
+  margin-left:-40px;
   list-style: none;
   margin-top: 20px;
   height: 80%;
@@ -121,14 +123,25 @@ body {
   border-radius: 4px;
 }
 
+#UserInfoPBtn {
+  text-decoration: none;
+}
+
+
+#UserInfoBtn:hover .user-profile{
+  background: var(--dark-color);
+  color: var(--light-color);
+}
+
 .user-profile {
   margin-top: auto;
-  padding: 12px 10px;
+  padding: 10px 10px;
   margin-left: -10px;
   display: flex;
   align-items: center;
   color: var(--dark-color);
 }
+
 
 .user-profile .user-initials {
   border-radius: 50%;
@@ -137,10 +150,13 @@ body {
   background-color: var(--secondary-color);
   color: var(--light-color);
   width: 50px; 
-  height: 50px; 
-  line-height: 50px; 
-  text-align: center; 
+  height: 50px;
   position: fixed;
+  padding-top: 7px;
+}
+.user-profile .user-initials h3 {
+  font-size: 1.5rem;
+  text-align: center;
 }
 
 .user-profile .user-detail h3 {
@@ -164,13 +180,7 @@ body {
 ######################################################################
 */
 
-.main-pane{
-  margin-left: 90px;
-  padding: 30px;
-  transition: all 0.4s ease;
-  display: flex;
-  flex-direction: column;
-}
+
 
 .header{
   padding: 25px;
@@ -195,17 +205,79 @@ body {
   color:var(--secondary-color);
 }
 
-.content{
+.device-separator { /* Sidebar Links Separator */
+  /* Just a really small div that looks like a line*/
+  margin-bottom: 1rem;
+  left: 0;
+  width: 100%;
+  height: 1px; 
+  background: var(--secondary-color);
+}
+
+.toggleContainer {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;;
+  border-radius: 20px;
+  background: var(--secondary-color);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.toggleContainer::before {
+  content: '';
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  left: 0%;
+  border-radius:20px;
+  background: whitesmoke;
+  transition: all 0.3s;
+}
+.toggleCheckbox:checked + .toggleContainer::before {
+   left: 50%;
+}
+.toggleContainer div {
+  padding: 6px;
+  text-align: center;
+  z-index: 1;
+}
+.toggleCheckbox {
+  display: none;
+}
+.toggleCheckbox:checked + .toggleContainer div:first-child{
+  color: white;
+  transition: color 0.3s;
+}
+.toggleCheckbox:checked + .toggleContainer div:last-child{
+  color: var(--submit-color);
+  transition: color 0.3s;
+}
+.toggleCheckbox + .toggleContainer div:first-child{
+  color: red;
+  transition: color 0.3s;
+}
+.toggleCheckbox + .toggleContainer div:last-child{
+  color: white;
+  transition: color 0.3s;
 }
 
 .device{
   padding: 20px;
-  margin: 10px;
+  margin: 5px;
   background-color: var(--primary-color);
   border-radius: 20px;
-  width: 300px;
+}
+
+.device h3 {
+  font-size: 1.5rem;
+}
+
+.device p {
+  font-size: 1rem;
+  line-height: 1rem;
+  color: var(--dark-color);
 }
 
 .device-button{
@@ -214,13 +286,19 @@ body {
   color: var(--light-color);
   border: none;
   border-radius: 5px;
+  width: 100%;
   cursor: pointer;
 }
+
+
+
 
 .device-button:hover{
   background-color: var(--dark-color);
 }
 
+
+/*LOGIN Mask*/
 .content-input {
   display: flex;
   flex-direction: column;

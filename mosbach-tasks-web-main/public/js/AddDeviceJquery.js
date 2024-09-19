@@ -4,16 +4,13 @@ $("#AddDeviceSubmit").click(function() {
 
     var AddNewDevice = {
 
-        device:{
+            device_id: $("#deviceID").val(),
+
             name: $("#deviceName").val(),
 
             type:$("#deviceType").val(),
 
             location:$("#deviceLocation").val()
-
-        },
-
-           token: "123456"
 
         };
 
@@ -26,12 +23,14 @@ $("#AddDeviceSubmit").click(function() {
 
         dataType: 'json',
 
+        headers: {
+                    'Authorization': localStorage.getItem('authToken')
+                },
+
         contentType: 'application/json',
 
         success: function (data) {
-
-            alert(data.messsage);
-
+            location.href='../homepage.html';
         },
 
         data: JSON.stringify(AddNewDevice),

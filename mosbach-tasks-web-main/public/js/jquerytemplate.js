@@ -1,6 +1,3 @@
-	
-<script>
-
 $("#tasksubmit").click(function() {
 
     var taks = {
@@ -46,5 +43,3 @@ $("#tasksubmit").click(function() {
     });
 
 });
-
-</script>

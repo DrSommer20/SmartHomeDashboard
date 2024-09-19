@@ -4,21 +4,29 @@ package mosbach.dhbw.de.smarthome.dto;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import mosbach.dhbw.de.smarthome.model.Routine;
+import mosbach.dhbw.de.smarthome.model.User;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RoutineDTO {
 
+    @JsonProperty("id")
+    private String id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("actions")
-    private List<Action> actions;
+    private List<ActionDTO> actions;
     @JsonProperty("trigger")
     private Trigger trigger;
+    @JsonProperty("state")
+    private boolean state;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -35,11 +43,13 @@ public class RoutineDTO {
      * @param trigger
      * @param actions
      */
-    public RoutineDTO(String name, List<Action> actions, Trigger trigger) {
+    public RoutineDTO(String id, String name, List<ActionDTO> actions, Trigger trigger, boolean state) {
         super();
+        this.id = id;
         this.name = name;
         this.actions = actions;
         this.trigger = trigger;
+        this.state = state;
     }
 
     @JsonProperty("name")
@@ -53,12 +63,12 @@ public class RoutineDTO {
     }
 
     @JsonProperty("actions")
-    public List<Action> getActions() {
+    public List<ActionDTO> getActions() {
         return actions;
     }
 
     @JsonProperty("actions")
-    public void setActions(List<Action> actions) {
+    public void setActions(List<ActionDTO> actions) {
         this.actions = actions;
     }
 
@@ -72,6 +82,26 @@ public class RoutineDTO {
         this.trigger = trigger;
     }
 
+    @JsonProperty("state")
+    public boolean isState() {
+        return state;
+    }
+
+    @JsonProperty("state")
+    public void setState(boolean state) {
+        this.state = state;
+    }
+
+    @JsonProperty("id")
+    public String getID() {
+        return id;
+    }
+
+    @JsonProperty("id")
+    public void setID(String id) {
+        this.id = id;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -80,6 +110,14 @@ public class RoutineDTO {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public static RoutineDTO convertToDTO(Routine routine) {
+        return new RoutineDTO(routine.getID(), routine.getName(), ActionDTO.convertToDTO(routine.getActions()), Trigger.convertToDTO(routine.getTriggerTime()), routine.isState());
+    }
+
+    public static Routine convertToModel(RoutineDTO routinePostRequest, User user) {
+        return new Routine(routinePostRequest.getName(), ActionDTO.convertToModel(routinePostRequest.getActions(), user), routinePostRequest.getTrigger().getValue(), routinePostRequest.isState());
     }
 
 }

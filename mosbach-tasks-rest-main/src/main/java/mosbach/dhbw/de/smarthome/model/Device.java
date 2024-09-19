@@ -1,19 +1,20 @@
 package mosbach.dhbw.de.smarthome.model;
 
 public class Device {
-    private static int idCounter = 0;
-    private int id;
+    private String id;
     private String name;
     private String type;
     private String status;
     private String location;
+    private String state;
 
-    public Device(String name, String type, String location) {
-        id = idCounter++;
+    public Device(String id, String name, String type, String location) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.location = location;
-        this.status = "Online";
+        this.status = "Offline";
+        this.state = "Off";
     }
 
     public String getName() {
@@ -36,7 +37,7 @@ public class Device {
         this.status = status;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -52,5 +53,11 @@ public class Device {
         this.location = location;
     }
 
+    public String getState() {
+        return state;
+    }
 
+    public void setState(String state) {
+        this.state = state;
+    }
 }

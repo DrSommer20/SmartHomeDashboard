@@ -67,4 +67,8 @@ public class Trigger {
         this.additionalProperties.put(name, value);
     }
 
+    public static Trigger convertToDTO(String triggerTime) {
+        return new Trigger("time", triggerTime);
+    }
+
 }
