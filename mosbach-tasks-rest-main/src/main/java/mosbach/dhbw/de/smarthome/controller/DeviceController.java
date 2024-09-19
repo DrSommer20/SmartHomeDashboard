@@ -40,6 +40,9 @@ public class DeviceController {
     public ResponseEntity<?> getAllDevices(@RequestHeader("Authorization") String token) {
         User user = AuthService.getUser(token);
         if(user != null){
+            if(DeviceService.getDevices(user) == null){
+                return new ResponseEntity<AllDevices>(new AllDevices(), HttpStatus.OK);
+            }
             DeviceService.getDevices(user).forEach(device -> {
                 GetFullStatusResponse response = SmartThings.getDeviceFullStatus(device.getId(), user.getPat());
                 boolean isOn = false;

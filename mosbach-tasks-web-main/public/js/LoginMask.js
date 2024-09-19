@@ -1,13 +1,24 @@
-document.querySelector('.sign-up').addEventListener('click', function() {
-    document.querySelector('.login-box').style.height="650px"
+$(document).ready(function() {
+    if($('#tab-2').is(':checked')) {
+        document.querySelector('.login-box').style.height = "650px";
+    }
+    else if($('#tab-1').is(':checked')) {
+        document.querySelector('.login-box').style.height = "500px";
+    }
 });
 
-document.querySelector('.sign-in').addEventListener('click', function() {
-    document.querySelector('.login-box').style.height="500px" // Zurück zur normalen Größe
+$('#tab-2').on('click', function() {
+    document.querySelector('.login-box').style.height="650px";
+});
 
-});    
+$('#tab-1').on('click', function() {
+    document.querySelector('.login-box').style.height="500px"; // Zurück zur normalen Größe
+});
 
-document.getElementById('login-space').addEventListener('submit', async function(event) {
+$('#login-form').on('submit', loginSubmit);
+$('#sign-up-form').on('submit', signUp);
+
+function loginSubmit(event){
     event.preventDefault(); // Verhindert das Standardverhalten (Seiten-Reload)
 
     // E-Mail und Passwort aus dem Formular abrufen
@@ -26,7 +37,6 @@ document.getElementById('login-space').addEventListener('submit', async function
         dataType: 'json',
         contentType: 'application/json',
         success: function (data) {
-            alert('Login successful!');
             localStorage.setItem('authToken', data.token); // Token im Local Storage speichern
             window.location.href = '../homepage.html'; // Weiterleitung auf eine andere Seite
         },
@@ -37,15 +47,17 @@ document.getElementById('login-space').addEventListener('submit', async function
             alert('An error occurred during login. Please try again.');
         }
     });
-});function signUp() {
-    // Collect form values
+}
+
+function signUp(event) {
+    event.preventDefault(); // Verhindert das Standardverhalten (Seiten-Reload)
+
     const firstName = $('#userfirstname').val();
     const lastName = $('#userlastname').val();
-    const email = $('#email').val();
-    const password = $('#password').val();
+    const email = $('#useremail').val();
+    const password = $('#userpassword').val();
     const pat = $('#userpat').val() || null;
 
-    // Create an object with the form data
     const signUpData = {
         firstName: firstName,
         lastName: lastName,
@@ -57,21 +69,21 @@ document.getElementById('login-space').addEventListener('submit', async function
     // Log the data (for debugging purposes)
     console.log('Sign Up Data:', signUpData);
 
-    // Send the data to the backend using $.ajax
     $.ajax({
-        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/auth', // Replace with your backend URL
+        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/user',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(signUpData), // Convert the object to a JSON string
+        data: JSON.stringify(signUpData),
         success: function(response) {
             console.log('Success:', response);
-            alert('Sign up successful!');
-            // You can redirect the user after a successful signup if needed
-             window.location.href = '/SubPages/Homepage.html';
+            $('#sign-up-failure').hide();
+            $('#sign-up-success').show();
         },
         error: function(xhr, status, error) {
             console.error('Error:', status, error);
-            alert('Sign up failed! Please try again.');
+            $('#sign-up-failure').show();
+            $('#sign-up-success').hide();
         }
     });
+
 }
