@@ -1,6 +1,7 @@
 @import "style.css";
 @import "LoginMask.js";
 body{
+	
 	margin:0;
 	padding: 0;
 	height: 100vh;
@@ -8,9 +9,8 @@ body{
 	justify-content: center; /* Zentriert horizontal */
   	align-items: center; /* Zentriert vertikal */
 	color:#6a6f8c;
-	background: var(--secondary-color);
 	font:100% 'Open Sans',sans-serif;
-	
+	background-size: cover;
 }
 
 .login-box{

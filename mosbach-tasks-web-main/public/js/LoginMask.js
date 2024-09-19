@@ -7,47 +7,12 @@ document.querySelector('.sign-in').addEventListener('click', function() {
 
 });    
 
-// On login
-function loginUser(token, rememberMe) {
-    if (rememberMe) {
-      localStorage.setItem('authToken', token);
-    } else {
-      sessionStorage.setItem('authToken', token);
-    }
-  }
-  
-  // On page load
-  function checkAuth() {
-    let token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-    
-    if (token) {
-      // Validate the token with the server
-      validateToken(token).then(isValid => {
-        if (isValid) {
-          // User is authenticated
-          console.log("User is signed in");
-        } else {
-          // Token is invalid
-          localStorage.removeItem('authToken');
-          sessionStorage.removeItem('authToken');
-        }
-      });
-    }
-  }
-  
-  // Validate token with the server
-  async function validateToken(token) {
-    // Implement token validation with your backend
-    return true; // or false based on actual validation
-  }
-  
-// Login-Funktion
-document.getElementById('loginForm').addEventListener('submit', async function(event) {
+document.getElementById('login-space').addEventListener('submit', async function(event) {
     event.preventDefault(); // Verhindert das Standardverhalten (Seiten-Reload)
 
     // E-Mail und Passwort aus dem Formular abrufen
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
+    const email = document.getElementById('login-mail').value;
+    const password = document.getElementById('pass').value;
 
     // JSON-Payload erstellen
     const loginData = {
@@ -55,77 +20,58 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         password: password
     };
 
-    try {
-        // POST-Anfrage an den Server senden
-        const response = await fetch('/api/auth', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(loginData)
-        });
-
-        const data = await response.json(); // Antwort in JSON umwandeln
-
-        if (response.ok) {
-            // Login erfolgreich - Token speichern
+    $.ajax({
+        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/auth',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data) {
             alert('Login successful!');
             localStorage.setItem('authToken', data.token); // Token im Local Storage speichern
-            window.location.href = '/Homepage.html'; // Weiterleitung auf eine andere Seite
-        } else {
-            // Fehlgeschlagener Login - Fehlermeldung anzeigen
-            alert(data.message || 'Login failed. Please try again.');
+            window.location.href = '../homepage.html'; // Weiterleitung auf eine andere Seite
+        },
+        data: JSON.stringify(loginData),
+        contentType: "application/json; charset=UTF-8",
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log('Error: ' + xhr.status + '   ' + thrownError);
+            alert('An error occurred during login. Please try again.');
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred during login. Please try again.');
-    }
-});
+    });
+});function signUp() {
+    // Collect form values
+    const firstName = $('#userfirstname').val();
+    const lastName = $('#userlastname').val();
+    const email = $('#email').val();
+    const password = $('#password').val();
+    const pat = $('#userpat').val() || null;
 
-// Sign-up-Funktion
-document.getElementById('loginForm').addEventListener('submit', async function(event) {
-    event.preventDefault(); // Verhindert das Standardverhalten (Seiten-Reload)
-
-    // Anmeldedaten aus dem Formular abrufen
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-    const passwordConfirm = document.getElementById('signup-password-confirm').value;
-
-    // Überprüfen, ob die Passwörter übereinstimmen
-    if (password !== passwordConfirm) {
-        alert('Passwords do not match!');
-        return;
-    }
-
-    // JSON-Payload erstellen
-    const signupData = {
+    // Create an object with the form data
+    const signUpData = {
+        firstName: firstName,
+        lastName: lastName,
         email: email,
-        password: password
+        password: password,
+        pat: pat
     };
 
-    try {
-        // POST-Anfrage an den Server senden
-        const response = await fetch('/api/auth', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(signupData)
-        });
+    // Log the data (for debugging purposes)
+    console.log('Sign Up Data:', signUpData);
 
-        const data = await response.json(); // Antwort in JSON umwandeln
-
-        if (response.ok) {
-            // Sign-up erfolgreich - Token speichern
-            alert('Signup successful!');
-            localStorage.setItem('authToken', data.token); // Token im Local Storage speichern
-            window.location.href = '/Homepage.html'; // Weiterleitung auf eine andere Seite
-        } else {
-            // Fehlgeschlagener Sign-up - Fehlermeldung anzeigen
-            alert(data.message || 'Signup failed. Please try again.');
+    // Send the data to the backend using $.ajax
+    $.ajax({
+        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/auth', // Replace with your backend URL
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(signUpData), // Convert the object to a JSON string
+        success: function(response) {
+            console.log('Success:', response);
+            alert('Sign up successful!');
+            // You can redirect the user after a successful signup if needed
+             window.location.href = '/SubPages/Homepage.html';
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', status, error);
+            alert('Sign up failed! Please try again.');
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred during signup. Please try again.');
-    }
-});
+    });
+}
