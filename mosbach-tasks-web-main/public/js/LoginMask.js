@@ -1,20 +1,18 @@
-const switchers = [...document.querySelectorAll('.switcher')]
+document.querySelector('.sign-up').addEventListener('click', function() {
+    document.querySelector('.login-box').style.height="650px"
+});
 
-switchers.forEach(item => {
-	item.addEventListener('click', function() {
-		switchers.forEach(item => item.parentElement.classList.remove('is-active'))
-		this.parentElement.classList.add('is-active')
-	})
-})
+document.querySelector('.sign-in').addEventListener('click', function() {
+    document.querySelector('.login-box').style.height="500px" // Zurück zur normalen Größe
 
-// Login-Funktion
+});    
 
-document.getElementById('loginForm').addEventListener('submit', async function(event) {
+document.getElementById('login-space').addEventListener('submit', async function(event) {
     event.preventDefault(); // Verhindert das Standardverhalten (Seiten-Reload)
 
     // E-Mail und Passwort aus dem Formular abrufen
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
+    const email = document.getElementById('login-mail').value;
+    const password = document.getElementById('pass').value;
 
     // JSON-Payload erstellen
     const loginData = {
@@ -39,4 +37,41 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             alert('An error occurred during login. Please try again.');
         }
     });
-});
+});function signUp() {
+    // Collect form values
+    const firstName = $('#userfirstname').val();
+    const lastName = $('#userlastname').val();
+    const email = $('#email').val();
+    const password = $('#password').val();
+    const pat = $('#userpat').val() || null;
+
+    // Create an object with the form data
+    const signUpData = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        pat: pat
+    };
+
+    // Log the data (for debugging purposes)
+    console.log('Sign Up Data:', signUpData);
+
+    // Send the data to the backend using $.ajax
+    $.ajax({
+        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/auth', // Replace with your backend URL
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(signUpData), // Convert the object to a JSON string
+        success: function(response) {
+            console.log('Success:', response);
+            alert('Sign up successful!');
+            // You can redirect the user after a successful signup if needed
+             window.location.href = '/SubPages/Homepage.html';
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', status, error);
+            alert('Sign up failed! Please try again.');
+        }
+    });
+}
