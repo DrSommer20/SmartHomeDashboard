@@ -68,7 +68,11 @@ function updateField(field, newValue) {
             "field": field
     };
 
-    console.log(`Feld ${field} wird aktualisiert auf: ${newValue}`);
+    if (field === 'password') {
+        console.log(`Feld ${field} wird aktualisiert.`);
+    } else {
+        console.log(`Feld ${field} wird aktualisiert auf: ${newValue}`);
+    }
     $.ajax({
         url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/user',
         type: 'PUT',
