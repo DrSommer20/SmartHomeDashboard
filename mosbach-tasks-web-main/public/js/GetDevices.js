@@ -24,46 +24,47 @@ function displayDevices(devices) {
     const contentDiv = document.getElementById('content');
     var index = 1;
     contentDiv.innerHTML = "";
-    devices.forEach(device => {
-        const uniqueId = 'toggleCheckbox' + index;
-        const deviceDiv = document.createElement('div');
-        deviceDiv.classList.add('col-sm-12', 'col-md-12', 'col-lg-6', 'col-xl-4');
-        deviceDiv.innerHTML = `
-        <div class="device">
-            <div class="device-header">
-                <h3>
-                    <span class="material-symbols-outlined">${getDeviceIcon(device.type)}</span> ${device.name}
-                </h3>
-            </div>
-            <div class="device-separator"></div>
-            <div class="device-info">
-                <p>Type: ${device.type}</p>
-                <p>Location: ${device.location}</p>
-                <p>State: ${device.status}</p>
-                 <input type="checkbox" id="`+uniqueId+`" class="toggleCheckbox" />
-            <label for="`+uniqueId+`" class="toggleContainer">
-            <div>OFF</div>
-            <div>ON</div>
-          </label>
-        </div>
-      </div>
-    `;
+    if(device !== undefined){
+        devices.forEach(device => {
+                const uniqueId = 'toggleCheckbox' + index;
+                const deviceDiv = document.createElement('div');
+                deviceDiv.classList.add('col-sm-12', 'col-md-12', 'col-lg-6', 'col-xl-4');
+                deviceDiv.innerHTML = `
+                <div class="device">
+                    <div class="device-header">
+                        <h3>
+                            <span class="material-symbols-outlined">${getDeviceIcon(device.type)}</span> ${device.name}
+                        </h3>
+                    </div>
+                    <div class="device-separator"></div>
+                    <div class="device-info">
+                        <p>Type: ${device.type}</p>
+                        <p>Location: ${device.location}</p>
+                        <p>State: ${device.status}</p>
+                         <input type="checkbox" id="`+uniqueId+`" class="toggleCheckbox" />
+                    <label for="`+uniqueId+`" class="toggleContainer">
+                    <div>OFF</div>
+                    <div>ON</div>
+                  </label>
+                </div>
+              </div>
+            `;
 
-        contentDiv.appendChild(deviceDiv);
-        // Set checkbox to checked if the device state is "On"
-        const checkbox = document.getElementById(uniqueId);
-        if (device.state === 'On') {
-            checkbox.checked = true;
+            contentDiv.appendChild(deviceDiv);
+            // Set checkbox to checked if the device state is "On"
+            const checkbox = document.getElementById(uniqueId);
+            if (device.state === 'On') {
+                checkbox.checked = true;
+            }
+
+            function handleCheckboxChange() {
+                handleChange(this.checked, device.device_id, uniqueId, this);
+            }
+
+            checkbox.addEventListener('change', handleCheckboxChange);
+            index++;
         }
-
-        function handleCheckboxChange() {
-            handleChange(this.checked, device.device_id, uniqueId, this);
-        }
-
-        checkbox.addEventListener('change', handleCheckboxChange);
-        index++;
     });
-
 }
     //Symbole
     function getDeviceIcon(type) {
