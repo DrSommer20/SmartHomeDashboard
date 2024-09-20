@@ -3,6 +3,7 @@ package mosbach.dhbw.de.smarthome.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,24 +28,35 @@ import mosbach.dhbw.de.smarthome.dto.smartthings.DeviceST;
 import mosbach.dhbw.de.smarthome.dto.smartthings.GetFullStatusResponse;
 import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.User;
-import mosbach.dhbw.de.smarthome.service.AuthService;
 import mosbach.dhbw.de.smarthome.service.DeviceService;
 import mosbach.dhbw.de.smarthome.service.SmartThings;
+import mosbach.dhbw.de.smarthome.service.UserService;
 
 @CrossOrigin(origins = "https://smarthomefrontend-surprised-oryx-bl.apps.01.cf.eu01.stackit.cloud", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/device")
 public class DeviceController {
+
+    @Autowired
+    private DeviceService deviceService;
+
+    @Autowired
+    private SmartThings smartThings;
+
+    @Autowired
+    private UserService userService;
     
     @GetMapping
     public ResponseEntity<?> getAllDevices(@RequestHeader("Authorization") String token) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
-            if(DeviceService.getDevices(user) == null){
+
+            if(deviceService.getDevices(user.getUserID()) == null){
                 return new ResponseEntity<AllDevices>(new AllDevices(), HttpStatus.OK);
             }
-            DeviceService.getDevices(user).forEach(device -> {
-                GetFullStatusResponse response = SmartThings.getDeviceFullStatus(device.getId(), user.getPat());
+            deviceService.getDevices(user.getUserID()).forEach(device -> {
+                GetFullStatusResponse response = smartThings.getDeviceFullStatus(device.getId(), user.getPat());
+
                 boolean isOn = false;
                 boolean isOnline = false;
                 String status = response.getSwitch().getSwitch().getValue();
@@ -55,7 +67,7 @@ public class DeviceController {
                 device.setState(isOn ? "On" : "Off");
             });
             List<DeviceGetResponse> devicesDTO = new ArrayList<>();
-            List<Device> devices = DeviceService.getDevices(user);
+            List<Device> devices = deviceService.getDevices(user.getUserID());
 
             for (Device device : devices) {
                 devicesDTO.add(new DeviceGetResponse(device));
@@ -71,10 +83,10 @@ public class DeviceController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> createDevice(@RequestHeader("Authorization") String token, @RequestBody DeviceDTO deviceDTO) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
             Device device = new Device(deviceDTO.getDeviceId(),deviceDTO.getName(), deviceDTO.getType(), deviceDTO.getLocation());
-            DeviceService.addDevice(device, user);
+            deviceService.addDevice(device, user.getUserID());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device created"), HttpStatus.OK);
         }
         else{
@@ -84,9 +96,9 @@ public class DeviceController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getDevice(@PathVariable String id, @RequestHeader("Authorization") String token) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
-            Device device = DeviceService.getDeviceById(id, user);
+            Device device = deviceService.getDeviceById(id, user.getUserID());
             if(device == null) return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<DeviceGetResponse>(new DeviceGetResponse(device), HttpStatus.OK);
         }
@@ -101,9 +113,9 @@ public class DeviceController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> deleteDevice(@PathVariable String id, @RequestHeader("Authorization") String token) { 
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
-            boolean result = DeviceService.deleteDevice(id, user);
+            boolean result = deviceService.deleteDevice(id, user.getUserID());
             if(!result) return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device deleted"), HttpStatus.OK);
         }
@@ -117,11 +129,9 @@ public class DeviceController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> changeDevice(@RequestHeader("Authorization") String token, @PathVariable String id, @RequestBody ChangeRequest changeRequest) {
-        User user = AuthService.getUser(token);
-
-
+        User user = userService.getUser(token);
         if (user != null) {
-            Device device = DeviceService.getDeviceById(id, user);
+            Device device = deviceService.getDeviceById(id, user.getUserID());
             if(device == null){
                 return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
             }
@@ -147,14 +157,14 @@ public class DeviceController {
 
     @GetMapping("/smartthings")
     public ResponseEntity<?> getAllSmartThingsDevices(@RequestHeader("Authorization") String token) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         List<DeviceGetResponse> deviceGetResponse = new ArrayList<>();
         if(user != null){
             if(user.getPat().isBlank()){
                 return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
             }
-            for(DeviceST deviceST : SmartThings.getAllDevices(user.getPat()).getItems()){ 
-                if(DeviceService.getDeviceById(deviceST.getDeviceId(), user) == null ) deviceGetResponse.add(new DeviceGetResponse(deviceST.getDeviceId(), deviceST.getLabel(), "", "", "", ""));
+            for(DeviceST deviceST : smartThings.getAllDevices(user.getPat()).getItems()){ 
+                if(deviceService.getDeviceById(deviceST.getDeviceId(), user.getUserID()) == null ) deviceGetResponse.add(new DeviceGetResponse(deviceST.getDeviceId(), deviceST.getLabel(), "", "", "", ""));
             }
             return new ResponseEntity<>(new AllDevices(deviceGetResponse), HttpStatus.OK);
         }
@@ -165,13 +175,13 @@ public class DeviceController {
 
     @GetMapping("/{id}/health-check")
     public ResponseEntity<?> GetHealth(@PathVariable String id, @RequestHeader("Authorization") String token) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
             if(user.getPat().isBlank()){
                 return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
             }
-            if(DeviceService.getDeviceById(id, user) != null){
-                if(SmartThings.isOnline(id, user.getPat())) return new ResponseEntity<>(new MessageAnswer("Online"), HttpStatus.OK);
+            if(deviceService.getDeviceById(id, user.getUserID()) != null){
+                if(smartThings.isOnline(id, user.getPat())) return new ResponseEntity<>(new MessageAnswer("Online"), HttpStatus.OK);
                 else return new ResponseEntity<>(new MessageAnswer("Offline"), HttpStatus.OK);  
             }
             else return new  ResponseEntity<>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
@@ -183,15 +193,15 @@ public class DeviceController {
     
     @PostMapping("/{id}/switch/{action}")
     public ResponseEntity<?> setDeviceSwitchStatus(@PathVariable String id, @PathVariable String action, @RequestHeader("Authorization") String token) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
-            Device device = DeviceService.getDeviceById(id, user);
+            Device device = deviceService.getDeviceById(id, user.getUserID());
             if(device != null){
                 if(user.getPat().isBlank()){
                     return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
                 }
-                if(SmartThings.setDeviceStatus(action,id, "switch",user.getPat())) {
-                    if(SmartThings.isSwitchOn(id, user.getPat())) device.setState("On");
+                if(smartThings.setDeviceStatus(action,id, "switch",user.getPat())) {
+                    if(smartThings.isSwitchOn(id, user.getPat())) device.setState("On");
                     else device.setState("Off");
 
                     return new ResponseEntity<>(new MessageAnswer("Accepted"), HttpStatus.OK);

@@ -1,39 +1,83 @@
 package mosbach.dhbw.de.smarthome.service;
 
-import java.util.HashMap;
-import java.util.UUID;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import mosbach.dhbw.de.smarthome.model.User;
+
+import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
-    private static HashMap<User, String> userMap = new HashMap<User, String>();
 
-    public static String addUser(User user) {
-        String token = UUID.randomUUID().toString();
-        userMap.put(user, token);
-        return token;
+    private String secretKey = EnvConfig.getJwtSecret();
+
+    private final long jwtExpiration = 1000 * 60 * 60 * 10;
+
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
     }
 
-    public static void removeUser(User user) {
-        userMap.remove(user);
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
     }
 
-    public static String getToken(User user) {
-        return userMap.get(user);
+    public String generateToken(User userDetails) {
+        return generateToken(new HashMap<>(), userDetails);
     }
 
-    public static User getUser(String token) {
-        for (User user : userMap.keySet()) {
-            if (userMap.get(user).equals(token)) {
-                return user;
-            }
-        }
-        return null;
+    public String generateToken(Map<String, Object> extraClaims, User userDetails) {
+        return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
-    public static boolean checkUser(User user) {
-        return userMap.containsKey(user);
+    public long getExpirationTime() {
+        return jwtExpiration;
+    }
+
+    private String buildToken(
+            Map<String, Object> extraClaims,
+            User userDetails,
+            long expiration
+    ) {
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getEmail())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    private Key getSignInKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }

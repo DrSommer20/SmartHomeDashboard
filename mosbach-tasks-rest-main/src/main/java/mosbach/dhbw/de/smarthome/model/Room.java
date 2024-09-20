@@ -1,7 +1,12 @@
 package mosbach.dhbw.de.smarthome.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Room {
     static int roomIdCounter = 0;
+    @Id
     private int roomId;
     private String name;
 

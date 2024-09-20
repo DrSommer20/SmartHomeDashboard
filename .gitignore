@@ -46,3 +46,6 @@ buildNumber.properties
 #vscode
 .vscode/
 .json
+
+# Ignore .env file
+.env

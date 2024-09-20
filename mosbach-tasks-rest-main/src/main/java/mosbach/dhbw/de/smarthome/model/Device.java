@@ -1,6 +1,11 @@
 package mosbach.dhbw.de.smarthome.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Device {
+    @Id
     private String id;
     private String name;
     private String type;

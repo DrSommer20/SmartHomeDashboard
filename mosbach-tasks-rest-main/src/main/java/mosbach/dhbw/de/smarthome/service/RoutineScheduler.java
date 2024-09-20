@@ -1,6 +1,8 @@
 package mosbach.dhbw.de.smarthome.service;
 
 import mosbach.dhbw.de.smarthome.model.Action;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -18,6 +20,12 @@ public class RoutineScheduler {
     private ScheduledFuture<?> scheduledTask;
     private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
     private final List<Action> actions;
+
+    @Autowired
+    private DeviceService deviceService;
+
+    @Autowired
+    private SmartThings smartThings;
 
     // Constructor to create the TaskScheduler instance
     public RoutineScheduler(List<Action> actions) {
@@ -52,11 +60,11 @@ public class RoutineScheduler {
         System.out.println("Executing routine at: " + LocalDateTime.now());
         for (Action action : actions) {
             System.out.println("Device ID: " + action.getDeviceID() + ", Action: " + action.getAction());
-            boolean response = SmartThings.setDeviceStatus(action.getAction(),action.getDeviceID(), "switch",action.getUser().getPat());
+            boolean response = smartThings.setDeviceStatus(action.getAction(),action.getDeviceID(), "switch",action.getUser().getPat());
             System.out.println("Response: "+ response);
             if(response) {
-                if(SmartThings.isSwitchOn(action.getDeviceID(), action.getUser().getPat())) DeviceService.getDeviceById(action.getDeviceID(), action.getUser()).setState("On");
-                else DeviceService.getDeviceById(action.getDeviceID(), action.getUser()).setState("Off");
+                if(smartThings.isSwitchOn(action.getDeviceID(), action.getUser().getPat())) deviceService.getDeviceById(action.getDeviceID(), action.getUser().getUserID()).setState("On");
+                else deviceService.getDeviceById(action.getDeviceID(), action.getUser().getUserID()).setState("Off");
             }
             else {
                 System.out.println("Failed to execute action.");
