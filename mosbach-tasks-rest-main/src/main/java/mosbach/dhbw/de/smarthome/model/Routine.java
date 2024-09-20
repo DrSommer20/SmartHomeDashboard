@@ -1,14 +1,17 @@
 package mosbach.dhbw.de.smarthome.model;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import mosbach.dhbw.de.smarthome.service.RoutineScheduler;
 
+@Entity
 public class Routine {
 
     private static int idCounter = 0;
+    @Id
     private String id;
     private String name;
     private List<Action> actions;

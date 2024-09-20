@@ -28,13 +28,8 @@ public class SmartThings {
 
     private static final String API_URL = "https://api.smartthings.com/v1/devices";
     private static ObjectMapper objectMapper = new ObjectMapper();
- //35df5c2a-ec4a-4283-9c9a-af7ec3d62464
-    public static void main(String[] args) {
-        getDeviceFullStatus("35df5c2a-ec4a-4283-9c9a-af7ec3d62464","81a66f03-0f26-4ca0-813a-fc27ba6343e5");
-        System.out.println(isOnline("35df5c2a-ec4a-4283-9c9a-af7ec3d62464","81a66f03-0f26-4ca0-813a-fc27ba6343e5"));
-    }
     
-    public static AllDevices getAllDevices(String accessToken){
+    public AllDevices getAllDevices(String accessToken){
         final HttpGet httpGet = new HttpGet(API_URL);	
         httpGet.setHeader("Authorization", "Bearer " + accessToken);
 
@@ -54,7 +49,7 @@ public class SmartThings {
         }
     }
 
-    public static DeviceST getDevice(String deviceID, String accessToken){
+    public DeviceST getDevice(String deviceID, String accessToken){
         final HttpGet httpGet = new HttpGet(API_URL);	
         httpGet.setHeader("Authorization", "Bearer " + accessToken);
 
@@ -68,7 +63,7 @@ public class SmartThings {
         }
     }
 
-    public static boolean setDeviceStatus(String status, String deviceID, String capabilityId, String accessToken){
+    public boolean setDeviceStatus(String status, String deviceID, String capabilityId, String accessToken){
         final HttpPost httpPost = new HttpPost(API_URL + "/" + deviceID + "/commands");	
         final String json = "{\"commands\":[{\"capability\":\""+capabilityId+"\",\"command\":\""+status+"\"}]}";
         StringEntity entity = null;
@@ -92,7 +87,7 @@ public class SmartThings {
         }
     }
     
-    public static GetFullStatusResponse getDeviceFullStatus(String deviceID, String accessToken ){
+    public GetFullStatusResponse getDeviceFullStatus(String deviceID, String accessToken ){
         final HttpGet httpGet = new HttpGet(API_URL + "/" + deviceID + "/components/main/status");	
         httpGet.setHeader("Authorization", "Bearer " + accessToken);
 
@@ -105,7 +100,7 @@ public class SmartThings {
         }
     }
     
-    public static boolean isSwitchOn(String deviceID, String accessToken ){
+    public boolean isSwitchOn(String deviceID, String accessToken ){
         final HttpGet httpGet = new HttpGet(API_URL + "/" + deviceID + "/components/main/capabilities/switch/status");	
         httpGet.setHeader("Authorization", "Bearer " + accessToken);
 
@@ -119,7 +114,7 @@ public class SmartThings {
         }
     }
 
-    public static boolean isOnline(String deviceID, String accessToken ){
+    public boolean isOnline(String deviceID, String accessToken ){
         final HttpGet httpGet = new HttpGet(API_URL + "/" + deviceID + "/components/main/capabilities/healthCheck/status");	
         httpGet.setHeader("Authorization", "Bearer " + accessToken);
 

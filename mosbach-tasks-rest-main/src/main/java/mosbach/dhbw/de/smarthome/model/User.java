@@ -3,8 +3,13 @@ package mosbach.dhbw.de.smarthome.model;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class User {
-    private static int userIDCounter;
+    private static int userIDCounter = 1;
+    @Id
     private int userID;
     private String firstName;
     private String lastName;

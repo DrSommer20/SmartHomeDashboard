@@ -4,21 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mosbach.dhbw.de.smarthome.model.User;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
         private static List<User> users = new ArrayList<>();
 
+        @Autowired
+        private AuthService authService;
+
+        
         static{
             users.add(new User("Max", "Mustermann", "max@mustermann.de", "1234"));
         }
 
-        public static void addUser(User user) {
+        public void addUser(User user) {
             users.add(user);
         }
 
-        public static User getUserByEmail(String email) {
+        public User getUserByEmail(String email) {
             for (User user : users) {
                 if (user.getEmail().equals(email)) {
                     return user;
@@ -27,7 +33,7 @@ public class UserService {
             return null;
         }
 
-        public static boolean deleteUser(String email) {
+        public boolean deleteUser(String email) {
             User existingUser = getUserByEmail(email);
             if (existingUser != null) {
                 users.remove(existingUser);
@@ -36,7 +42,11 @@ public class UserService {
             return false;
         }
 
-        static List<User> getAllUsers() {
+        List<User> getAllUsers() {
             return users;
+        }
+
+        public User getUser(String token){
+            return getUserByEmail(authService.extractUsername(token));
         }
 }

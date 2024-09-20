@@ -1,5 +1,6 @@
 package mosbach.dhbw.de.smarthome.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +19,19 @@ import mosbach.dhbw.de.smarthome.dto.MessageAnswer;
 import mosbach.dhbw.de.smarthome.dto.MessageReason;
 import mosbach.dhbw.de.smarthome.dto.UserDTO;
 import mosbach.dhbw.de.smarthome.model.User;
-import mosbach.dhbw.de.smarthome.service.AuthService;
 import mosbach.dhbw.de.smarthome.service.UserService;
 
 @CrossOrigin(origins = "https://smarthomefrontend-surprised-oryx-bl.apps.01.cf.eu01.stackit.cloud", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
+    @Autowired
+    private UserService userService;
     
     @GetMapping
     public ResponseEntity<?> getUser(@RequestHeader("Authorization") String token) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
             return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
         }
@@ -44,8 +47,8 @@ public class UserController {
         User user = null;
         if(userRequest.getPat() != null) user = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail(), userRequest.getPasswort(), userRequest.getPat());
         else user = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail(), userRequest.getPasswort());
-        if(UserService.getUserByEmail(user.getEmail()) == null){
-            UserService.addUser(user);
+        if(userService.getUserByEmail(user.getEmail()) == null){
+            userService.addUser(user);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account created"), HttpStatus.OK);
         }
         else{
@@ -57,9 +60,9 @@ public class UserController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String token) {   
-        User user = AuthService.getUser(token);     
+        User user = userService.getUser(token);    
         if(user != null){
-            UserService.deleteUser(user.getEmail());
+            userService.deleteUser(user.getEmail());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account deleted"), HttpStatus.OK);
         }
         else {
@@ -69,7 +72,7 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<?> changeUser(@RequestHeader("Authorization") String token, @RequestBody ChangeRequest changeRequest) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if (user != null) {
             switch(changeRequest.getField()){
                 case "firstName":

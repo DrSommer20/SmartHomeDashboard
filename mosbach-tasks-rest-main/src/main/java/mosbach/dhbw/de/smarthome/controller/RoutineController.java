@@ -1,5 +1,6 @@
 package mosbach.dhbw.de.smarthome.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,19 +22,25 @@ import mosbach.dhbw.de.smarthome.dto.MessageReason;
 import mosbach.dhbw.de.smarthome.dto.RoutineDTO;
 import mosbach.dhbw.de.smarthome.model.Routine;
 import mosbach.dhbw.de.smarthome.model.User;
-import mosbach.dhbw.de.smarthome.service.AuthService;
 import mosbach.dhbw.de.smarthome.service.RoutineService;
+import mosbach.dhbw.de.smarthome.service.UserService;
 
 @CrossOrigin(origins = "https://smarthomefrontend-surprised-oryx-bl.apps.01.cf.eu01.stackit.cloud", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/routine")
 public class RoutineController {
+
+    @Autowired
+    private RoutineService routineService;
+
+    @Autowired
+    private UserService userService;
     
     @GetMapping
     public ResponseEntity<?> getAllRoutines(@RequestHeader("Authorization") String token) { 
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
-            AllRoutines allRoutines = AllRoutines.convertToDTO(RoutineService.getRoutines(user));
+            AllRoutines allRoutines = AllRoutines.convertToDTO(routineService.getRoutines(user));
             return new ResponseEntity<>(allRoutines, HttpStatus.OK);
         }
          return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
@@ -43,10 +50,10 @@ public class RoutineController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> createRoutine(@RequestHeader("Authorization") String token, @RequestBody RoutineDTO routinePostRequest) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
             Routine routine = RoutineDTO.convertToModel(routinePostRequest, user);
-            RoutineService.addRoutine(user, routine);
+            routineService.addRoutine(user, routine);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine created"),HttpStatus.OK);
         }
         else{
@@ -59,9 +66,9 @@ public class RoutineController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> getRoutine(@PathVariable String id, @RequestHeader("Authorization") String token) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
-            Routine routine = RoutineService.getRoutineByID(id, user);
+            Routine routine = routineService.getRoutineByID(id, user);
             if(routine != null){
                 return new ResponseEntity<>(RoutineDTO.convertToDTO(routine), HttpStatus.OK);
             }
@@ -79,9 +86,9 @@ public class RoutineController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> deleteRoutine(@PathVariable String id, @RequestHeader("Authorization") String token) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
-            if(RoutineService.deleteRoutine(id, user)){
+            if(routineService.deleteRoutine(id, user)){
                 return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine deleted"), HttpStatus.OK);
             }
             else{
@@ -98,9 +105,9 @@ public class RoutineController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> changeRoutine(@PathVariable String id, @RequestHeader("Authorization") String token,@RequestBody RoutineDTO changeRequest) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
-            Routine routine = RoutineService.getRoutineByID(id, user);
+            Routine routine = routineService.getRoutineByID(id, user);
             if(routine != null){
                 routine.setName(changeRequest.getName());
                 routine.setActions(ActionDTO.convertToModel(changeRequest.getActions(), user));

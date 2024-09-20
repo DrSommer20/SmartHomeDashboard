@@ -3,6 +3,7 @@ package mosbach.dhbw.de.smarthome.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,20 +25,25 @@ import mosbach.dhbw.de.smarthome.dto.MessageReason;
 import mosbach.dhbw.de.smarthome.dto.RoomDTO;
 import mosbach.dhbw.de.smarthome.model.Room;
 import mosbach.dhbw.de.smarthome.model.User;
-import mosbach.dhbw.de.smarthome.service.AuthService;
 import mosbach.dhbw.de.smarthome.service.RoomService;
+import mosbach.dhbw.de.smarthome.service.UserService;
 
 @CrossOrigin(origins = "https://smarthomefrontend-surprised-oryx-bl.apps.01.cf.eu01.stackit.cloud", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/room")
 public class RoomController {
     
+    @Autowired
+    private RoomService roomService;
+
+    @Autowired
+    private UserService userService;
     
     @GetMapping
     public ResponseEntity<?> getAllRooms(@RequestHeader("Authorization") String token) { 
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
-            List<Room> rooms = RoomService.getRooms(user);
+            List<Room> rooms = roomService.getRooms(user);
             List<RoomDTO> roomDTOs = new ArrayList<>();
 
             for(Room room : rooms){
@@ -55,10 +61,10 @@ public class RoomController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> createRoom(@RequestHeader("Authorization") String token, @RequestBody RoomDTO roomDTO) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
             Room room = new Room(roomDTO.getName());
-            RoomService.addRoom(room, user);
+            roomService.addRoom(room, user);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Room created"), HttpStatus.OK);
         }
         else{
@@ -68,9 +74,9 @@ public class RoomController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getRoom(@PathVariable String id, @RequestHeader("Authorization") String token) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
-            Room room = RoomService.getRoomById(id, user);
+            Room room = roomService.getRoomById(id, user);
             if(room == null) return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<RoomDTO>(new RoomDTO(room), HttpStatus.OK);
         }
@@ -81,9 +87,9 @@ public class RoomController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRoom(@PathVariable String id, @RequestHeader("Authorization") String token) {
-        User user = AuthService.getUser(token);
+        User user = userService.getUser(token);
         if(user != null){
-            boolean result = RoomService.removeRoom(id, user);
+            boolean result = roomService.removeRoom(id, user);
             if(!result){
                 return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
             }
@@ -99,11 +105,9 @@ public class RoomController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> changeRoom(@RequestHeader("Authorization") String token, @PathVariable String id, @RequestBody ChangeRequest changeRequest) {
-        User user = AuthService.getUser(token);
-
-
+        User user = userService.getUser(token);
         if (user != null) {
-            Room room = RoomService.getRoomById(id, user);
+            Room room = roomService.getRoomById(id, user);
             if(room == null){
                 return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
             }
