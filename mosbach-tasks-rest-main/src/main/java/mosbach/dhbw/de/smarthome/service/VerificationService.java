@@ -30,9 +30,6 @@ public class VerificationService {
                     "Best regards,\n" +
                     "Your App Support Team\n";
 
-        
-
-
         try {
             HtmlEmail email = new HtmlEmail();
             email.setHostName(smtpHost);

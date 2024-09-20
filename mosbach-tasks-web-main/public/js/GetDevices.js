@@ -24,7 +24,7 @@ function displayDevices(devices) {
     const contentDiv = document.getElementById('content');
     var index = 1;
     contentDiv.innerHTML = "";
-    if(device !== undefined){
+    if(devices !== undefined){
         devices.forEach(device => {
                 const uniqueId = 'toggleCheckbox' + index;
                 const deviceDiv = document.createElement('div');
@@ -63,8 +63,9 @@ function displayDevices(devices) {
 
             checkbox.addEventListener('change', handleCheckboxChange);
             index++;
-        }
-    });
+            }
+        );
+    }
 }
     //Symbole
     function getDeviceIcon(type) {

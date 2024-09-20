@@ -18,6 +18,7 @@ public class UserService {
         
         static{
             users.add(new User("Max", "Mustermann", "max@mustermann.de", "1234"));
+            users.get(0).setVerified(true);
         }
 
         public void addUser(User user) {

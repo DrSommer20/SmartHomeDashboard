@@ -70,7 +70,7 @@ function signUp(event) {
     console.log('Sign Up Data:', signUpData);
 
     $.ajax({
-        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/user',
+        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/auth/sign-up',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(signUpData),
@@ -79,7 +79,7 @@ function signUp(event) {
             $('#sign-up-failure').hide();
             $('#sign-up-success').show();
         },
-        error: function(xhr, status, error) {
+        error: function(status, error) {
             console.error('Error:', status, error);
             $('#sign-up-failure').show();
             $('#sign-up-success').hide();
