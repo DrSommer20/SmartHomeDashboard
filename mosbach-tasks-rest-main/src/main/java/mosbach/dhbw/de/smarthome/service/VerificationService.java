@@ -11,7 +11,7 @@ public class VerificationService {
         int smtpPort = EnvConfig.getSmtpPort();
         String smtpUsername = EnvConfig.getSmtpUsername();
         String smtpPassword = EnvConfig.getSmtpPassword();
-        String appName = EnvConfig.getAppName();
+        String appName = "Smart Home Dashboard";
 
         String body = "<html>" +
                     "<p>Hi there,</p>" +
