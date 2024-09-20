@@ -16,6 +16,7 @@ public class User {
     private String email;
     private String password;
     private String pat;
+    private boolean isVerified;
     private static PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
 
@@ -26,6 +27,7 @@ public class User {
         this.email = email;
         this.password = passwordEncoder.encode(password);
         this.pat = "";
+        this.isVerified = false;
     }
 
     public User(String firstName, String lastName, String email, String password, String pat) {
@@ -75,6 +77,14 @@ public class User {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
     }
 
     //Functions

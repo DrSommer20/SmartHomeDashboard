@@ -11,7 +11,7 @@ public class VerificationService {
         int smtpPort = EnvConfig.getSmtpPort();
         String smtpUsername = EnvConfig.getSmtpUsername();
         String smtpPassword = EnvConfig.getSmtpPassword();
-        String appName = EnvConfig.getAppName();
+        String appName = "Smart Home Dashboard";
 
         String body = "<html>" +
                     "<p>Hi there,</p>" +
@@ -29,9 +29,6 @@ public class VerificationService {
                     "If you didn't request this email, you can safely ignore it.\n\n" +
                     "Best regards,\n" +
                     "Your App Support Team\n";
-
-        
-
 
         try {
             HtmlEmail email = new HtmlEmail();
