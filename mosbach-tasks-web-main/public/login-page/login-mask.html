@@ -1,65 +1,77 @@
 <!DOCTYPE html>
 <html lang="de">
+<head>
+    <title>Log In</title>
     <link rel="stylesheet" href="../css/login.css">
+    <meta charset="utf-8">
+</head>
+<body>
 <section class="forms-section">
     <div class ="row">
         <div class="col-md-6 mx-auto p-0">
-            <div class="card">    
-    <div class="login-box">
-        <div class="login-snip">
-            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Login</label>
-            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
-            <div class="login-space" id="login-space">
-                <div class="login">
-                    <div class="group">
-                        <label for="user" class="label">E-mail</label>
-                        <input id="login-mail" type="text" class="input"  placeholder="Enter your username">
-                    </div>
-                    <div class="group">
-                        <label for="pass" class="label">Password</label>
-                        <input id="pass" type="password" class="input" data-type="password" placeholder="Enter your password">
-                    </div>
-                    <div class="group">
-                        <input id="check" type="checkbox" class="check" checked>
-                        <label for="check"><span class="icon"></span> Keep me Signed in</label>
-                    </div>
-                    <div class="group">
-                        <input type="submit" class="button" value="Sign In">
-                    </div>
-                </div>
-                <div class="sign-up-form" id="sign-up-form">
-                    <div class="group">
-                        <label for="userfirstname" class="label">First Name</label>
-                        <input id="userfirstname" type="text" class="input" placeholder="Enter your first name">
-                    </div>
-                    <div class="group">
-                        <label for="userlastname" class="label">Last Name</label>
-                        <input id="userlastname" type="text" class="input" placeholder="Enter your last name">
-                    </div>
-                    <div class="group">
-                        <label for="pass" class="label">Email Address</label>
-                        <input id="email" type="text" class="input" placeholder="Enter your email address">
-                    </div>
-                    <div class="group">
-                        <label for="pass" class="label">Password</label>
-                        <input id="password" type="password" class="input" data-type="password" placeholder="Create your password">
-                    </div>
-                    <div class="group">
-                        <label for="userpat" class="label">First Name</label>
-                        <input id="userpat" type="text" class="input" placeholder="Enter your SmartThings PAT (Optional)">
-                    </div>
-                    
-                    <div class="group">
-                        <input type="submit" class="button" value="Sign Up">
+            <div class="card">
+                <div class="login-box">
+                    <div class="login-snip">
+                        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Login</label>
+                        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+                        <div class="login-space" id="login-space">
+                            <form class="login" id="login-form">
+                                <div class="group">
+                                    <label for="login-mail" class="label">E-mail</label>
+                                    <input id="login-mail" type="text" class="input"  placeholder="Enter your username">
+                                </div>
+                                <div class="group">
+                                    <label for="pass" class="label">Password</label>
+                                    <input id="pass" type="password" class="input" data-type="password" placeholder="Enter your password">
+                                </div>
+                                <div class="group">
+                                    <input id="check" type="checkbox" class="check" checked>
+                                    <label for="check"><span class="icon"></span> Keep me Signed in</label>
+                                </div>
+                                <div class="group">
+                                    <input type="submit" class="button" value="Sign In">
+                                </div>
+                            </form>
+                            <form class="sign-up-form" id="sign-up-form">
+                                <div class="group">
+                                    <label for="userfirstname" class="label" >First Name</label>
+                                    <input id="userfirstname" type="text" class="input" placeholder="Enter your first name" required>
+                                </div>
+                                <div class="group">
+                                    <label for="userlastname" class="label">Last Name</label>
+                                    <input id="userlastname" type="text" class="input" placeholder="Enter your last name" required>
+                                </div>
+                                <div class="group">
+                                    <label for="useremail" class="label">Email Address</label>
+                                    <input id="useremail" type="email" class="input" placeholder="Enter your email address" required>
+                                </div>
+                                <div class="group">
+                                    <label for="userpassword" class="label">Password</label>
+                                    <input id="userpassword" type="password" class="input" data-type="password" placeholder="Create your password" minlength="6" required>
+                                </div>
+                                <div class="group">
+                                    <label for="userpat" class="label">First Name</label>
+                                    <input id="userpat" type="text" class="input" placeholder="Enter your SmartThings PAT (Optional)">
+                                </div>
+
+                                <div class="group">
+                                    <input type="submit" class="button" value="Sign Up">
+                                </div>
+                                <div id="sign-up-success" class="sign-up-message">
+                                    <p>Sign up completed<br/>Please check your Mail to verify </p>
+                                </div>
+                                <div id="sign-up-failure" class="sign-up-message">
+                                    <p>Sign up failed<br/>Please try again</p>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>   
     </div>
-    </div>
-    </div>    
-  </section>
+</section>
+</body>
   <script src="../js/jquery-3.6.0.min.js"></script>
 <script src="../js/LoginMask.js"></script>
 </html>

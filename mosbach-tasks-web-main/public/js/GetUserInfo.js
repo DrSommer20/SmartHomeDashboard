@@ -49,7 +49,7 @@ $("#user-editButton").click(function() {
                 updateField('email', currentData.email);
             }
             if (response.password !== currentData.password) {
-                updateField('passwort', currentData.password);
+                updateField('password', currentData.password);
             }
            // if (response.pat !== currentData.pat) {
            //     updateField('pat', currentData.pat);

@@ -41,9 +41,9 @@ public class UserController {
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> createUser(@RequestBody UserDTO userRequest) {
-        User user = null;
-        if(userRequest.getPat() != null) user = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail(), userRequest.getPasswort(), userRequest.getPat());
-        else user = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail(), userRequest.getPasswort());
+        User user;
+        if(userRequest.getPat() != null) user = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail(), userRequest.getPassword(), userRequest.getPat());
+        else user = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail(), userRequest.getPassword());
         if(UserService.getUserByEmail(user.getEmail()) == null){
             UserService.addUser(user);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account created"), HttpStatus.OK);

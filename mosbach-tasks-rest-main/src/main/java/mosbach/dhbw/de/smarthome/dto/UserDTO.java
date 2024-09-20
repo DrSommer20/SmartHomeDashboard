@@ -20,8 +20,8 @@ public class UserDTO {
     private String lastName;
     @JsonProperty("email")
     private String email;
-    @JsonProperty("passwort")
-    private String passwort;
+    @JsonProperty("password")
+    private String password;
     @JsonProperty("pat")
     private String pat;
     @JsonIgnore
@@ -38,15 +38,15 @@ public class UserDTO {
      * 
      * @param firstName
      * @param lastName
-     * @param passwort
+     * @param password
      * @param email
      */
-    public UserDTO(String firstName, String lastName, String email, String passwort, String pat) {
+    public UserDTO(String firstName, String lastName, String email, String password, String pat) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.passwort = passwort;
+        this.password = password;
         this.pat = pat;
     }
 
@@ -54,7 +54,7 @@ public class UserDTO {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
-        this.passwort = "";
+        this.password = "";
         this.pat = user.getPat();
     }
 
@@ -88,14 +88,14 @@ public class UserDTO {
         this.email = email;
     }
 
-    @JsonProperty("passwort")
-    public String getPasswort() {
-        return passwort;
+    @JsonProperty("password")
+    public String getPassword() {
+        return password;
     }
 
-    @JsonProperty("passwort")
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
+    @JsonProperty("password")
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @JsonProperty("pat")
