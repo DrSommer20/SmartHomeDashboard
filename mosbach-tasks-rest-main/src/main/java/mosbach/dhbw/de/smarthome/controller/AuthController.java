@@ -88,8 +88,10 @@ public class AuthController {
 
     @PostMapping("/validate-token")
     public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String token){
+        System.out.println(token);
         if(!authService.isTokenExpired(token)){
-            String newtoken = authService.generateToken(userService.getUser(authService.extractUsername(token)));
+            System.out.println(token);
+            String newtoken = authService.generateToken(userService.getUser(token));
             return new ResponseEntity<MessageToken>(new MessageToken(newtoken),HttpStatus.OK);
         }
         else {

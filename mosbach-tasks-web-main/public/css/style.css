@@ -160,8 +160,10 @@ body {
 }
 
 .user-profile .user-detail h3 {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
+  text-align: left;
+  margin-left: -2px;
 }
 
 
@@ -194,6 +196,19 @@ body {
   border: none;
   background-color: transparent;
   margin-left: -5px;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+}
+
+.user-p-btn:hover{
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.user-p-btn:hover .user-detail{
+  color: white;
 }
 
 /* 
