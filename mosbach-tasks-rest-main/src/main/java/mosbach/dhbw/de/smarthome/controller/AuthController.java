@@ -80,14 +80,19 @@ public class AuthController {
     }
     
     @DeleteMapping
-    public ResponseEntity<?> signOut(@RequestHeader("Authorization") String token) { //Sign out implementation
+    public ResponseEntity<?> signOut(@RequestHeader("Authorization") String token) { 
+        if(authService.isTokenExpired(token)) return new ResponseEntity<MessageAnswer>(new MessageAnswer("Wrong credentials"), HttpStatus.UNAUTHORIZED);
+        authService.invalidateToken(token);
         return new ResponseEntity<MessageAnswer>(new MessageAnswer("Logout successful"), HttpStatus.OK);
     }
 
     @PostMapping("/validate-token")
     public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String token){
+        System.out.println(token);
         if(!authService.isTokenExpired(token)){
-            return new ResponseEntity<>(HttpStatus.OK);
+            System.out.println(token);
+            String newtoken = authService.generateToken(userService.getUser(token));
+            return new ResponseEntity<MessageToken>(new MessageToken(newtoken),HttpStatus.OK);
         }
         else {
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Wrong credentials"), HttpStatus.UNAUTHORIZED);

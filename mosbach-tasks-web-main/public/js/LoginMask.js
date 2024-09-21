@@ -38,6 +38,7 @@ function loginSubmit(event){
         contentType: 'application/json',
         success: function (data) {
             localStorage.setItem('authToken', data.token); // Token im Local Storage speichern
+            console.log('Login successful', data);
             window.location.href = '../homepage.html'; // Weiterleitung auf eine andere Seite
         },
         data: JSON.stringify(loginData),
