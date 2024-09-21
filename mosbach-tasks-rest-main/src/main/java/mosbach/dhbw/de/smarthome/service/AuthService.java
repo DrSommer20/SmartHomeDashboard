@@ -19,9 +19,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
+    @Autowired
+    private TokenBlacklist tokenBlacklist;
+
     private String secretKey = EnvConfig.getJwtSecret();
 
-    private final long jwtExpiration = 1000 * 60 * 60 * 10;
+    private final long jwtExpiration = 1000 * 60 * 60 * 2;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -60,6 +63,9 @@ public class AuthService {
     }
 
     public boolean isTokenExpired(String token) {
+        if(tokenBlacklist.isTokenBlacklisted(token)) {
+            return true;
+        }
         return extractExpiration(token).before(new Date());
     }
 
@@ -89,5 +95,9 @@ public class AuthService {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public void invalidateToken(String token) {
+        tokenBlacklist.blacklistToken(token);
     }
 }

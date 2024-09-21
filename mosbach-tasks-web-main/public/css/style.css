@@ -174,6 +174,28 @@ body {
   border-radius: 4px;
 }
 
+.logout-button{
+  padding: 10px 10px 5px 10px;  
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: auto;
+  transition: 0.2s ease;
+}
+
+.logout-button:hover{
+  background-color: var(--dark-color);
+}
+
+.user-p-btn{
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  margin-left: -5px;
+}
+
 /* 
 ######################################################################
 ###########################Content CSS################################
