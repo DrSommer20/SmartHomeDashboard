@@ -1,18 +1,22 @@
 $(document).ready(function() {
     if($('#tab-2').is(':checked')) {
-        document.querySelector('.login-box').style.height = "650px";
+        $('#login-space').hide();
+        $('#sign-up-space').show();
     }
     else if($('#tab-1').is(':checked')) {
-        document.querySelector('.login-box').style.height = "500px";
+        $('#login-space').show();
+        $('#sign-up-space').hide();
     }
 });
 
 $('#tab-2').on('click', function() {
-    document.querySelector('.login-box').style.height="650px";
+    $('#login-space').hide();
+    $('#sign-up-space').show();
 });
 
 $('#tab-1').on('click', function() {
-    document.querySelector('.login-box').style.height="500px"; // Zurück zur normalen Größe
+    $('#login-space').show();
+    $('#sign-up-space').hide();
 });
 
 $('#login-form').on('submit', loginSubmit);
