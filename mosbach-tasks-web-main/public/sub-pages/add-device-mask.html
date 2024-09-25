@@ -14,6 +14,7 @@
   />
   <script src="../js/jquery-3.6.0.min.js"></script>
   <script src="../js/first.js"></script>
+  <script src="../js/AddDeviceJquery.js"></script>"
   <title>Smart Home Dashboard</title>
 </head>
 <body>
@@ -49,17 +50,20 @@
         >
       </li>
     </ul>
-    <a id="UserInfoPBtn" href="sub-pages/user-info.html">
     <div class="user-profile">
-      <div class="user-initials">
-        <h3 id="sidebarinitials"></h3>
-      </div>
-      <div class="user-detail">
-        <h3 id="sidebarfirstname"></h3>
-        <h3 id="sidebarlastname"></h3>
-      </div>
+      <button class="user-p-btn" id="user-profile-btn">
+        <div class="user-initials">
+          <h3 id="sidebarinitials"></h3>
+        </div>
+        <div class="user-detail">
+          <h3 id="sidebarfirstname"></h3>
+          <h3 id="sidebarlastname"></h3>
+        </div>
+        
+      </button>
+      <button id="logout-btn" class="logout-button"><span class="material-symbols-outlined">logout</span></button>
+
     </div>
-    </a>
   </nav>
 <div id="main-content">
   <header>
@@ -72,14 +76,20 @@
   <div class="row">
     <div class="col-md-4 col-sm-12">
       <div class="content-input" id="content">
-        <label for="deviceID" class="input-label">Device ID:</label>
-        <input type="text" id="deviceID"  required></input>
+        <label for="deviceSmartThings" class="input-label">SmartThings Connection:</label>
+        <select id="deviceSmartThings" required></select>
 
         <label for="deviceName" class="input-label">Device Name:</label>
         <input type="text" id="deviceName"  required></input>
 
         <label for="deviceType" class="input-label">Device Type:</label>
-        <input type="text" id="deviceType" name="deviceType" required></input>
+        <select id="deviceType" required>
+          <option value="light">Light</option>
+          <option value="table_lamp">Table Lamp</option>
+          <option value="floor_lamp">Floor Lamp</option>
+          <option value="outlet">Outlet</option>
+          <option value="mode_fan">Fan</option>
+        </select>
 
         <label for="deviceLocation" class="input-label">Location:</label>
         <input type="text" id="deviceLocation" name="deviceLocation" required></input>
