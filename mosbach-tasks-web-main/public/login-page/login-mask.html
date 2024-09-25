@@ -2,23 +2,27 @@
 <html lang="de">
 <head>
     <title>Log In</title>
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/login.css"> <!-- Verlinkung zur separaten CSS-Datei -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8">
 </head>
 <body>
-<section class="forms-section">
-    <div class ="row">
-        <div class="col-md-6 mx-auto p-0">
-            <div class="card">
+    <div class="custom-container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                 <div class="login-box">
                     <div class="login-snip">
-                        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Login</label>
-                        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+                        <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
+                        <label for="tab-1" class="tab">Login</label>
+                        <input id="tab-2" type="radio" name="tab" class="sign-up">
+                        <label for="tab-2" class="tab">Sign Up</label>
                         <div class="login-space" id="login-space">
+                            <!-- Login Form -->
                             <form class="login" id="login-form">
                                 <div class="group">
                                     <label for="login-mail" class="label">E-mail</label>
-                                    <input id="login-mail" type="text" class="input"  placeholder="Enter your username">
+                                    <input id="login-mail" type="text" class="input" placeholder="Enter your email">
                                 </div>
                                 <div class="group">
                                     <label for="pass" class="label">Password</label>
@@ -29,12 +33,15 @@
                                     <label for="check"><span class="icon"></span> Keep me Signed in</label>
                                 </div>
                                 <div class="group">
-                                    <input type="submit" class="button" value="Sign In">
+                                    <input type="submit" class="button btn btn-primary" value="Sign In">
                                 </div>
                             </form>
+                        </div>
+                            <div class="sign-up-space" id="sign-up-space">
+                            <!-- Sign-up Form -->
                             <form class="sign-up-form" id="sign-up-form">
                                 <div class="group">
-                                    <label for="userfirstname" class="label" >First Name</label>
+                                    <label for="userfirstname" class="label">First Name</label>
                                     <input id="userfirstname" type="text" class="input" placeholder="Enter your first name" required>
                                 </div>
                                 <div class="group">
@@ -50,28 +57,27 @@
                                     <input id="userpassword" type="password" class="input" data-type="password" placeholder="Create your password" minlength="6" required>
                                 </div>
                                 <div class="group">
-                                    <label for="userpat" class="label">First Name</label>
-                                    <input id="userpat" type="text" class="input" placeholder="Enter your SmartThings PAT (Optional)">
+                                    <label for="userpat" class="label">SmartThings PAT (Optional)</label>
+                                    <input id="userpat" type="text" class="input" placeholder="Enter your SmartThings PAT">
                                 </div>
-
                                 <div class="group">
-                                    <input type="submit" class="button" value="Sign Up">
+                                    <input type="submit" class="button btn btn-primary" value="Sign Up">
                                 </div>
                                 <div id="sign-up-success" class="sign-up-message">
-                                    <p>Sign up completed<br/>Please check your Mail to verify </p>
+                                    <p>Sign up completed<br/>Please check your Mail to verify</p>
                                 </div>
                                 <div id="sign-up-failure" class="sign-up-message">
                                     <p>Sign up failed<br/>Please try again</p>
                                 </div>
                             </form>
+                        
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/LoginMask.js"></script>
 </body>
-  <script src="../js/jquery-3.6.0.min.js"></script>
-<script src="../js/LoginMask.js"></script>
 </html>
