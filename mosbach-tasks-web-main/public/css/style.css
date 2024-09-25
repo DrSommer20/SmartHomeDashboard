@@ -223,7 +223,7 @@ body {
   padding: 25px;
   background-color: var(--secondary-color);
   color: var(--light-color);
-  margin: -30px -30px 30px -35px;
+  margin: -30px -30px 30px -42px;
   align-items: center;
   display: flex;
 }
@@ -346,6 +346,13 @@ body {
   margin: 10px 0 5px;
 }
 
+select{
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid var(--dark-color);
+}
+
 input {
   padding: 8px;
   margin-bottom: 15px;
@@ -394,3 +401,5 @@ height:100px;
 
 
 }
+
+
