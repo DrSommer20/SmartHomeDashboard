@@ -1,5 +1,4 @@
-/* Importing Google font - Poppins */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
 
 :root{
   --primary-color: #5fa8d3;
@@ -242,7 +241,7 @@ body {
   color:var(--secondary-color);
 }
 
-.device-separator { /* Sidebar Links Separator */
+.card-separator { /* Sidebar Links Separator */
   /* Just a really small div that looks like a line*/
   margin-bottom: 1rem;
   left: 0;
@@ -300,46 +299,27 @@ body {
   transition: color 0.3s;
 }
 
-.device{
+.display-card{
   padding: 20px;
   margin: 5px;
   background-color: var(--primary-color);
   border-radius: 20px;
 }
 
-.device h3 {
+.display-card h3 {
   font-size: 1.5rem;
 }
 
-.device p {
+.display-card p {
   font-size: 1rem;
   line-height: 1rem;
   color: var(--dark-color);
 }
 
-.device-button{
-  padding: 10px;
-  background-color: var(--secondary-color);
-  color: var(--light-color);
-  border: none;
-  border-radius: 5px;
-  width: 100%;
-  cursor: pointer;
-}
-
-
-
-
-.device-button:hover{
-  background-color: var(--dark-color);
-}
-
-
-/*LOGIN Mask*/
 .content-input {
   display: flex;
   flex-direction: column;
-  width: 25rem
+  min-width: 20vw;
 }
 
 .input-label {
@@ -403,3 +383,76 @@ height:100px;
 }
 
 
+
+.delete-action{
+  background-color: red;
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1vw;
+}
+
+.action{
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  display:flex;
+}
+
+.action-type{
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.action-group{
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  margin: 1vw;
+  width: 100%;
+}
+
+.add-action{
+  background-color: var(--grey-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+.action-device{
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.actions-display{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1vw;
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+  border-radius: 5px;
+  margin-bottom: 1vh;
+}
+
+.action-display{
+  padding: 1vw;
+  color: var(--light-color);
+  border-radius: 5px;
+  border: 1px solid;
+  margin: 1vh;
+}
+
+.action-display p {
+  color: var(--light-color);
+}

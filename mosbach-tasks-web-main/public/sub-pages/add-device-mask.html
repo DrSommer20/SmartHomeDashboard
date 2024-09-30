@@ -1,105 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-          rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    rel="stylesheet"
   />
-  <link rel="stylesheet" href="../css/style.css" />
-  <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-  />
-  <script src="../js/jquery-3.6.0.min.js"></script>
-  <script src="../js/first.js"></script>
-  <script src="../js/AddDeviceJquery.js"></script>"
-  <title>Smart Home Dashboard</title>
-</head>
-<body>
-  <nav class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <img src="../../ressources/logo.png" alt="logo" width="60" />
-      <h2>Smart Home <br />Hub</h2>
-    </div>
-    <ul class="sidebar-links">
-      <h4>
-        <span>Menu</span>
-        <div class="menu-separator"></div>
-      </h4>
-      <li>
-        <a href="../homepage.html">
-          <span class="material-symbols-outlined"> dashboard </span
-          >Dashboard</a>
-      </li>
-      <li>
-         <a href="Devices.html">
-          <span class="material-symbols-outlined"> Devices</span
-          >Devices</a>
-          </li>
-        </a>
-      <li>
-        <a href="Routines.html"
-          ><span class="material-symbols-outlined"> overview</span>Routines</a
-        >
-      </li>
-      <li>
-        <a href="Rooms.html"
-          ><span class="material-symbols-outlined">Room</span>Rooms</a
-        >
-      </li>
-    </ul>
-    <div class="user-profile">
-      <button class="user-p-btn" id="user-profile-btn">
-        <div class="user-initials">
-          <h3 id="sidebarinitials"></h3>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/first.js"></script>
+    <script src="../js/AddDeviceJquery.js"></script>
+    "
+    <title>Smart Home Dashboard</title>
+  </head>
+  <body>
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img src="../../ressources/logo.png" alt="logo" width="60" />
+        <h2>Smart Home <br />Hub</h2>
+      </div>
+      <ul class="sidebar-links">
+        <h4>
+          <span>Menu</span>
+          <div class="menu-separator"></div>
+        </h4>
+        <li>
+          <a href="../homepage.html">
+            <span class="material-symbols-outlined"> dashboard </span
+            >Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="Devices.html">
+            <span class="material-symbols-outlined"> Devices</span>Devices</a
+          >
+        </li>
+        <li>
+          <a href="Routines.html"
+            ><span class="material-symbols-outlined"> overview</span>Routines</a
+          >
+        </li>
+        <li>
+          <a href="Rooms.html"
+            ><span class="material-symbols-outlined">Room</span>Rooms</a
+          >
+        </li>
+      </ul>
+      <div class="user-profile">
+        <button class="user-p-btn" id="user-profile-btn">
+          <div class="user-initials">
+            <h3 id="sidebarinitials"></h3>
+          </div>
+          <div class="user-detail">
+            <h3 id="sidebarfirstname"></h3>
+            <h3 id="sidebarlastname"></h3>
+          </div>
+        </button>
+        <button id="logout-btn" class="logout-button">
+          <span class="material-symbols-outlined">logout</span>
+        </button>
+      </div>
+    </nav>
+    <div id="main-content">
+      <header>
+        <div class="header">
+          <h1>Add New Device</h1>
+          <!--Add Head Button-->
+          <button
+            onclick="location.href='Devices.html'"
+            id="HeadButton"
+            class="head-button"
+          >
+            Back
+          </button>
         </div>
-        <div class="user-detail">
-          <h3 id="sidebarfirstname"></h3>
-          <h3 id="sidebarlastname"></h3>
+      </header>
+      <div class="row">
+        <div class="col-md-4 col-sm-12">
+          <div class="content-input" id="content">
+            <label for="deviceSmartThings" class="input-label"
+              >SmartThings Connection:</label
+            >
+            <select id="deviceSmartThings" required></select>
+
+            <label for="deviceName" class="input-label">Device Name:</label>
+            <input type="text" id="deviceName" required />
+
+            <label for="deviceType" class="input-label">Device Type:</label>
+            <select id="deviceType" required>
+              <option value="light">Light</option>
+              <option value="table_lamp">Table Lamp</option>
+              <option value="floor_lamp">Floor Lamp</option>
+              <option value="outlet">Outlet</option>
+              <option value="mode_fan">Fan</option>
+            </select>
+
+            <label for="deviceLocation" class="input-label">Location:</label>
+            <input
+              type="text"
+              id="deviceLocation"
+              name="deviceLocation"
+              required
+            />
+
+            <button class="submit-button" id="AddDeviceSubmit">Add</button>
+          </div>
         </div>
-        
-      </button>
-      <button id="logout-btn" class="logout-button"><span class="material-symbols-outlined">logout</span></button>
-
-    </div>
-  </nav>
-<div id="main-content">
-  <header>
-    <div class="header">
-      <h1>Add New Device</h1>
-      <!--Add Head Button-->
-      <button onclick="location.href='Devices.html'" id="HeadButton" class="head-button">Back</button>
-    </div>
-  </header>
-  <div class="row">
-    <div class="col-md-4 col-sm-12">
-      <div class="content-input" id="content">
-        <label for="deviceSmartThings" class="input-label">SmartThings Connection:</label>
-        <select id="deviceSmartThings" required></select>
-
-        <label for="deviceName" class="input-label">Device Name:</label>
-        <input type="text" id="deviceName"  required></input>
-
-        <label for="deviceType" class="input-label">Device Type:</label>
-        <select id="deviceType" required>
-          <option value="light">Light</option>
-          <option value="table_lamp">Table Lamp</option>
-          <option value="floor_lamp">Floor Lamp</option>
-          <option value="outlet">Outlet</option>
-          <option value="mode_fan">Fan</option>
-        </select>
-
-        <label for="deviceLocation" class="input-label">Location:</label>
-        <input type="text" id="deviceLocation" name="deviceLocation" required></input>
-
-        <button class="submit-button" id="AddDeviceSubmit">  Add</button>
       </div>
     </div>
-  </div>
-</div>
+  </body>
   <script src="../js/GetUserInfo.js"></script>
   <script src="../js/Sidebar.js"></script>
-  </body>
 </html>

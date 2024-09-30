@@ -36,7 +36,7 @@ function loginSubmit(event){
     };
 
     $.ajax({
-        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/auth',
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/auth',
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -75,7 +75,7 @@ function signUp(event) {
     console.log('Sign Up Data:', signUpData);
 
     $.ajax({
-        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/auth/sign-up',
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/auth/sign-up',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(signUpData),

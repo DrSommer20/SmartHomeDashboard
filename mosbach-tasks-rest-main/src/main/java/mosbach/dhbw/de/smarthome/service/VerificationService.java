@@ -47,12 +47,6 @@ public class VerificationService {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        VerificationService verificationService = new VerificationService();
-        String to = "timmi.sommer@gmail.com";
-        verificationService.sendVerificationEmail(to, "https://smarthomefrontend-surprised-oryx-bl.apps.01.cf.eu01.stackit.cloud");
-    }
 }
 
 

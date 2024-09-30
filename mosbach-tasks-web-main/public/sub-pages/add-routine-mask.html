@@ -1,78 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-          rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-  />
-  <link rel="stylesheet" href="../css/style.css" />
-  <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-  />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=dashboard,devices,overview,meeting_room,logout,schedule,light,table_lamp,floor_lamp,outlet,mode_fan&display=block"
+      rel="stylesheet"
+    />
     <script src="../js/jquery-3.6.0.min.js"></script>
     <script src="../js/first.js"></script>
-  <title>Smart Home Dashboard</title>
-</head>
-<body>
+    <script src="../js/AddRoutine.js"></script>
+    <title>Smart Home Dashboard</title>
+  </head>
+  <body>
     <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-          <img src="../../ressources/logo.png" alt="logo" width="60" />
-          <h2>Smart Home <br />Hub</h2>
-        </div>
-        <ul class="sidebar-links">
-          <h4>
-            <span>Menu</span>
-            <div class="menu-separator"></div>
-          </h4>
-          <li>
-            <a href="../homepage.html">
-              <span class="material-symbols-outlined"> dashboard </span
-              >Dashboard</a>
-          </li>
-          <li>
-             <a href="Devices.html">
-              <span class="material-symbols-outlined"> Devices</span
-              >Devices</a>
-              </li>
-            </a>
-          <li>
-            <a href="Routines.html"
-              ><span class="material-symbols-outlined"> overview</span>Routines</a
-            >
-          </li>
-          <li>
-            <a href="Rooms.html"
-              ><span class="material-symbols-outlined">Room</span>Rooms</a
-            >
-          </li>
-        </ul>
-        <div class="user-profile">
-          <button class="user-p-btn" id="user-profile-btn">
-            <div class="user-initials">
-              <h3 id="sidebarinitials"></h3>
-            </div>
-            <div class="user-detail">
-              <h3 id="sidebarfirstname"></h3>
-              <h3 id="sidebarlastname"></h3>
-            </div>
-            
+      <div class="sidebar-header">
+        <img src="../../ressources/logo.png" alt="logo" width="60" />
+        <h2>Smart Home <br />Hub</h2>
+      </div>
+      <ul class="sidebar-links">
+        <h4>
+          <span>Menu</span>
+          <div class="menu-separator"></div>
+        </h4>
+        <li>
+          <a href="../homepage.html">
+            <span class="material-symbols-outlined"> dashboard </span
+            >Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="Devices.html">
+            <span class="material-symbols-outlined"> Devices</span>Devices</a
+          >
+        </li>
+        <li>
+          <a href="Routines.html"
+            ><span class="material-symbols-outlined"> overview</span>Routines</a
+          >
+        </li>
+        <li>
+          <a href="Rooms.html"
+            ><span class="material-symbols-outlined">Room</span>Rooms</a
+          >
+        </li>
+      </ul>
+      <div class="user-profile">
+        <button class="user-p-btn" id="user-profile-btn">
+          <div class="user-initials">
+            <h3 id="sidebarinitials"></h3>
+          </div>
+          <div class="user-detail">
+            <h3 id="sidebarfirstname"></h3>
+            <h3 id="sidebarlastname"></h3>
+          </div>
+        </button>
+        <button id="logout-btn" class="logout-button">
+          <span class="material-symbols-outlined">logout</span>
+        </button>
+      </div>
+    </nav>
+    <div id="main-content">
+      <header>
+        <div class="header">
+          <h1>Add New Routine</h1>
+          <button
+            onclick="location.href='Routines.html'"
+            id="HeadButton"
+            class="head-button"
+          >
+            Back
           </button>
-          <button id="logout-btn" class="logout-button"><span class="material-symbols-outlined">logout</span></button>
-    
         </div>
-      </nav>
-<div id="main-content">
-  <header>
-    <div class="header">
-      <h1>Add New Routine</h1>
-      <button onclick="location.href='Routines.html'" id="HeadButton" class="head-button">Back</button>
+      </header>
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <form class="content-input" id="contentRoutine">
+            <label for="routine-name" class="input-label">Routine Name:</label>
+            <input type="text" id="routine-name" required />
+
+            <label for="routine-time">Trigger Time:</label>
+            <input type="time" id="routine-time" name="routine-time" required />
+            <div id="actions">
+              <h4>Actions</h4>
+              <div class="action">
+                <div class="action-group">
+                  <label for="action-device">Device:</label>
+                  <select class="action-device" required></select>
+                </div>
+                <div class="action-group">
+                  <label for="action-type">Action:</label>
+                  <select class="action-type" required>
+                    <option value="on">On</option>
+                    <option value="off">Off</option>
+                  </select>
+                </div>
+
+                <button type="button" class="delete-action">
+                  <span class="material-symbols-outlined">DELETE</span>
+                </button>
+              </div>
+            </div>
+            <button type="button" id="add-action" class="add-action">
+              Add Action
+            </button>
+            <button class="submit-button" id="AddDeviceSubmit">
+              Create Routine
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
-  </header>
-    <body>
     <script src="../js/GetUserInfo.js"></script>
     <script src="../js/Sidebar.js"></script>
-    </body>
+  </body>
 </html>

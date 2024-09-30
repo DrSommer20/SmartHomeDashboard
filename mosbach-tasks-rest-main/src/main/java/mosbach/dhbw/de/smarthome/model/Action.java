@@ -7,14 +7,16 @@ import jakarta.persistence.Id;
 public class Action {
     @Id
     private String deviceID;
+    private String deviceName;
     private String action;
-    private User user;
+    private int userID;
 
 
-    public Action(String deviceID, String action, User user) {
+    public Action(String deviceID, String deviceName, String action, int userID) {
         this.deviceID = deviceID;
+        this.deviceName = deviceName;
         this.action = action;
-        this.user = user;
+        this.userID = userID;
     }
 
     public String getDeviceID() {
@@ -24,6 +26,14 @@ public class Action {
 
     public void setDeviceID(String deviceID) {
         this.deviceID = deviceID;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
 
@@ -36,12 +46,12 @@ public class Action {
         this.action = action;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(int userID) {
+        this.userID = userID;
     }
 
     

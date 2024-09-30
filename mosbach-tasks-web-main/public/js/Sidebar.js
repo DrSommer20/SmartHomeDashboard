@@ -10,7 +10,7 @@ sidebar.addEventListener('mouseleave', () => {
 
 $("#logout-btn").click(function() {
     $.ajax({
-        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/auth',
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/auth',
         type: 'DELETE',
         headers: {
             'Authorization': localStorage.getItem('authToken')
@@ -18,7 +18,7 @@ $("#logout-btn").click(function() {
         success: function(response) {
             localStorage.removeItem('authToken');
             alert('Logout successful');
-            window.location.href = 'https://smarthomefrontend-surprised-oryx-bl.apps.01.cf.eu01.stackit.cloud/public/login-page/login-mask.html';
+            window.location.href = 'https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/public/login-page/login-mask.html';
         },
         error: function(error) {
             console.error('Error at Logout:', error);
@@ -27,7 +27,7 @@ $("#logout-btn").click(function() {
 });
 
 $("#user-profile-btn").click(function() {
-    location.href = 'https://smarthomefrontend-surprised-oryx-bl.apps.01.cf.eu01.stackit.cloud/public/sub-pages/user-info.html';
+    location.href = 'https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/public/sub-pages/user-info.html';
 });
 
 
