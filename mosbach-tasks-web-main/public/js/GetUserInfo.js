@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $.ajax({
-        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/user',
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/user',
         type: 'GET',
         headers: {
             'Authorization': localStorage.getItem('authToken')
@@ -14,7 +14,7 @@ $(document).ready(function() {
             $('#sidebarfirstname').html(response.firstName);
             $('#sidebarlastname').html(response.lastName);
             $('#sidebarinitials').html(response.firstName.charAt(0) + response.lastName.charAt(0));
-            //$('#userpat').val(response.pat);
+            $('#userpat').val(response.pat);
         },
         error: function(error) {
             console.error('Fehler bei der Anfrage:', error);
@@ -28,10 +28,10 @@ $("#user-editButton").click(function() {
         lastName: $('#userlastName').val(),
         email: $('#useremail').val(),
         password: $('#userpassword').val(),
-        //pat: $('#userpat').val()
+        pat: $('#userpat').val()
     };
     $.ajax({
-        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/user',
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/user',
         type: 'GET',
         headers: {
             'Authorization': localStorage.getItem('authToken')
@@ -51,9 +51,9 @@ $("#user-editButton").click(function() {
             if (response.password !== currentData.password) {
                 updateField('password', currentData.password);
             }
-           // if (response.pat !== currentData.pat) {
-           //     updateField('pat', currentData.pat);
-           //}
+            if (response.pat !== currentData.pat) {
+                updateField('pat', currentData.pat);
+           }
         },
         error: function(error) {
             console.error('Fehler beim Abrufen der aktuellen Daten:', error);
@@ -74,7 +74,7 @@ function updateField(field, newValue) {
         console.log(`Feld ${field} wird aktualisiert auf: ${newValue}`);
     }
     $.ajax({
-        url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/user',
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/user',
         type: 'PUT',
         datatype: 'json',
         headers: {

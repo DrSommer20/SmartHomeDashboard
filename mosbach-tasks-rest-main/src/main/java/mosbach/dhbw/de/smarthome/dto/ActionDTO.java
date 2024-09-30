@@ -21,6 +21,8 @@ public class ActionDTO {
 
     @JsonProperty("device_id")
     private String deviceId;
+    @JsonProperty("device_name")
+    private String deviceName;
     @JsonProperty("action")
     private String action;
     @JsonIgnore
@@ -38,10 +40,11 @@ public class ActionDTO {
      * @param action
      * @param deviceId
      */
-    public ActionDTO(String deviceId, String action) {
+    public ActionDTO(String deviceId, String deviceName, String action) {
         super();
         this.deviceId = deviceId;
         this.action = action;
+        this.deviceName = deviceName;
     }
 
     @JsonProperty("device_id")
@@ -52,6 +55,16 @@ public class ActionDTO {
     @JsonProperty("device_id")
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+
+    @JsonProperty("device_name")
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    @JsonProperty("device_name")
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
     @JsonProperty("action")
@@ -79,7 +92,7 @@ public class ActionDTO {
         if (actions != null) {
             actionDTOs = new ArrayList<ActionDTO>();
             for (Action action : actions) {
-                actionDTOs.add(new ActionDTO(action.getDeviceID(), action.getAction()));
+                actionDTOs.add(new ActionDTO(action.getDeviceID(), action.getDeviceName(), action.getAction()));
             }
         }
         return actionDTOs;
@@ -90,7 +103,7 @@ public class ActionDTO {
         if (actions != null) {
             actionModels = new ArrayList<Action>();
             for (ActionDTO actionDTO : actions) {
-                actionModels.add(new Action(actionDTO.getDeviceId(), actionDTO.getAction(), user));
+                actionModels.add(new Action(actionDTO.getDeviceId(), actionDTO.getDeviceName(), actionDTO.getAction(), user.getUserID()));
             }
         }
         return actionModels;

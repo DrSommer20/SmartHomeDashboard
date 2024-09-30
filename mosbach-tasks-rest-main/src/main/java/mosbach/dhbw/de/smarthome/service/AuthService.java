@@ -29,12 +29,10 @@ public class AuthService {
     private final long jwtExpiration = 1000 * 60 * 60 * 2;
 
     public String extractUsername(String token) {
-        System.err.println("Extracting username from token: " + token);
         return extractClaim(token, Claims::getSubject);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        System.err.println("Extracting claim from token: " + token);
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -86,7 +84,6 @@ public class AuthService {
     }
 
     private Claims extractAllClaims(String token) {
-        System.err.println("Extracting all claims from token: " + token);
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())

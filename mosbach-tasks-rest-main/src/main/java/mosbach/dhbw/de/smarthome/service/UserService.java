@@ -50,4 +50,11 @@ public class UserService {
         public User getUser(String token){
             return getUserByEmail(authService.extractUsername(token));
         }
+
+        public String getUserPATbyID(int userID){
+            for(User user : users){
+                if(user.getUserID() == userID) return user.getPat();
+            }
+            return null;
+        }
 }

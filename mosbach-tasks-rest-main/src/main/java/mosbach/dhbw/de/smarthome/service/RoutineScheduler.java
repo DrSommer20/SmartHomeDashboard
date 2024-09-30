@@ -25,6 +25,9 @@ public class RoutineScheduler {
     private DeviceService deviceService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private SmartThings smartThings;
 
     // Constructor to create the TaskScheduler instance
@@ -59,12 +62,12 @@ public class RoutineScheduler {
 
         System.out.println("Executing routine at: " + LocalDateTime.now());
         for (Action action : actions) {
-            System.out.println("Device ID: " + action.getDeviceID() + ", Action: " + action.getAction());
-            boolean response = smartThings.setDeviceStatus(action.getAction(),action.getDeviceID(), "switch",action.getUser().getPat());
+            System.out.println("Device ID: " + action.getDeviceID() + ", Action: " + action.getAction() + ", User-PAT: " + userService.getUserPATbyID(action.getUserID()));
+            boolean response = smartThings.setDeviceStatus(action.getAction(),action.getDeviceID(), "switch", userService.getUserPATbyID(action.getUserID()));
             System.out.println("Response: "+ response);
             if(response) {
-                if(smartThings.isSwitchOn(action.getDeviceID(), action.getUser().getPat())) deviceService.getDeviceById(action.getDeviceID(), action.getUser().getUserID()).setState("On");
-                else deviceService.getDeviceById(action.getDeviceID(), action.getUser().getUserID()).setState("Off");
+                if(smartThings.isSwitchOn(action.getDeviceID(),userService.getUserPATbyID(action.getUserID()))) deviceService.getDeviceById(action.getDeviceID(), action.getUserID()).setState("On");
+                else deviceService.getDeviceById(action.getDeviceID(), action.getUserID()).setState("Off");
             }
             else {
                 System.out.println("Failed to execute action.");

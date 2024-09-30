@@ -4,7 +4,7 @@ $(document).ready(function() {
 
     if (token) {
         $.ajax({
-            url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/auth/validate-email/'+token,
+            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/auth/validate-email/'+token,
             type: 'POST',
             success: function (data) {
                 console.log('Success:', data);

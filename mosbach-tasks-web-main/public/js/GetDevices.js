@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 function updateDevices(){
      $.ajax({
-            url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/device',
+            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device',
             type: 'GET',
             headers: {
                 'Authorization': localStorage.getItem('authToken')
@@ -30,13 +30,13 @@ function displayDevices(devices) {
                 const deviceDiv = document.createElement('div');
                 deviceDiv.classList.add('col-sm-12', 'col-md-12', 'col-lg-6', 'col-xl-4');
                 deviceDiv.innerHTML = `
-                <div class="device">
-                    <div class="device-header">
+                <div class="display-card">
+                    <div class="display-card-header">
                         <h3>
-                            <span class="material-symbols-outlined">${getDeviceIcon(device.type)}</span> ${device.name}
+                            <span class="material-symbols-outlined">${device.type}</span> ${device.name}
                         </h3>
                     </div>
-                    <div class="device-separator"></div>
+                    <div class="card-separator"></div>
                     <div class="device-info">
                         <p>Type: ${device.type}</p>
                         <p>Location: ${device.location}</p>
@@ -67,20 +67,11 @@ function displayDevices(devices) {
         );
     }
 }
-    //Symbole
-    function getDeviceIcon(type) {
-        switch(type.toLowerCase()) {
-            case 'light': return 'light';
-            case 'outlet': return 'outlet';
-            case 'lamp': return 'table_lamp';
-            default: return 'device_unknown';
-        }
-    }
 
 
     function handleChange(isChecked, device_id, uniqueId, checkboxElement){
             $.ajax({
-                url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/device/' + device_id + '/switch/'  + (isChecked ? 'on' : 'off'),
+                url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device/' + device_id + '/switch/'  + (isChecked ? 'on' : 'off'),
                 method: 'POST',
                 headers: {
                             'Authorization': localStorage.getItem('authToken')
@@ -97,7 +88,7 @@ function displayDevices(devices) {
 
     function onSuccess(device_id, uniqueId){
         $.ajax({
-                url: 'https://smarthomebackend-grumpy-squirrel-dr.apps.01.cf.eu01.stackit.cloud/api/device/' + device_id,
+                url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device/' + device_id,
                 type: 'GET',
                 headers: {
                     'Authorization': localStorage.getItem('authToken')

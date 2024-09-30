@@ -25,7 +25,7 @@ import mosbach.dhbw.de.smarthome.model.User;
 import mosbach.dhbw.de.smarthome.service.RoutineService;
 import mosbach.dhbw.de.smarthome.service.UserService;
 
-@CrossOrigin(origins = "https://smarthomefrontend-surprised-oryx-bl.apps.01.cf.eu01.stackit.cloud", allowedHeaders = "*")
+@CrossOrigin(origins = "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/routine")
 public class RoutineController {
