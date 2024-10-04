@@ -24,7 +24,7 @@
 hs_err_pid*
 replay_pid*
 
-
+smarthome-dashboard-rest/target
 target/
 pom.xml.tag
 pom.xml.releaseBackup
