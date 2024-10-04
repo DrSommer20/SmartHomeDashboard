@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet" />
+
+  <title>Smart Home Dashboard</title>
+</head>
+<body>
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="../ressources/logo.png" alt="logo" width="60" />
+      <h2>Smart Home <br />Hub</h2>
+    </div>
+    <ul class="sidebar-links">
+      <h4>
+        <span>Menu</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li>
+        <a href="homepage.html">
+          <span class="material-symbols-outlined"> dashboard </span>Dashboard
+        </a>
+      </li>
+      <li>
+        <a href="sub-pages/Devices.html">
+          <span class="material-symbols-outlined"> Devices</span>Devices
+        </a>
+      </li>
+      <li>
+        <a href="sub-pages/Routines.html"><span class="material-symbols-outlined"> overview</span>Routines</a>
+      </li>
+      <li>
+        <a href="sub-pages/Rooms.html"><span class="material-symbols-outlined">Room</span>Rooms</a>
+      </li>
+    </ul>
+    <div class="user-profile">
+      <button class="user-p-btn" id="user-profile-btn">
+        <div class="user-initials">
+          <h3 id="sidebarinitials"></h3>
+        </div>
+        <div class="user-detail">
+          <h3 id="sidebarfirstname"></h3>
+          <h3 id="sidebarlastname"></h3>
+        </div>
+      </button>
+      <button id="logout-btn" class="logout-button">
+        <span class="material-symbols-outlined">logout</span>
+      </button>
+    </div>
+  </nav>
+  <div id="main-content">
+    <header>
+      <div class="header">
+        <h1>Dashboard</h1>
+      </div>
+    </header>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="row" id="content"></div>
+      </div>
+      <div class="col-md-4">
+        <p>Secondary content area (1/3 width)</p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
