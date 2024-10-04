@@ -29,5 +29,5 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: |
-        cd mosbach-tasks-rest-main
+        cd smarthome-dashboard-rest
         mvn clean package test
