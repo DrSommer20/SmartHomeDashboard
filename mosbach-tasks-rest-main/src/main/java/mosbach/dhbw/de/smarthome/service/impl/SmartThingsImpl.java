@@ -1,4 +1,4 @@
-package mosbach.dhbw.de.smarthome.service;
+package mosbach.dhbw.de.smarthome.service.impl;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -21,10 +21,12 @@ import mosbach.dhbw.de.smarthome.dto.smartthings.GetFullStatusResponse;
 import mosbach.dhbw.de.smarthome.dto.smartthings.HealthCheck;
 import mosbach.dhbw.de.smarthome.dto.smartthings.SetStatusResponse;
 import mosbach.dhbw.de.smarthome.dto.smartthings.Switch;
+import mosbach.dhbw.de.smarthome.service.api.SmartThings;
+
 import org.springframework.stereotype.Service;
 
 @Service
-public class SmartThings {
+public class SmartThingsImpl implements SmartThings{
 
     private static final String API_URL = "https://api.smartthings.com/v1/devices";
     private static ObjectMapper objectMapper = new ObjectMapper();
@@ -99,7 +101,7 @@ public class SmartThings {
             return null;
         }
     }
-    
+    /* */
     public boolean isSwitchOn(String deviceID, String accessToken ){
         final HttpGet httpGet = new HttpGet(API_URL + "/" + deviceID + "/components/main/capabilities/switch/status");	
         httpGet.setHeader("Authorization", "Bearer " + accessToken);

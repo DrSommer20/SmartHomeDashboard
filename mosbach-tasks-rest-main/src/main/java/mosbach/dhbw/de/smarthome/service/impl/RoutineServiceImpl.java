@@ -1,4 +1,4 @@
-package mosbach.dhbw.de.smarthome.service;
+package mosbach.dhbw.de.smarthome.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,10 +7,12 @@ import java.util.List;
 
 import mosbach.dhbw.de.smarthome.model.Routine;
 import mosbach.dhbw.de.smarthome.model.User;
+import mosbach.dhbw.de.smarthome.service.api.RoutineService;
+
 import org.springframework.stereotype.Service;
 
 @Service
-public class RoutineService {
+public class RoutineServiceImpl implements RoutineService {
     private static HashMap<User, HashSet<Routine>> routines = new HashMap<User, HashSet<Routine>>();
 
     public void addRoutine(User user, Routine routine) {

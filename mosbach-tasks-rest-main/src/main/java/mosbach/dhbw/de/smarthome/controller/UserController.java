@@ -18,7 +18,7 @@ import mosbach.dhbw.de.smarthome.dto.MessageAnswer;
 import mosbach.dhbw.de.smarthome.dto.MessageReason;
 import mosbach.dhbw.de.smarthome.dto.UserDTO;
 import mosbach.dhbw.de.smarthome.model.User;
-import mosbach.dhbw.de.smarthome.service.UserService;
+import mosbach.dhbw.de.smarthome.service.api.UserService;
 
 @CrossOrigin(origins = "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", allowedHeaders = "*")
 @RestController

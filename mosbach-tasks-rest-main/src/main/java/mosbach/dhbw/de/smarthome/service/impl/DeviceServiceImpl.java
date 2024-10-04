@@ -1,4 +1,4 @@
-package mosbach.dhbw.de.smarthome.service;
+package mosbach.dhbw.de.smarthome.service.impl;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import mosbach.dhbw.de.smarthome.model.Device;
+import mosbach.dhbw.de.smarthome.service.api.DeviceService;
+
 import org.springframework.stereotype.Service;
 
 @Service
-public class DeviceService {
+public class DeviceServiceImpl implements DeviceService {
     private static HashMap<Integer, HashSet<Device>> deviceMap = new HashMap<Integer, HashSet<Device>>();
 
     public void addDevice(Device device, Integer userID) {
@@ -30,14 +32,13 @@ public class DeviceService {
     }
 
     public Device getDeviceById(String id, Integer userID) {
-        if (deviceMap.containsKey(userID)) {
-            for (Device device : deviceMap.get(userID)) {
-                if (device.getId().equals(id)) {
-                    return device;
-                }
-            }
-        }
-        return null;
+        if(deviceMap.get(userID) == null) return null;
+        return deviceMap
+                    .get(userID)
+                    .stream()
+                    .filter(device -> device.getId().equals(id))
+                    .findFirst()
+                    .orElse(null);
     }
 
     public boolean deleteDevice(String id, Integer userID) {
@@ -50,13 +51,5 @@ public class DeviceService {
             }
         }
         return false;
-    }
-
-    List<Device> getAllDevices() {
-        List<Device> devices = new ArrayList<>();
-        for (HashSet<Device> deviceSet : deviceMap.values()) {
-            devices.addAll(deviceSet);
-        }
-        return devices;
     }
 }

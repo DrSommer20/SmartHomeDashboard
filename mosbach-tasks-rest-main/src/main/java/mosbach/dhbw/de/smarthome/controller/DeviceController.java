@@ -28,9 +28,9 @@ import mosbach.dhbw.de.smarthome.dto.smartthings.DeviceST;
 import mosbach.dhbw.de.smarthome.dto.smartthings.GetFullStatusResponse;
 import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.User;
-import mosbach.dhbw.de.smarthome.service.DeviceService;
-import mosbach.dhbw.de.smarthome.service.SmartThings;
-import mosbach.dhbw.de.smarthome.service.UserService;
+import mosbach.dhbw.de.smarthome.service.api.DeviceService;
+import mosbach.dhbw.de.smarthome.service.api.SmartThings;
+import mosbach.dhbw.de.smarthome.service.api.UserService;
 
 @CrossOrigin(origins = "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", allowedHeaders = "*")
 @RestController

@@ -1,4 +1,4 @@
-package mosbach.dhbw.de.smarthome.service;
+package mosbach.dhbw.de.smarthome.service.impl;
 
 
 import java.security.Key;
@@ -17,14 +17,15 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import mosbach.dhbw.de.smarthome.model.User;
+import mosbach.dhbw.de.smarthome.service.api.AuthService;
 
 @Service
-public class AuthService {
+public class AuthServiceImpl implements AuthService {
 
     @Autowired
-    private TokenBlacklist tokenBlacklist;
+    private TokenBlacklistImpl tokenBlacklist;
 
-    private String secretKey = EnvConfig.getJwtSecret();
+    private String secretKey = System.getenv("JWT_SECRET");
 
     private final long jwtExpiration = 1000 * 60 * 60 * 2;
 
@@ -32,7 +33,7 @@ public class AuthService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -41,7 +42,7 @@ public class AuthService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, User userDetails) {
+    private String generateToken(Map<String, Object> extraClaims, User userDetails) {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
@@ -73,10 +74,6 @@ public class AuthService {
             return true;
         }
         
-    }
-
-    public long getExpirationTime() {
-        return jwtExpiration;
     }
 
     private Date extractExpiration(String token) {

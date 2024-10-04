@@ -1,16 +1,18 @@
-package mosbach.dhbw.de.smarthome.service;
+package mosbach.dhbw.de.smarthome.service.impl;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.stereotype.Service;
 
+import mosbach.dhbw.de.smarthome.service.api.VerificationService;
+
 @Service
-public class VerificationService {
+public class VerificationServiceImpl implements VerificationService {
     
     public void sendVerificationEmail(String to, String verificationLink) {
-        String smtpHost = EnvConfig.getSmtpHost();
-        int smtpPort = EnvConfig.getSmtpPort();
-        String smtpUsername = EnvConfig.getSmtpUsername();
-        String smtpPassword = EnvConfig.getSmtpPassword();
+        String smtpHost = System.getenv("SMTP_HOST");
+        int smtpPort = Integer.parseInt(System.getenv("SMTP_PORT"));
+        String smtpUsername = System.getenv("SMTP_USERNAME");
+        String smtpPassword = System.getenv("SMTP_PASSWORD");
         String appName = "Smart Home Dashboard";
 
         String body = "<html>" +

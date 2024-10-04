@@ -25,8 +25,8 @@ import mosbach.dhbw.de.smarthome.dto.MessageReason;
 import mosbach.dhbw.de.smarthome.dto.RoomDTO;
 import mosbach.dhbw.de.smarthome.model.Room;
 import mosbach.dhbw.de.smarthome.model.User;
-import mosbach.dhbw.de.smarthome.service.RoomService;
-import mosbach.dhbw.de.smarthome.service.UserService;
+import mosbach.dhbw.de.smarthome.service.api.RoomService;
+import mosbach.dhbw.de.smarthome.service.api.UserService;
 
 @CrossOrigin(origins = "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", allowedHeaders = "*")
 @RestController
@@ -43,7 +43,7 @@ public class RoomController {
     public ResponseEntity<?> getAllRooms(@RequestHeader("Authorization") String token) { 
         User user = userService.getUser(token);
         if(user != null){
-            List<Room> rooms = roomService.getRooms(user);
+            List<Room> rooms = roomService.getRooms(user.getUserID());
             List<RoomDTO> roomDTOs = new ArrayList<>();
 
             for(Room room : rooms){
@@ -64,7 +64,7 @@ public class RoomController {
         User user = userService.getUser(token);
         if(user != null){
             Room room = new Room(roomDTO.getName());
-            roomService.addRoom(room, user);
+            roomService.addRoom(room, user.getUserID());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Room created"), HttpStatus.OK);
         }
         else{
@@ -76,7 +76,7 @@ public class RoomController {
     public ResponseEntity<?> getRoom(@PathVariable String id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
-            Room room = roomService.getRoomById(id, user);
+            Room room = roomService.getRoomById(id, user.getUserID());
             if(room == null) return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<RoomDTO>(new RoomDTO(room), HttpStatus.OK);
         }
@@ -89,7 +89,7 @@ public class RoomController {
     public ResponseEntity<?> deleteRoom(@PathVariable String id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
-            boolean result = roomService.removeRoom(id, user);
+            boolean result = roomService.removeRoom(id, user.getUserID());
             if(!result){
                 return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
             }
@@ -107,7 +107,7 @@ public class RoomController {
     public ResponseEntity<?> changeRoom(@RequestHeader("Authorization") String token, @PathVariable String id, @RequestBody ChangeRequest changeRequest) {
         User user = userService.getUser(token);
         if (user != null) {
-            Room room = roomService.getRoomById(id, user);
+            Room room = roomService.getRoomById(id, user.getUserID());
             if(room == null){
                 return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
             }

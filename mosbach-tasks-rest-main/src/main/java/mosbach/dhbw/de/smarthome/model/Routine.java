@@ -5,7 +5,8 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import mosbach.dhbw.de.smarthome.service.RoutineScheduler;
+import mosbach.dhbw.de.smarthome.service.api.RoutineScheduler;
+import mosbach.dhbw.de.smarthome.service.impl.RoutineSchedulerImpl;
 
 @Entity
 public class Routine {
@@ -81,7 +82,7 @@ public class Routine {
     }
 
     public void refresh(){
-        this.routineScheduler.deactivateRoutine();
+        this.routineScheduler.deactivateDailyRoutine();
         if(state)activateRoutine();
         else routineScheduler = null;
 
@@ -89,12 +90,12 @@ public class Routine {
 
     public void activateRoutine() {
         LocalTime routineTime = LocalTime.parse(triggerTime);
-        this.routineScheduler = new RoutineScheduler(actions);
+        this.routineScheduler = new RoutineSchedulerImpl(actions);
         this.routineScheduler.activateDailyRoutine(routineTime);
     }
 
     public void deactivateRoutine() {
-        this.routineScheduler.deactivateRoutine();
+        this.routineScheduler.deactivateDailyRoutine();
     }
 }
 

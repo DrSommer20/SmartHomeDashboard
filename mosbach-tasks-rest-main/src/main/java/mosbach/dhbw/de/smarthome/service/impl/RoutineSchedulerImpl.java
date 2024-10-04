@@ -1,9 +1,4 @@
-package mosbach.dhbw.de.smarthome.service;
-
-import mosbach.dhbw.de.smarthome.model.Action;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+package mosbach.dhbw.de.smarthome.service.impl;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -15,8 +10,17 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import mosbach.dhbw.de.smarthome.model.Action;
+import mosbach.dhbw.de.smarthome.service.api.DeviceService;
+import mosbach.dhbw.de.smarthome.service.api.RoutineScheduler;
+import mosbach.dhbw.de.smarthome.service.api.SmartThings;
+import mosbach.dhbw.de.smarthome.service.api.UserService;
+
 @Service
-public class RoutineScheduler {
+public class RoutineSchedulerImpl implements RoutineScheduler {
     private ScheduledFuture<?> scheduledTask;
     private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
     private final List<Action> actions;
@@ -31,14 +35,14 @@ public class RoutineScheduler {
     private SmartThings smartThings;
 
     // Constructor to create the TaskScheduler instance
-    public RoutineScheduler(List<Action> actions) {
+    public RoutineSchedulerImpl(List<Action> actions) {
         this.actions = actions;
     }
 
     // Method to schedule the daily routine execution at a specific time
     public void activateDailyRoutine(LocalTime routineTime) {
         // Cancel the previous task if already scheduled
-        deactivateRoutine();
+        deactivateDailyRoutine();
 
         // Calculate the initial delay and interval for scheduling
         long initialDelay = calculateInitialDelay(routineTime);
@@ -51,7 +55,7 @@ public class RoutineScheduler {
     }
 
     // Method to deactivate the routine
-    public void deactivateRoutine() {
+    public void deactivateDailyRoutine() {
         if (scheduledTask != null && !scheduledTask.isCancelled()) {
             scheduledTask.cancel(true);
             System.out.println("Routine deactivated.");
