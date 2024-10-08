@@ -77,6 +77,28 @@
       </header>
       <div class="row" id="content"></div>
     </div>
+
+    <!-- Popup Mask-->
+    <div class="popup">
+      <div class="popup-content">
+        <div class="popup-header">
+          <h5>Edit Device</h5>
+          <button class="popup-close" id="closePopup"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <div class="popup-device">
+          <label for="deviceName" class="input-label">Device Name</label>
+          <input type="text" id="deviceName" name="deviceName">
+          <div class="popup-device-separator"></div>
+          <label for="deviceType" class="input-label">Device Type</label>
+          <input type="text" id="deviceType" name="deviceType">
+          <label for="deviceLocation" class="input-label">Device Location</label>
+          <input type="text" id="deviceLocation" name="deviceLocation">
+          <button class="popup-button" id="saveBtn">save</button>
+        </div>
+      </div>
+    </div>
+
+
   </body>
   <script src="../js/GetUserInfo.js"></script>
   <script src="../js/Sidebar.js"></script>

@@ -34,6 +34,7 @@ function displayDevices(devices) {
                     <div class="display-card-header">
                         <h3>
                             <span class="material-symbols-outlined">${device.type}</span> ${device.name}
+                            <button class="edit-button" id="device-edit-button">Edit</button>
                         </h3>
                     </div>
                     <div class="card-separator"></div>
@@ -109,4 +110,11 @@ function displayDevices(devices) {
             });
     }
 
+$(document).on('click', '#device-edit-button', function() {
+    $('.popup').css('display', 'flex');
+});
+
+$('.popup-close').click(function() {
+    $('.popup').css('display', 'none');
+});
 

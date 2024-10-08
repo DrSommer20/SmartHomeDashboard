@@ -456,3 +456,86 @@ height:100px;
 .action-display p {
   color: var(--light-color);
 }
+
+.edit-button{
+  color: var(--light-color);
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  margin-left: auto;
+}
+
+.edit-button:hover {
+  color: var(--primary-color);
+  background-color: var(--light-color);
+}
+/* PoP Up Fenster */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(110, 110, 110, 0.5); /* Halbtransparenter Hintergrund */
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+}
+.popup-content {
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  padding: 20px;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 500px;
+  position: relative;
+  text-align: center;
+}
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.popup-close {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  color: var(--light-color);
+  background-color: var(--dark-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popup-close:hover {
+  background-color: var(--light-color);
+  color: var(--dark-color);
+}
+.popup-device {
+  padding: 20px;
+  margin: 5px;
+  background-color: var(--dark-color);
+  border-radius: 20px;
+}
+.popup-device-separator {
+  margin-bottom: 1rem;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--light-color);
+}
+.popup-button {
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px;
+}
+.popup-button:hover {
+  background-color: var(--submit-color);
+  color: var(--light-color);
+}
