@@ -338,6 +338,7 @@ input {
   margin-bottom: 15px;
   border-radius: 4px;
   border: 1px solid var(--dark-color);
+  width: 100%;
 }
 
  .submit-button {
