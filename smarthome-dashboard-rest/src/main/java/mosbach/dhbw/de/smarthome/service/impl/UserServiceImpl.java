@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getUser(String token){
-        return getUserByEmail(authService.extractUsername(token));
+        return getUserByEmail(authService.extractEmail(token));
     }
 
     public String getUserPATbyID(int userID){

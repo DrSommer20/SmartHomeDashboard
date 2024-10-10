@@ -52,6 +52,16 @@ public class RoutineServiceImpl implements RoutineService {
         return false;
     }
 
+    @Override
+    public boolean switchRoutine(String id, boolean state, User user) {
+        Routine routine = getRoutineByID(id, user);
+        if (routine != null) {
+            routine.setState(state);
+            return true;
+        }
+        return false;
+    }
+
 
 }
 

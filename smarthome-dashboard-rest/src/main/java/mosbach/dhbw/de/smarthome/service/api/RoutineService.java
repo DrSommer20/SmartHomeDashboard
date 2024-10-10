@@ -10,4 +10,5 @@ public interface RoutineService {
     public  List<Routine> getRoutines(User user);
     public Routine getRoutineByID(String id, User user);
     public boolean deleteRoutine(String id, User user);
+    public boolean switchRoutine(String id, boolean state, User user);
 }

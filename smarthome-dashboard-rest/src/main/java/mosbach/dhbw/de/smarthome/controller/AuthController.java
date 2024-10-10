@@ -103,7 +103,7 @@ public class AuthController {
     public ResponseEntity<?> validateEmail(@PathVariable String validateToken){
         try {
             if (!authService.isTokenExpired(validateToken)) {
-                userService.getUserByEmail(authService.extractUsername(validateToken)).setVerified(true);;
+                userService.getUserByEmail(authService.extractEmail(validateToken)).setVerified(true);;
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(new MessageAnswer("Wrong credentials"), HttpStatus.UNAUTHORIZED);

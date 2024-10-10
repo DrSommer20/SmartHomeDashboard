@@ -29,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final long jwtExpiration = 1000 * 60 * 60 * 2;
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 

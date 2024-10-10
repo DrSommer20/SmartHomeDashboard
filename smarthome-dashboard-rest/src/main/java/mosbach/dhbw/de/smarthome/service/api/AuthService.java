@@ -4,7 +4,7 @@ import mosbach.dhbw.de.smarthome.model.User;
 
 public interface AuthService {
 
-    public String extractUsername(String token);
+    public String extractEmail(String token);
     public boolean isTokenExpired(String token);
     public String generateVerificationToken(User user);
     public void invalidateToken(String token);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mosbach.dhbw.de.smarthome.dto.ActionDTO;
@@ -124,6 +125,25 @@ public class RoutineController {
             return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
 
+    }
+
+    @PostMapping(
+        path = "/{id}/{state}",
+        consumes = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public ResponseEntity<?> switchRoutine(@RequestHeader("Authorization") String token, @RequestParam String state, @RequestParam String id) {
+        User user = userService.getUser(token);
+        if(user != null){
+            if(routineService.switchRoutine(id, state.equals("on"), user)){
+                return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine switched"), HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<MessageReason>(new MessageReason("Routine not found"), HttpStatus.NOT_FOUND);
+            }
+        }
+        else{
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
+        }
     }
 
 }
