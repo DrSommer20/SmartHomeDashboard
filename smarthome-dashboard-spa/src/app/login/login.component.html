@@ -1,0 +1,19 @@
+<div id="login-space" class="login-space">
+  <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" class="login">
+    <div class="group">
+      <label for="login-mail" class="label">E-mail</label>
+      <input id="login-mail" type="text" class="input" formControlName="email" placeholder="Enter your email" required />
+    </div>
+    <div class="group">
+      <label for="pass" class="label">Password</label>
+      <input id="pass" type="password" class="input" data-type="password" formControlName="password" placeholder="Enter your password" required />
+    </div>
+    <div class="group">
+      <input id="keepSignedIn" class="checkbox" type="checkbox" formControlName="keepSignedIn" />
+      <label class="checkbox-label" for="keepSignedIn"> Keep me signed in</label>
+    </div>
+    <div class="group">
+      <input type="submit" class="button btn btn-primary" value="Sign In">
+    </div>
+  </form>
+</div>

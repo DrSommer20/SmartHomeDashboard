@@ -28,7 +28,7 @@ import mosbach.dhbw.de.smarthome.model.User;
 import mosbach.dhbw.de.smarthome.service.api.RoomService;
 import mosbach.dhbw.de.smarthome.service.api.UserService;
 
-@CrossOrigin(origins = "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", allowedHeaders = "*")
+@CrossOrigin(origins = {"https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", "https://smarthome-spa.apps.01.cf.eu01.stackit.cloud/"}, allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/room")
 public class RoomController {

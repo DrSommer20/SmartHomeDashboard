@@ -1,1 +1,49 @@
-/* You can add global styles to this file, and also import other style files */
+/*!
+ * Bootstrap v4.0.0 (https://getbootstrap.com)
+ * Copyright 2011-2018 The Bootstrap Authors
+ * Copyright 2011-2018 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+:root {
+  --primary-color: #5fa8d3;
+  --secondary-color: #4a7b9d;
+  --dark-color: #1c3d5a;
+  --light-color: #F9F9F9;
+  --submit-color: #4CAF50;
+  --grey-color: #999;
+  --textbox-color: #a1b4b4;
+}
+
+body {
+  background: var(--light-color);
+}
+
+select {
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid var(--dark-color);
+}
+
+input {
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid var(--dark-color);
+}
+
+.submit-button {
+  padding: 10px;
+  background-color: var(--submit-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+  .submit-button:hover {
+    background-color: #45a049;
+  }
+

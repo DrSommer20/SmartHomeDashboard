@@ -24,7 +24,7 @@ import mosbach.dhbw.de.smarthome.service.api.AuthService;
 import mosbach.dhbw.de.smarthome.service.api.UserService;
 import mosbach.dhbw.de.smarthome.service.api.VerificationService;
 
-@CrossOrigin(origins = "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", allowedHeaders = "*")
+@CrossOrigin(origins = {"https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", "https://smarthome-spa.apps.01.cf.eu01.stackit.cloud/"}, allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

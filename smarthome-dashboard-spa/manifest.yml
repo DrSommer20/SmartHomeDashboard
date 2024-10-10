@@ -1,0 +1,11 @@
+---
+applications:
+- name: smarthome-spa
+  instances: 1
+  host: smarthome-spa{random-word}
+  memory: 30M
+  path: ./dist/smarthome-dashboard-spa/browser
+  buildpacks: 
+   - https://github.com/cloudfoundry/staticfile-buildpack
+  command: "$HOME/boot.sh"
+  random-route: true
