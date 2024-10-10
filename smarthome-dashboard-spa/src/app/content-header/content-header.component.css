@@ -1,0 +1,8 @@
+.header {
+  padding: 25px;
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+  margin: -30px -30px 30px -42px;
+  align-items: center;
+  display: flex;
+}

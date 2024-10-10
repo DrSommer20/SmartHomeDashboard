@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.angular",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\all-devices",
+    "\\src\\app\\home",
+    "\\src\\app\\login",
+    "\\src\\app\\main-content",
+    "\\src\\app\\sidebar"
+  ],
+  "PreviewInSolutionExplorer": false
+}

@@ -1,0 +1,4 @@
+# Staticfile
+pushstate: enabled
+force_https: true
+root: .
