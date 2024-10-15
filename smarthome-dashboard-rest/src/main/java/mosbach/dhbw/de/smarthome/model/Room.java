@@ -10,9 +10,16 @@ public class Room {
     private int roomId;
     private String name;
 
+    /**
+     * Constructor
+     * @param name
+     */
     public Room(String name) {
         this.roomId = roomIdCounter++;
         this.name = name;
+    }
+
+    public Room() {
     }
 
     public int getRoomId() {

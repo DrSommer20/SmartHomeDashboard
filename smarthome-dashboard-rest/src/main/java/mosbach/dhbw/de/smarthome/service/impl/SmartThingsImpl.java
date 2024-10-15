@@ -89,7 +89,7 @@ public class SmartThingsImpl implements SmartThings{
         }
     }
     
-    public GetFullStatusResponse getDeviceFullStatus(String deviceID, String accessToken ){
+    public GetFullStatusResponse getDeviceFullStatus(int deviceID, String accessToken ){
         final HttpGet httpGet = new HttpGet(API_URL + "/" + deviceID + "/components/main/status");	
         httpGet.setHeader("Authorization", "Bearer " + accessToken);
 

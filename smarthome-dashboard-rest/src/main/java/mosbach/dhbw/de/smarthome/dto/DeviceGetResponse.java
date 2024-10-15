@@ -21,7 +21,7 @@ public class DeviceGetResponse {
     @JsonProperty("type")
     private String type;
     @JsonProperty("location")
-    private String loaction;
+    private int location;
     @JsonProperty("status")
     private String status;
     @JsonProperty("state")
@@ -44,12 +44,12 @@ public class DeviceGetResponse {
      * @param deviceId
      * @param status
      */
-    public DeviceGetResponse(String deviceId, String name, String type, String loaction, String status, String state) {
+    public DeviceGetResponse(String deviceId, String name, String type, int location, String status, String state) {
         super();
         this.deviceId = deviceId;
         this.name = name;
         this.type = type;
-        this.loaction = loaction;
+        this.location = location;
         this.status = status;
         this.state = state;
 
@@ -59,7 +59,7 @@ public class DeviceGetResponse {
         this.deviceId = ""+device.getId();
         this.name = device.getName();
         this.type = device.getType();
-        this.loaction = device.getLocation();
+        this.location = device.getLocation();
         this.status = device.getStatus();
         this.state = device.getState();
     }
@@ -94,14 +94,14 @@ public class DeviceGetResponse {
         this.type = type;
     }
 
-    @JsonProperty("loaction")
-    public String getLoaction() {
-        return loaction;
+    @JsonProperty("location")
+    public int getLocation() {
+        return location;
     }
 
-    @JsonProperty("loaction")
-    public void setLoaction(String loaction) {
-        this.loaction = loaction;
+    @JsonProperty("location")
+    public void setLocation(int location) {
+        this.location = location;
     }
 
     @JsonProperty("status")

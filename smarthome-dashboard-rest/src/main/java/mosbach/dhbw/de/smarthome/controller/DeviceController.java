@@ -31,7 +31,6 @@ import mosbach.dhbw.de.smarthome.model.User;
 import mosbach.dhbw.de.smarthome.service.api.DeviceService;
 import mosbach.dhbw.de.smarthome.service.api.SmartThings;
 import mosbach.dhbw.de.smarthome.service.api.UserService;
-
 @CrossOrigin(origins = {"https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", "https://smarthome-spa.apps.01.cf.eu01.stackit.cloud/"}, allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/device")
@@ -46,15 +45,22 @@ public class DeviceController {
     @Autowired
     private UserService userService;
     
+    /**
+     * Endpoint to get all devices for the authenticated user.
+     * 
+     * @param token the authorization token
+     * @return a ResponseEntity containing all devices or an error message
+     */
     @GetMapping
     public ResponseEntity<?> getAllDevices(@RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
-
+            // Fetch devices for the user
             if(deviceService.getDevices(user.getUserID()) == null){
                 return new ResponseEntity<AllDevices>(new AllDevices(), HttpStatus.OK);
             }
             deviceService.getDevices(user.getUserID()).forEach(device -> {
+                // Get full status of each device from SmartThings
                 GetFullStatusResponse response = smartThings.getDeviceFullStatus(device.getId(), user.getPat());
 
                 if (response != null) {
@@ -84,13 +90,20 @@ public class DeviceController {
         }
     }
 
+    /**
+     * Endpoint to create a new device.
+     * 
+     * @param token the authorization token
+     * @param deviceDTO the device data transfer object
+     * @return a ResponseEntity indicating the result of the operation
+     */
     @PostMapping(
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?> createDevice(@RequestHeader("Authorization") String token, @RequestBody DeviceDTO deviceDTO) {
         User user = userService.getUser(token);
         if(user != null){
-            Device device = new Device(deviceDTO.getDeviceId(),deviceDTO.getName(), deviceDTO.getType(), deviceDTO.getLocation());
+            Device device = new Device(deviceDTO.getDeviceId(),deviceDTO.getName(), deviceDTO.getTypeID(), deviceDTO.getLocation());
             deviceService.addDevice(device, user.getUserID());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device created"), HttpStatus.OK);
         }
@@ -99,8 +112,15 @@ public class DeviceController {
         }
     }
 
+    /**
+     * Endpoint to get a specific device by ID.
+     * 
+     * @param id the device ID
+     * @param token the authorization token
+     * @return a ResponseEntity containing the device or an error message
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getDevice(@PathVariable String id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getDevice(@PathVariable int id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
             Device device = deviceService.getDeviceById(id, user.getUserID());
@@ -112,16 +132,21 @@ public class DeviceController {
         }
     } 
 
-    
+    /**
+     * Endpoint to delete a device by ID.
+     * 
+     * @param id the device ID
+     * @param token the authorization token
+     * @return a ResponseEntity indicating the result of the operation
+     */
     @DeleteMapping(
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?> deleteDevice(@PathVariable String id, @RequestHeader("Authorization") String token) { 
+    public ResponseEntity<?> deleteDevice(@PathVariable int id, @RequestHeader("Authorization") String token) { 
         User user = userService.getUser(token);
         if(user != null){
-            boolean result = deviceService.deleteDevice(id, user.getUserID());
-            if(!result) return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
+            if(!deviceService.deleteDevice(id, user.getUserID())) return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device deleted"), HttpStatus.OK);
         }
         else {
@@ -129,11 +154,19 @@ public class DeviceController {
         }
     } 
 
+    /**
+     * Endpoint to update a device's details.
+     * 
+     * @param token the authorization token
+     * @param id the device ID
+     * @param changeRequest the change request containing the field to update and the new value
+     * @return a ResponseEntity indicating the result of the operation
+     */
     @PutMapping(
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?> changeDevice(@RequestHeader("Authorization") String token, @PathVariable String id, @RequestBody ChangeRequest changeRequest) {
+    public ResponseEntity<?> changeDevice(@RequestHeader("Authorization") String token, @PathVariable int id, @RequestBody ChangeRequest changeRequest) {
         User user = userService.getUser(token);
         if (user != null) {
             Device device = deviceService.getDeviceById(id, user.getUserID());
@@ -148,11 +181,12 @@ public class DeviceController {
                     device.setType(changeRequest.getNewValue());
                     break;
                 case "location":
-                    device.setLocation(changeRequest.getNewValue());
+                    device.setLocation(Integer.parseInt(changeRequest.getNewValue()));
                     break;
                 default:
                     return new ResponseEntity<MessageReason>(new MessageReason("Field not available"), HttpStatus.BAD_REQUEST);
             }
+            deviceService.updateDevice(device, user.getUserID());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Device updated"), HttpStatus.OK);
         }
         else {
@@ -160,6 +194,12 @@ public class DeviceController {
         }
     }
 
+    /**
+     * Endpoint to get all SmartThings devices for the authenticated user.
+     * 
+     * @param token the authorization token
+     * @return a ResponseEntity containing all SmartThings devices or an error message
+     */
     @GetMapping("/smartthings")
     public ResponseEntity<?> getAllSmartThingsDevices(@RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
@@ -169,7 +209,7 @@ public class DeviceController {
                 return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
             }
             for(DeviceST deviceST : smartThings.getAllDevices(user.getPat()).getItems()){ 
-                if(deviceService.getDeviceById(deviceST.getDeviceId(), user.getUserID()) == null ) deviceGetResponse.add(new DeviceGetResponse(deviceST.getDeviceId(), deviceST.getLabel(), "", "", "", ""));
+                if(deviceService.getDeviceById(Integer.parseInt(deviceST.getDeviceId()), user.getUserID()) == null ) deviceGetResponse.add(new DeviceGetResponse(deviceST.getDeviceId(), deviceST.getLabel(), "", 0, "", ""));
             }
             return new ResponseEntity<>(new AllDevices(deviceGetResponse), HttpStatus.OK);
         }
@@ -178,15 +218,22 @@ public class DeviceController {
         }
     }
 
+    /**
+     * Endpoint to check the health status of a specific device.
+     * 
+     * @param id the device ID
+     * @param token the authorization token
+     * @return a ResponseEntity indicating the health status of the device or an error message
+     */
     @GetMapping("/{id}/health-check")
-    public ResponseEntity<?> GetHealth(@PathVariable String id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> GetHealth(@PathVariable int id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
             if(user.getPat().isBlank()){
                 return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
             }
             if(deviceService.getDeviceById(id, user.getUserID()) != null){
-                if(smartThings.isOnline(id, user.getPat())) return new ResponseEntity<>(new MessageAnswer("Online"), HttpStatus.OK);
+                if(smartThings.isOnline(id + "", user.getPat())) return new ResponseEntity<>(new MessageAnswer("Online"), HttpStatus.OK);
                 else return new ResponseEntity<>(new MessageAnswer("Offline"), HttpStatus.OK);  
             }
             else return new  ResponseEntity<>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
@@ -196,8 +243,16 @@ public class DeviceController {
         }
     }
     
+    /**
+     * Endpoint to set the switch status of a specific device.
+     * 
+     * @param id the device ID
+     * @param action the action to perform (e.g., "on" or "off")
+     * @param token the authorization token
+     * @return a ResponseEntity indicating the result of the operation
+     */
     @PostMapping("/{id}/switch/{action}")
-    public ResponseEntity<?> setDeviceSwitchStatus(@PathVariable String id, @PathVariable String action, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> setDeviceSwitchStatus(@PathVariable int id, @PathVariable String action, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
             Device device = deviceService.getDeviceById(id, user.getUserID());
@@ -205,8 +260,8 @@ public class DeviceController {
                 if(user.getPat().isBlank()){
                     return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
                 }
-                if(smartThings.setDeviceStatus(action,id, "switch",user.getPat())) {
-                    if(smartThings.isSwitchOn(id, user.getPat())) device.setState("On");
+                if(smartThings.setDeviceStatus(action,id+"", "switch",user.getPat())) {
+                    if(smartThings.isSwitchOn(id+"", user.getPat())) device.setState("On");
                     else device.setState("Off");
 
                     return new ResponseEntity<>(new MessageAnswer("Accepted"), HttpStatus.OK);

@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 
 @Entity
 public class User {
-    private static int userIDCounter = 1;
     @Id
     private int userID;
     private String firstName;
@@ -19,9 +18,14 @@ public class User {
     private boolean isVerified;
     private static PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-
+    /**
+     * Constructor
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param password
+     */
     public User(String firstName, String lastName, String email, String password) {
-        this.userID = User.userIDCounter++;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -34,6 +38,10 @@ public class User {
         this(firstName, lastName, email, password);
         this.pat = pat;
     }
+
+    public User() {
+    }
+
     // Getter and Setter
     public String getFirstName() {
         return firstName;
@@ -63,6 +71,10 @@ public class User {
         this.password = passwordEncoder.encode(password);
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public String getPat() {
         return pat;
     }
@@ -88,10 +100,21 @@ public class User {
     }
 
     //Functions
+    /**
+     * Check if the user is verified
+     * 
+     * @return true if the user is verified, false otherwise
+     */
     public boolean checkToken(){
         return !pat.isEmpty();
     }
 
+    /**
+     * Check if the password is correct
+     * 
+     * @param password the password to check
+     * @return true if the password is correct, false otherwise
+     */
     public boolean checkPassword(String password) {
         return passwordEncoder.matches(password, this.password);
     }

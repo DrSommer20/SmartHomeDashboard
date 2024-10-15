@@ -13,13 +13,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class DeviceDTO {
 
     @JsonProperty("device_id")
-    private String deviceId;
+    private int deviceId;
     @JsonProperty("name")
     private String name;
+    @JsonProperty("typeID")
+    private int typeID;
     @JsonProperty("type")
     private String type;
+    @JsonProperty("typeIcon")
+    private String typeIcon;
     @JsonProperty("location")
-    private String location;
+    private int location;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -34,24 +38,28 @@ public class DeviceDTO {
      * 
      * @param deviceId
      * @param name
+     * @param typeIcon
+     * @param typeID
      * @param location
      * @param type
      */
-    public DeviceDTO(String deviceId, String name, String type, String location) {
+    public DeviceDTO(int deviceId, String name, String type, int location, int typeID, String typeIcon) {
         super();
         this.deviceId = deviceId;
         this.name = name;
         this.type = type;
+        this.typeID = typeID;
+        this.typeIcon = typeIcon;
         this.location = location;
     }
 
     @JsonProperty("device_id")
-    public String getDeviceId() {
+    public int getDeviceId() {
         return deviceId;
     }
 
     @JsonProperty("device_id")
-    public void setDeviceId(String deviceId) {
+    public void setDeviceId(int deviceId) {
         this.deviceId = deviceId;
     }
 
@@ -76,13 +84,33 @@ public class DeviceDTO {
     }
 
     @JsonProperty("location")
-    public String getLocation() {
+    public int getLocation() {
         return location;
     }
 
     @JsonProperty("location")
-    public void setLocation(String location) {
+    public void setLocation(int location) {
         this.location = location;
+    }
+
+    @JsonProperty("typeID")
+    public int getTypeID() {
+        return typeID;
+    }
+
+    @JsonProperty("typeID")
+    public void setTypeID(int typeID) {
+        this.typeID = typeID;
+    }
+
+    @JsonProperty("typeIcon")
+    public String getTypeIcon() {
+        return typeIcon;
+    }
+
+    @JsonProperty("typeIcon")
+    public void setTypeIcon(String typeIcon) {
+        this.typeIcon = typeIcon;
     }
 
     @JsonAnyGetter

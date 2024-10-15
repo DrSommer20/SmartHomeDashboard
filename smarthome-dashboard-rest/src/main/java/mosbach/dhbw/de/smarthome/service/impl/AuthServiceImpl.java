@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -22,8 +21,6 @@ import mosbach.dhbw.de.smarthome.service.api.AuthService;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Autowired
-    private TokenBlacklistImpl tokenBlacklist;
 
     private String secretKey = System.getenv("JWT_SECRET");
 
@@ -65,9 +62,6 @@ public class AuthServiceImpl implements AuthService {
 
     public boolean isTokenExpired(String token) {
         try{
-            if(tokenBlacklist.isTokenBlacklisted(token)) {
-                return true;
-            }
             return extractExpiration(token).before(new Date());
         }
         catch (JwtException e){
@@ -102,9 +96,5 @@ public class AuthServiceImpl implements AuthService {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
-    }
-
-    public void invalidateToken(String token) {
-        tokenBlacklist.blacklistToken(token);
     }
 }

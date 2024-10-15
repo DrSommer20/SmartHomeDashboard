@@ -6,14 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import mosbach.dhbw.de.smarthome.model.Room;
 import mosbach.dhbw.de.smarthome.model.User;
 import mosbach.dhbw.de.smarthome.service.api.RoomService;
 import mosbach.dhbw.de.smarthome.service.api.UserService;
 
-@Service
 public class RoomServiceImpl implements RoomService {
     private static HashMap<User, HashSet<Room>> roomMap = new HashMap<User, HashSet<Room>>();
 
@@ -48,8 +46,8 @@ public class RoomServiceImpl implements RoomService {
         }
     }
 
-    public void updateRoom(String roomId, Room room, Integer userID) {
-        Room roomOld = getRoomById(roomId, userID);
+    public void updateRoom(Room room, Integer userID) {
+        Room roomOld = getRoomById(room.getRoomId()+"", userID);
         roomOld.setName(room.getName());
     }
 

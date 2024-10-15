@@ -28,6 +28,12 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    /**
+     * Retrieves the user for the authenticated user.
+     * 
+     * @param token the authorization token
+     * @return a ResponseEntity containing the user or an error message
+     */
     @GetMapping
     public ResponseEntity<?> getUser(@RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
@@ -39,6 +45,12 @@ public class UserController {
         }
     }
     
+    /**
+     * Deletes the user for the authenticated user.
+     * 
+     * @param token the authorization token
+     * @return a ResponseEntity containing a message if successful or an error message
+     */
     @DeleteMapping(
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
@@ -53,6 +65,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Changes the user for the authenticated user.
+     * 
+     * @param token the authorization token
+     * @param changeRequest the change request
+     * @return a ResponseEntity containing a message if successful or an error message
+     */
     @PutMapping
     public ResponseEntity<?> changeUser(@RequestHeader("Authorization") String token, @RequestBody ChangeRequest changeRequest) {
         User user = userService.getUser(token);
@@ -76,7 +95,8 @@ public class UserController {
                 default:
                     return new ResponseEntity<MessageReason>(new MessageReason("Field not available"), HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account updated"), HttpStatus.OK);
+            if(userService.updateUser(user)) return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account updated"), HttpStatus.OK);
+            else return new ResponseEntity<MessageReason>(new MessageReason("Error updating account"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         else {
             return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
