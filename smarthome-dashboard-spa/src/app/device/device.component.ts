@@ -1,15 +1,16 @@
 import { Component, OnDestroy, OnInit, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DeviceService } from './all-devices.service';
+import { DeviceService } from './device.service';
 
 @Component({
-  selector: 'an-all-devices',
+  selector: 'an-device',
   standalone: true, // Standalone component
   imports: [CommonModule], // Import CommonModule for template directives like *ngIf and *ngFor
-  templateUrl: './all-devices.component.html',
-  styleUrl: './all-devices.component.css'
+  templateUrl: './device.component.html',
+  styleUrl: './device.component.css'
 })
 export class AllDevicesComponent implements OnInit, OnDestroy {
+  title = 'All Devices';
   // Using signals for reactive state management in Angular 17
   devices = signal<any[]>([]);
   public refreshInterval: any;

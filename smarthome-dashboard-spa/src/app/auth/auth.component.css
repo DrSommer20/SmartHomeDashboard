@@ -1,4 +1,4 @@
-outer-body {
+.outer-body {
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -8,6 +8,8 @@ outer-body {
   align-items: center; /* Zentriert vertikal */
   color: #6a6f8c;
   font: 100% 'Open Sans',sans-serif;
+  background: linear-gradient(120deg, #1e90ff,blue, green);
+  transition: all .5s linear;
 }
 
 .button-container {
@@ -22,7 +24,7 @@ outer-body {
   text-align: center;
   border: none;
   border-radius: 25px;
-  background-color: #1161ee;
+  background-color: #1161ee;  
   text-decoration: none;
   transition: background-color 0.3s;
 }
@@ -33,6 +35,7 @@ outer-body {
     background-color: #1162ee59;
   }
 
+
 .login-box {
   width: auto;
   max-height: 97vh;
@@ -41,12 +44,9 @@ outer-body {
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
   border: none;
   outline: none;
-  transition: transform 0.4s ease-in-out, width 0.4s ease-in-out, height 0.4s ease-in-out;
+  transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
 }
 
-.box-expand {
-  width: 100%
-}
 
 .login-snip .login,
 .login-snip .sign-up-form,
@@ -54,15 +54,8 @@ outer-body {
   position: relative;
 }
 
-.sign-up-space {
-  overflow: auto;
-  transition: transform 0.4s ease-in-out, width 0.4s ease-in-out, height 0.4s ease-in-out;
-}
 
-.login-space {
-  display: block;
-  overflow: auto;
-}
+
 
 
 .login-snip .sign-in,
@@ -93,12 +86,6 @@ outer-body {
   border-color: #1161ee;
 }
 
-.login-space {
-  position: relative;
-  perspective: 1000px;
-  transform-style: preserve-3d;
-}
-
 .group {
   margin-bottom: 5px;
   padding: 2px;
@@ -119,8 +106,6 @@ outer-body {
     background: rgba(255,255,255,.1);
   }
 
-
-
   .group .label {
     color: var(--grey-color);
     font-size: 15px;
@@ -135,28 +120,6 @@ outer-body {
     color: white;
     padding-left:1vw;
   }
-
-
-  .login-snip .sign-in:checked + .tab + .sign-up + .tab + .login-space .login {
-    transform: rotate(0);
-  }
-
-.login-snip .sign-up:checked + .tab + .login-space .sign-up-form {
-  transform: rotate(0);
-}
-
-*, :after, :before {
-  box-sizing: border-box
-}
-
-a {
-  color: inherit;
-  text-decoration: none
-}
-
-::placeholder {
-  color: #b3b3b3;
-}
 
 .sign-up-message {
   background-color: var(--secondary-color);

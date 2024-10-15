@@ -26,7 +26,7 @@
     </li>
   </ul>
   <div class="user-profile">
-    <button class="user-p-btn" id="user-profile-btn">
+    <button class="user-p-btn" id="user-profile-btn" (click)="navigateToUser()">
       <div class="user-initials">
         <h3 id="sidebarinitials">{{initials}}</h3>
       </div>
@@ -35,7 +35,7 @@
         <h3 id="sidebarlastname">{{lastName}}</h3>
       </div>
     </button>
-    <button id="logout-btn" class="logout-button">
+    <button id="logout-btn" class="logout-button" (click)="logout()">
       <span class="material-symbols-outlined">logout</span>
     </button>
   </div>

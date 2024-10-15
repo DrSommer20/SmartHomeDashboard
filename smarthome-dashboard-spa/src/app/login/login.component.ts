@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoginService } from './login.service';
 
 @Component({
   selector: 'an-login',
@@ -50,7 +49,7 @@ export class LoginComponent implements OnInit {
           }
 
           console.log('Login successful', response);
-          this.router.navigate(['/home']); // Redirect
+          this.router.navigate(['/home/dashboard']); // Redirect
         },
         error: (error) => {
           console.error('Login error:', error);

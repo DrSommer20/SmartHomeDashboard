@@ -128,8 +128,7 @@ public class RoutineController {
     }
 
     @PostMapping(
-        path = "/{id}/{state}",
-        consumes = {MediaType.APPLICATION_JSON_VALUE}
+        path = "/{id}/{state}"
     )
     public ResponseEntity<?> switchRoutine(@RequestHeader("Authorization") String token, @RequestParam String state, @RequestParam String id) {
         User user = userService.getUser(token);

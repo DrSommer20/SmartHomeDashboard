@@ -57,14 +57,19 @@ public class DeviceController {
             deviceService.getDevices(user.getUserID()).forEach(device -> {
                 GetFullStatusResponse response = smartThings.getDeviceFullStatus(device.getId(), user.getPat());
 
-                boolean isOn = false;
-                boolean isOnline = false;
-                String status = response.getSwitch().getSwitch().getValue();
-                String state = response.getHealthCheck().getDeviceWatchDeviceStatus().getValue();
-                if(state != null) isOnline = state.equals("online");
-                if(status != null) isOn = status.equals("on");
-                device.setStatus(isOnline ? "Online" : "Offline");
-                device.setState(isOn ? "On" : "Off");
+                if (response != null) {
+                    boolean isOn = false;
+                    boolean isOnline = false;
+                    String status = response.getSwitch().getSwitch().getValue();
+                    String state = response.getHealthCheck().getDeviceWatchDeviceStatus().getValue();
+                    if (state != null) isOnline = state.equals("online");
+                    if (status != null) isOn = status.equals("on");
+                    device.setStatus(isOnline ? "Online" : "Offline");
+                    device.setState(isOn ? "On" : "Off");
+                } else {
+                    device.setStatus("Offline");
+                    device.setState("Off");
+                }
             });
             List<DeviceGetResponse> devicesDTO = new ArrayList<>();
             List<Device> devices = deviceService.getDevices(user.getUserID());

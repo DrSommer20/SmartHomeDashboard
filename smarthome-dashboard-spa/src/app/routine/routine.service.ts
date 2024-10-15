@@ -16,7 +16,7 @@ export class RoutineService {
   }
 
   switchRoutine(routineId: string, state: string): Observable<any> {
-    const url = `${this.apiUrl}/${routineId}/switch/${state}`;
+    const url = `${this.apiUrl}/${routineId}/${state}`;
 
     return this.http.post(url, {});
   }

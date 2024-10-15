@@ -1,15 +1,62 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, ViewChild, AfterViewChecked, OnInit } from '@angular/core';
 import { ContentHeaderComponent } from '../content-header/content-header.component';
-import { DashboardComponent } from '../dashboard/dashboard.component';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'an-main-content',
   standalone: true,
-  imports: [ContentHeaderComponent, DashboardComponent, RouterOutlet],
+  imports: [ContentHeaderComponent, RouterOutlet],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.css'
 })
-export class MainContentComponent {
+  export class MainContentComponent implements OnInit {
   @Input() marginLeft: string = '90px';
-}
+  @ViewChild(ContentHeaderComponent) contentHeader!: ContentHeaderComponent;
+
+  pageTitle: string = 'Dashboard';
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.setPageTitle();
+    this.contentHeader.refreshContent.subscribe(() => {
+      this.refreshContent();
+    });
+  }
+  ngAfterViewChecked() {
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map(() => this.getRouteTitle())
+      )
+      .subscribe((title: string) => {
+        if (title) {
+          this.pageTitle = title;
+        }
+      });
+  }
+
+  refreshContent() {
+    this.router.navigate([this.router.url]);
+  }
+
+  private setPageTitle() {
+    const title = this.getRouteTitle();
+    if (title) {
+      this.pageTitle = title;
+    }
+  }
+
+  private getRouteTitle(): string {
+    let route: ActivatedRoute = this.activatedRoute;
+    let routeTitle = '';
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    if (route.snapshot.data['title']) {
+      routeTitle = route.snapshot.data['title'];
+    }
+    return routeTitle;
+  }
+  }

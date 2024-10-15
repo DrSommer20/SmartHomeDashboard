@@ -1,27 +1,28 @@
 // auth.interceptor.ts
-import { Injectable, inject } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { LoginService } from './login/login.service'; // Import the service that handles token management
+import { LoginService } from './login/login.service'; 
+import { HttpInterceptorFn } from "@angular/common/http";
+import { inject } from '@angular/core';
+import { tap } from "rxjs";
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  private loginService = inject(LoginService); // Using Angular 17 inject API
+export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+    console.log('request', req.method, req.url);
+    console.log('authInterceptor')
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const authToken = this.loginService.getToken(); // Get the stored JWT token
+    const loginService = inject(LoginService); // Inject LoginService
 
-    // If the token exists, clone the request and add the Authorization header
-    if (authToken) {
-      const clonedRequest = req.clone({
-        headers: req.headers.set('Authorization', `${authToken}`),
-      });
+    if (req.url.startsWith('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/')) {
+      const authToken = loginService.getToken();
+      if (authToken) {
+        const headers = req.headers.set('Authorization', authToken);
 
-      // Pass the cloned request with the token to the next handler
-      return next.handle(clonedRequest);
+        req = req.clone({
+            headers
+        });
+      }
     }
 
-    // If no token, pass the original request without modification
-    return next.handle(req);
-  }
+    return next(req).pipe(
+        tap(resp => console.log('response', resp))
+    );
+
 }

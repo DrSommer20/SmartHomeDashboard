@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AllDevicesComponent } from './all-devices.component';
+import { AllDevicesComponent } from './device.component';
 
 describe('AllDevicesComponent', () => {
   let component: AllDevicesComponent;

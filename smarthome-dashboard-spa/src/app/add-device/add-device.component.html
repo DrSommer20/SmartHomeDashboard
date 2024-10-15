@@ -1,0 +1,21 @@
+<h2>Add new Device</h2>
+<form [formGroup]="deviceForm" (ngSubmit)="addDevice()" class="content-input">
+
+    <label for="deviceSmartThings" class="input-label">SmartThings Connection:</label>
+    <select id="deviceSmartThings" formControlName="smartThings" required>
+      <option *ngFor="let device of devices" [value]="device.device_id">{{ device.name }}</option>
+    </select>
+    <label for="deviceName" class="input-label">Device Name:</label>
+    <input type="text" id="deviceName" formControlName="name" required />
+    <label for="deviceType" class="input-label">Device Type:</label>
+    <select id="deviceType" formControlName="type" required>
+      <option value="light">Light</option>
+      <option value="table_lamp">Table Lamp</option>
+      <option value="floor_lamp">Floor Lamp</option>
+      <option value="outlet">Outlet</option>
+      <option value="mode_fan">Fan</option>
+    </select>
+    <label for="deviceLocation" class="input-label">Location:</label>
+    <input type="text" id="deviceLocation" formControlName="location" required />
+    <button class="submit-button">Add</button>
+  </form>

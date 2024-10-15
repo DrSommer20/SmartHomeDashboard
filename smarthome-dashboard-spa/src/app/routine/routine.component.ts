@@ -1,21 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { RoutineService } from './routine.service'
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'an-routine',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './routine.component.html',
   styleUrl: './routine.component.css'
 })
-export class RoutineComponent {
+export class RoutineComponent implements OnInit, OnDestroy {
+  @Output() titleEvent = new EventEmitter<string>();
   routines: any[] = [];
-
+  refreshInterval: any;
   constructor(private routineService: RoutineService) { }
 
   ngOnInit(): void {
+    this.titleEvent.emit('Routines');
     this.updateRoutines();
-    setInterval(() => this.updateRoutines(), 30000);
+    this.refreshInterval = setInterval(() => this.updateRoutines(), 30000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.refreshInterval);
   }
 
   updateRoutines(): void {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'an-room',
@@ -7,6 +7,10 @@ import { Component } from '@angular/core';
   templateUrl: './room.component.html',
   styleUrl: './room.component.css'
 })
-export class RoomComponent {
+export class RoomComponent implements OnInit {
+  @Output() titleEvent = new EventEmitter<string>();
 
+  ngOnInit(): void {
+    this.titleEvent.emit('Roomss');
+  }
 }

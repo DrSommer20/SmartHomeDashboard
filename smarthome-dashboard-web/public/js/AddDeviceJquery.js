@@ -23,31 +23,22 @@ $(document).ready(function() {
     $("#AddDeviceSubmit").click(function() {
 
         var AddNewDevice = {
-
                 device_id: $("#deviceSmartThings").find('option:selected').val(),
-
                 name: $("#deviceName").val(),
-
                 type:$("#deviceType").val(),
-
                 location:$("#deviceLocation").val()
-
             };
 
         console.log(AddNewDevice);
-
         $.ajax({
-
             url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device',
             type: 'post',
-
             dataType: 'json',
-
             headers: {
                         'Authorization': localStorage.getItem('authToken')
                     },
 
-            contentType: 'application/json',
+             contentType: 'application/json',
 
             success: function (data) {
                 location.href='../homepage.html';
