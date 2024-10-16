@@ -85,16 +85,21 @@
           <h5>Edit Device</h5>
           <button class="popup-close" id="closePopup"><span class="material-symbols-outlined">close</span></button>
         </div>
+
         <div class="popup-device">
+          <form id="device-edit-form">
           <label for="deviceName" class="input-label">Device Name</label>
           <input type="text" id="deviceName" name="deviceName">
           <br><br>
           <div class="popup-device-separator"></div>
           <label for="deviceType" class="input-label">Device Type</label>
-          <input type="text" id="deviceType" name="deviceType">
+            <select id="deviceType"></select>
           <label for="deviceLocation" class="input-label">Device Location</label>
-          <input type="text" id="deviceLocation" name="deviceLocation">
-          <button class="popup-button" id="saveBtn">save</button>
+            <select id="deviceLocation"></select>
+            <input type="hidden" id="deviceId">
+          <br><br>
+          <input type="submit" class="submit-button" id="saveBtn">Save
+          </form>
         </div>
       </div>
     </div>

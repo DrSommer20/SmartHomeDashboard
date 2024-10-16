@@ -50,7 +50,7 @@ body {
 
 .sidebar .sidebar-header img { /* Sidebar Logo */
   width: 42px;
-  border-radius: 50%; 
+  border-radius: 50%;
   -webkit-filter: invert(1);  /* Invertering the color of the Logo to white */
   filter: invert(1);
 }
@@ -85,13 +85,13 @@ body {
   left: 0;
   top: 50%;
   width: 100%;
-  height: 1px; 
+  height: 1px;
   background: var(--secondary-color);
   transition-delay: 0.2s;
 }
 
 .sidebar:hover .sidebar-links .menu-separator { /* Sidebar Links Separator invisible when Hover */
-  transition-delay: 0s; 
+  transition-delay: 0s;
   transform: scaleX(0);
 }
 
@@ -144,11 +144,11 @@ body {
 
 .user-profile .user-initials {
   border-radius: 50%;
-  font-weight: bold; 
+  font-weight: bold;
   border: 2px solid var(--light-color);
   background-color: var(--secondary-color);
   color: var(--light-color);
-  width: 50px; 
+  width: 50px;
   height: 50px;
   position: fixed;
   padding-top: 7px;
@@ -176,7 +176,7 @@ body {
 }
 
 .logout-button{
-  padding: 10px 10px 5px 10px;  
+  padding: 10px 10px 5px 10px;
   background-color: var(--secondary-color);
   color: var(--light-color);
   border: none;
@@ -210,7 +210,7 @@ body {
   color: white;
 }
 
-/* 
+/*
 ######################################################################
 ###########################Content CSS################################
 ######################################################################
@@ -246,7 +246,7 @@ body {
   margin-bottom: 1rem;
   left: 0;
   width: 100%;
-  height: 1px; 
+  height: 1px;
   background: var(--secondary-color);
 }
 
@@ -324,6 +324,7 @@ body {
 
 .input-label {
   margin: 10px 0 5px;
+  width: 100%;
 }
 
 select{
@@ -338,7 +339,7 @@ input {
   margin-bottom: 15px;
   border-radius: 4px;
   border: 1px solid var(--dark-color);
-  width: 100%;
+
 }
 
  .submit-button {
@@ -463,7 +464,8 @@ height:100px;
   background-color: var(--primary-color);
   border: none;
   border-radius: 5px;
-  margin-left: auto;
+  float: right;
+  font-size: medium;
 }
 
 .edit-button:hover {
@@ -484,7 +486,7 @@ height:100px;
   justify-content: center;
   align-items: center;
 }
-.popup-content {
+.popup-content {cf
   background-color: var(--dark-color);
   color: var(--light-color);
   padding: 20px;
