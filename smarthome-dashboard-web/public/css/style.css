@@ -339,6 +339,7 @@ input {
   margin-bottom: 15px;
   border-radius: 4px;
   border: 1px solid var(--dark-color);
+  width: 100%;
 
 }
 
@@ -474,7 +475,7 @@ height:100px;
 }
 /* PoP Up Fenster */
 .popup {
-  display: none;
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
@@ -486,7 +487,7 @@ height:100px;
   justify-content: center;
   align-items: center;
 }
-.popup-content {cf
+.popup-content {
   background-color: var(--dark-color);
   color: var(--light-color);
   padding: 20px;
