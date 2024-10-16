@@ -475,7 +475,7 @@ height:100px;
 }
 /* PoP Up Fenster */
 .popup {
-  display: flex;
+  display: none;
   position: fixed;
   top: 0;
   left: 0;

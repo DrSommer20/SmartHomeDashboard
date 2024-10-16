@@ -176,7 +176,7 @@ $("#saveBtn").on("submit",function() {
             'Authorization': localStorage.getItem('authToken')
         },
         success: function(response) {
-            console.log('Edit Device', editDeviceData);
+            console.log('Device edit', editDeviceData);
                         window.location.href = 'Devices.html';
            },
         error: function(error) {
