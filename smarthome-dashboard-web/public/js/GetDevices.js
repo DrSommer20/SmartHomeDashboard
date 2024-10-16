@@ -163,7 +163,7 @@ $("#saveBtn").on("submit",function() {
     const location = document.getElementById('deviceLocation').value;
     const device_id = document.getElementById('deviceId').value;
 
-    const edit-device-data = {
+    const editDeviceData = {
         name: name,
         typeID: type,
         location: location,
@@ -176,15 +176,14 @@ $("#saveBtn").on("submit",function() {
             'Authorization': localStorage.getItem('authToken')
         },
         success: function(response) {
-            console.log('Edit Device', edit-device-data);
+            console.log('Edit Device', editDeviceData);
                         window.location.href = 'Devices.html';
-           }
-        },
+           },
         error: function(error) {
             console.error('Fehler beim Abrufen der aktuellen Daten:', error);
         }
     });
-
+});
 
 $('.popup-close').click(function() {
     $('.popup').css('display', 'none');
