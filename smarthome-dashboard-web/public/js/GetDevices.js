@@ -28,6 +28,7 @@ function displayDevices(devices) {
                 const uniqueId = 'toggleCheckbox' + index;
                 const deviceDiv = document.createElement('div');
                 deviceDiv.classList.add('col-sm-12', 'col-md-12', 'col-lg-6', 'col-xl-4');
+                //TODO: Edit Button auf Dashboard verstecken
                 deviceDiv.innerHTML = `
                 <div class="display-card">
                     <div class="display-card-header">
@@ -49,7 +50,6 @@ function displayDevices(devices) {
                 </div>
               </div>
             `;
-
             contentDiv.appendChild(deviceDiv);
             // Set checkbox to checked if the device state is "On"
             const checkbox = document.getElementById(uniqueId);
@@ -143,7 +143,6 @@ function editbuttonclick(device_id) {
               'Authorization': localStorage.getItem('authToken')
           },
           success: function(response) {
-              console.log('Response:', response);
               $('#deviceName').val(response.name);
               $('#deviceType').val(response.typeID);
               $('#deviceLocation').val(response.location);
@@ -155,9 +154,6 @@ function editbuttonclick(device_id) {
                   location: response.location,
                   device_id: response.device_id
               };
-
-              console.log('Old Data:', deviceOldData);
-
           },
           error: function(error) {
               console.error('Fehler bei der Anfrage:', error);
@@ -182,23 +178,17 @@ function editbuttonclick(device_id) {
       });
   });
 
-
-//TODO: Get Funktion anpassen, das Daten geändert werden! -> geht bisher nicht
 // Save button, Change function
 $("#saveBtn").click(function() {
     const currentData = {
         name: $('#deviceName').val(),
-        typeID: $('#deviceType').val(),
-        location: $('#deviceLocation').val(),
+        typeID: parseInt($('#deviceType').val()),
+        location: parseInt($('#deviceLocation').val()),
         device_id: $('#deviceId').val()
-
         };
-               console.log('Current Data:', currentData);
-
     updateDeviceIfDifferent('name', currentData.name, deviceOldData.name, currentData.device_id);
     updateDeviceIfDifferent('typeID', currentData.typeID, deviceOldData.typeID, currentData.device_id);
     updateDeviceIfDifferent('location', currentData.location, deviceOldData.location, currentData.device_id);
-    updateDeviceIfDifferent('device_id', currentData.device_id, deviceOldData.device_id, currentData.device_id);
 });
 
 function updateDeviceIfDifferent(field, newValue, oldValue, device_id) {
@@ -208,7 +198,6 @@ function updateDeviceIfDifferent(field, newValue, oldValue, device_id) {
 }
 
 function updateField(field, newValue, device_id) {
-console.log('die daten, die geputet werden sollen!',field, newValue, device_id);
     const data = {
         "new-value": newValue,
         "field": field
@@ -224,9 +213,13 @@ console.log('die daten, die geputet werden sollen!',field, newValue, device_id);
         contentType: 'application/json',
         success: function(response) {
             console.log(`Field ${field} successfully updated:`, response);
+            window.location.href = 'Devices.html';
+            window.location.reload();
         },
         error: function(error) {
             console.error(`Error updating ${field}:`, error);
+            window.location.href = 'Devices.html';
+            window.location.reload();
         },
     });
 }
