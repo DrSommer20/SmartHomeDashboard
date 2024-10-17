@@ -34,8 +34,10 @@ public class DBTest {
     public static void main(String[] args) {
         User user = userService.getUserById(1);
         
-        routineService.getRoutines(user);
-
+        List<Routine> routines = routineService.getRoutines(user);
+        for (Routine routine : routines) {
+            System.out.println(routine.getName());
+        }
         getAllRoutines();
 
     }

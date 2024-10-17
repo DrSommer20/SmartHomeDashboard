@@ -92,3 +92,8 @@
   .delete-button:hover {
     background-color: #ff1a1a;
   }
+  
+  h3{
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }

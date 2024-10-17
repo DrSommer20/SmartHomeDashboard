@@ -22,7 +22,6 @@ export class RoomComponent implements OnInit {
     this.http.get<any>('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/room')
       .pipe(
         tap(response => {
-          console.log('Rooms loaded:', response);
           this.rooms = response.rooms;
         })
       )

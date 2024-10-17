@@ -2,7 +2,7 @@
   <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" class="login">
     <div class="group">
       <label for="login-mail" class="label">E-mail</label>
-      <input id="login-mail" type="text" class="input" formControlName="email" placeholder="Enter your email" required />
+      <input id="login-mail" autocomplete="username" type="text" class="input" formControlName="email" placeholder="Enter your email" required />
     </div>
     <div class="group">
       <label for="pass" class="label">Password</label>

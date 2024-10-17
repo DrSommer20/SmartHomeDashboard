@@ -43,7 +43,6 @@ export class AddRoutineComponent implements OnInit {
     this.http.get<any>('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device')
       .subscribe({
         next: (response) => {
-          console.log('Erfolgreiche Antwort:', response);
           this.devices = response.devices;
         },
         error: (error) => {
@@ -76,7 +75,6 @@ export class AddRoutineComponent implements OnInit {
     this.http.post('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine', routineData)
       .subscribe({
         next: (data) => {
-          console.log('Routine added', data);
           this.routineAdded.emit();
         },
         error: (error) => {

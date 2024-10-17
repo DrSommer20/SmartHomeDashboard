@@ -49,8 +49,6 @@ export class LoginComponent implements OnInit {
           } else {
             sessionStorage.setItem('authToken', response.token);
           }
-
-          console.log('Login successful', response);
           this.router.navigate(['/home/dashboard']); // Redirect
         },
         error: (error) => {

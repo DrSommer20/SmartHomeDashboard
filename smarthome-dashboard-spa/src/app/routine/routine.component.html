@@ -1,13 +1,17 @@
-<div id="content" *ngIf="routines.length">
+<div class="row" *ngIf="routines.length">
   <div *ngFor="let routine of routines; let i = index" class="col-sm-12 col-md-12 col-lg-6 col-xl-4">
     <div class="display-card">
       <div class="display-card-header">
         <h3>
           <span class="material-symbols-outlined">schedule</span> {{ routine.name }}
+          <button class="delete-button" (click)="deleteRoutine(routine.id)">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+          <button class="delete-button" (click)="editRoutine(routine.id)">
+            Edit
+          </button>
         </h3>
-        <button class="delete-button" (click)="deleteRoutine(routine.id)">
-          <span class="material-symbols-outlined">delete</span>
-        </button>
+        
       </div>
       <div class="card-separator"></div>
       <div class="routine-info">

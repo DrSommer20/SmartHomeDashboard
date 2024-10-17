@@ -45,7 +45,6 @@ export class SidebarComponent implements OnInit{
   getUserData(){
     this.http.get<any>('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/user').subscribe(
       response => {
-        console.log('Erfolgreiche Antwort:', response);
         this.firstName = response.firstName;
         this.lastName = response.lastName;
         this.initials = response.firstName.charAt(0) + response.lastName.charAt(0);

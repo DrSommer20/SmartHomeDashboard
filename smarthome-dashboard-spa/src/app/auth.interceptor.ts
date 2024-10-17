@@ -5,8 +5,6 @@ import { inject } from '@angular/core';
 import { tap } from "rxjs";
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
-    console.log('request', req.method, req.url);
-    console.log('authInterceptor')
 
     const loginService = inject(LoginService); // Inject LoginService
 
@@ -22,7 +20,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     }
 
     return next(req).pipe(
-        tap(resp => console.log('response', resp))
+        tap()
     );
 
 }

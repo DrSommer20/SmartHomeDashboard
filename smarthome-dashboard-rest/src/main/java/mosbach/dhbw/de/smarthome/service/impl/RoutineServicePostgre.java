@@ -67,7 +67,7 @@ public class RoutineServicePostgre implements RoutineService {
     @Override
     public List<Routine> getRoutines(User user) {
         String selectRoutinesString = "SELECT id, name, trigger_time, state FROM group18_routine WHERE group18_user_id = ?";
-        String selectActionsString = "SELECT a.id, a.name, a.group18_device_id, d.device_name FROM group18_action a JOIN group18_device d ON a.group18_device_id = d.id WHERE a.group18_routine_id = ?";
+        String selectActionsString = "SELECT a.id, a.name, a.group18_device_id, d.name as device_name FROM group18_action a JOIN group18_device d ON a.group18_device_id = d.id WHERE a.group18_routine_id = ?";
         List<Routine> routines = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
@@ -112,7 +112,7 @@ public class RoutineServicePostgre implements RoutineService {
     @Override
     public Routine getRoutineByID(String id, User user) {
         String selectRoutineString = "SELECT id, name, trigger_time, state FROM group18_routine WHERE id = ? AND group18_user_id = ?";
-        String selectActionsString = "SELECT a.id, a.name, a.group18_device_id, d.device_name FROM group18_action a JOIN group18_device d ON a.group18_device_id = d.id WHERE a.group18_routine_id = ?";
+        String selectActionsString = "SELECT a.id, a.name, a.group18_device_id, d.name as device_name FROM group18_action a JOIN group18_device d ON a.group18_device_id = d.id WHERE a.group18_routine_id = ?";
         Routine routine = null;
         try (Connection connection = dataSource.getConnection()) {
             // Retrieve routine
@@ -149,7 +149,7 @@ public class RoutineServicePostgre implements RoutineService {
         }
         return routine;
     }
-    
+
     @Override
     public boolean deleteRoutine(String id, User user) {
         deleteActionByRoutineID(Integer.parseInt(id));

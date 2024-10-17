@@ -95,3 +95,35 @@ input {
   background-color: var(--light-color);
   color:var(--secondary-color);
 }
+
+
+.edit-button{
+  color: var(--light-color);
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  float: right;
+  font-size: medium;
+  margin: 5px;
+}
+  
+.edit-button:hover {
+  color: var(--primary-color);
+  background-color: var(--light-color);
+}
+
+.delete-button{
+  color: var(--light-color);
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  float: right;
+  font-size: medium;
+  margin: 5px;
+}
+
+.delete-button:hover {
+  background-color: #ff4d4d;
+    color: white;
+}
+

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component} from '@angular/core';
 import { AllDevicesComponent } from '../device/device.component';
 import { WeatherComponent } from '../weather/weather.component';
 
@@ -10,5 +10,4 @@ import { WeatherComponent } from '../weather/weather.component';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  title: string = 'Dashboard';
 }

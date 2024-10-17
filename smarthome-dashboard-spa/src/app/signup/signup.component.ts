@@ -38,7 +38,6 @@ export class SignupComponent implements OnInit {
     this.http.post(signUpUrl, signUpData, { headers: { 'Content-Type': 'application/json' } })
       .subscribe({
         next: (response) => {
-          console.log('Sign up successful', response);
           this.signUpSuccess = true;
           this.signUpFailure = false;
         },

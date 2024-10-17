@@ -28,7 +28,6 @@ export class RoutineComponent implements OnInit, OnDestroy {
   updateRoutines(): void {
     this.routineService.getRoutines().subscribe(
       response => {
-        console.log('Erfolgreiche Antwort:', response);
         this.routines = response.routines || [];
       },
       error => {
@@ -42,8 +41,7 @@ export class RoutineComponent implements OnInit, OnDestroy {
     const state = isChecked ? 'on' : 'off';
     this.routineService.switchRoutine(routineId, state).subscribe(
       response => {
-        console.log('Routine updated successfully:', response);
-        // Handle successful response
+        this.updateRoutines();
       },
       error => {
         console.error('Error updating routine:', error);
@@ -60,7 +58,6 @@ export class RoutineComponent implements OnInit, OnDestroy {
   deleteRoutine(routineId: string): void {
     this.routineService.deleteRoutine(routineId).subscribe(
       response => {
-        console.log('Routine deleted successfully:', response);
         this.updateRoutines();
       },
       error => {
@@ -68,4 +65,9 @@ export class RoutineComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  editRoutine(routineId: string): void {
+    // Implement edit routine
+  } 
+
 }
