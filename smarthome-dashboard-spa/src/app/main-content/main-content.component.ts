@@ -14,8 +14,10 @@ import { filter, map } from 'rxjs';
   export class MainContentComponent implements OnInit {
   @Input() marginLeft: string = '90px';
   @ViewChild(ContentHeaderComponent) contentHeader!: ContentHeaderComponent;
+  @ViewChild(RouterOutlet) outlet!: RouterOutlet;
 
   pageTitle: string = 'Dashboard';
+
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
@@ -38,7 +40,10 @@ import { filter, map } from 'rxjs';
   }
 
   refreshContent() {
-    this.router.navigate([this.router.url]);
+    const activeComponent = this.outlet.component as { refreshContent?: () => void };
+    if (activeComponent && typeof activeComponent.refreshContent === 'function') {
+      activeComponent['refreshContent']();
+    }
   }
 
   private setPageTitle() {
@@ -59,4 +64,4 @@ import { filter, map } from 'rxjs';
     }
     return routeTitle;
   }
-  }
+}

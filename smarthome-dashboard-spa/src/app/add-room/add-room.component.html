@@ -1,1 +1,8 @@
-<p>add-room works!</p>
+<h2>Add new Room</h2>
+<form [formGroup]="roomForm" (ngSubmit)="addRoom()" class="content-input">
+
+    <label for="roomName" class="input-label">Room Name:</label>
+    <input type="text" id="roomName" formControlName="name" required />
+
+    <button class="submit-button">Add</button>
+  </form>

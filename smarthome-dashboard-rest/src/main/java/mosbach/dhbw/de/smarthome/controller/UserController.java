@@ -51,9 +51,7 @@ public class UserController {
      * @param token the authorization token
      * @return a ResponseEntity containing a message if successful or an error message
      */
-    @DeleteMapping(
-        consumes = {MediaType.APPLICATION_JSON_VALUE}
-    )
+    @DeleteMapping()
     public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String token) {   
         User user = userService.getUser(token);    
         if(user != null){
@@ -86,7 +84,7 @@ public class UserController {
                 case "email":
                     user.setEmail(changeRequest.getNewValue());
                     break;
-                case "passwort":
+                case "password":
                     user.setPassword(changeRequest.getNewValue());
                     break;
                 case "pat":

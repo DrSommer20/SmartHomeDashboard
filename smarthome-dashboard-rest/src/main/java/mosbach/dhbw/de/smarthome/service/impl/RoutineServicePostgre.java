@@ -26,8 +26,8 @@ public class RoutineServicePostgre implements RoutineService {
 
     @Override
     public void addRoutine(User user, Routine routine) {
-        String insertRoutineString = "INSERT INTO smartHome_routine (name, trigger_time, state, smartHome_user_id) VALUES (?, ?, ?, ?)";
-        String insertActionString = "INSERT INTO smartHome_action (name, smartHome_device_id, smartHome_routine_id) VALUES (?, ?, ?)";
+        String insertRoutineString = "INSERT INTO group18_routine (name, trigger_time, state, group18_user_id) VALUES (?, ?, ?, ?)";
+        String insertActionString = "INSERT INTO group18_action (name, group18_device_id, group18_routine_id) VALUES (?, ?, ?)";
         
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false); // Start transaction
@@ -49,7 +49,7 @@ public class RoutineServicePostgre implements RoutineService {
                         try (PreparedStatement actionStatement = connection.prepareStatement(insertActionString)) {
                             for (Action action : routine.getActions()) {
                                 actionStatement.setString(1, action.getAction());
-                                actionStatement.setInt(2, action.getDeviceID());
+                                actionStatement.setString(2, action.getDeviceID());
                                 actionStatement.setInt(3, routineId);
                                 actionStatement.addBatch();
                             }
@@ -58,8 +58,7 @@ public class RoutineServicePostgre implements RoutineService {
                     }
                 }
             }
-
-            connection.commit(); // Commit transaction
+            connection.commit(); ;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,8 +66,8 @@ public class RoutineServicePostgre implements RoutineService {
 
     @Override
     public List<Routine> getRoutines(User user) {
-        String selectRoutinesString = "SELECT id, name, trigger_time, state FROM smartHome_routine WHERE smartHome_user_id = ?";
-        String selectActionsString = "SELECT id, name, smartHome_device_id FROM smartHome_action WHERE smartHome_routine_id = ?";
+        String selectRoutinesString = "SELECT id, name, trigger_time, state FROM group18_routine WHERE group18_user_id = ?";
+        String selectActionsString = "SELECT a.id, a.name, a.group18_device_id, d.device_name FROM group18_action a JOIN group18_device d ON a.group18_device_id = d.id WHERE a.group18_routine_id = ?";
         List<Routine> routines = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
@@ -92,7 +91,9 @@ public class RoutineServicePostgre implements RoutineService {
                         Action action = new Action();
                         action.setID(actionResultSet.getInt("id"));
                         action.setAction(actionResultSet.getString("name"));
-                        action.setDeviceID(actionResultSet.getInt("smartHome_device_id"));
+                        action.setDeviceID(actionResultSet.getString("group18_device_id"));
+                        action.setDeviceName(actionResultSet.getString("device_name"));
+                        
                         actions.add(action);
                     }
                     routine.setActions(actions);
@@ -107,10 +108,11 @@ public class RoutineServicePostgre implements RoutineService {
         return routines;
     }
 
+
     @Override
     public Routine getRoutineByID(String id, User user) {
-        String selectRoutineString = "SELECT id, name, trigger_time, state FROM smartHome_routine WHERE id = ? AND smartHome_user_id = ?";
-        String selectActionsString = "SELECT id, name, smartHome_device_id FROM smartHome_action WHERE smartHome_routine_id = ?";
+        String selectRoutineString = "SELECT id, name, trigger_time, state FROM group18_routine WHERE id = ? AND group18_user_id = ?";
+        String selectActionsString = "SELECT a.id, a.name, a.group18_device_id, d.device_name FROM group18_action a JOIN group18_device d ON a.group18_device_id = d.id WHERE a.group18_routine_id = ?";
         Routine routine = null;
         try (Connection connection = dataSource.getConnection()) {
             // Retrieve routine
@@ -134,7 +136,8 @@ public class RoutineServicePostgre implements RoutineService {
                             Action action = new Action();
                             action.setID(actionResultSet.getInt("id"));
                             action.setAction(actionResultSet.getString("name"));
-                            action.setDeviceID(actionResultSet.getInt("smartHome_device_id"));
+                            action.setDeviceID(actionResultSet.getString("group18_device_id"));
+                            action.setDeviceName(actionResultSet.getString("device_name"));
                             actions.add(action);
                         }
                         routine.setActions(actions);
@@ -144,13 +147,13 @@ public class RoutineServicePostgre implements RoutineService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return routine;    
+        return routine;
     }
-
+    
     @Override
     public boolean deleteRoutine(String id, User user) {
         deleteActionByRoutineID(Integer.parseInt(id));
-        String deleteRoutineString = "DELETE FROM smartHome_routine WHERE id = ? AND smartHome_user_id = ?";
+        String deleteRoutineString = "DELETE FROM group18_routine WHERE id = ? AND group18_user_id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement routineStatement = connection.prepareStatement(deleteRoutineString)) {
             routineStatement.setInt(1, Integer.parseInt(id));
@@ -162,8 +165,9 @@ public class RoutineServicePostgre implements RoutineService {
         }
     }
 
+
     private boolean deleteActionByRoutineID(int routineID) {
-        String deleteActionString = "DELETE FROM smartHome_action WHERE smartHome_routine_id = ?";
+        String deleteActionString = "DELETE FROM group18_action WHERE group18_routine_id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement actionStatement = connection.prepareStatement(deleteActionString)) {
             actionStatement.setInt(1, routineID);
@@ -176,7 +180,7 @@ public class RoutineServicePostgre implements RoutineService {
 
     @Override
     public boolean switchRoutine(String id, boolean state, User user) {
-        String updateRoutineString = "UPDATE smartHome_routine SET state = ? WHERE id = ? AND smartHome_user_id = ?";
+        String updateRoutineString = "UPDATE group18_routine SET state = ? WHERE id = ? AND group18_user_id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement routineStatement = connection.prepareStatement(updateRoutineString)) {
             routineStatement.setBoolean(1, state);
@@ -189,10 +193,11 @@ public class RoutineServicePostgre implements RoutineService {
         }
     }
 
+
     @Override
     public void updateRoutine(Routine routine, int userID) {
-        String updateRoutineString = "UPDATE smartHome_routine SET name = ?, trigger_time = ? WHERE id = ? AND smartHome_user_id = ?";
-        String updateActionString = "UPDATE smartHome_action SET name = ?, smartHome_device_id = ? WHERE id = ? AND smartHome_routine_id = ?";
+        String updateRoutineString = "UPDATE group18_routine SET name = ?, trigger_time = ? WHERE id = ? AND group18_user_id = ?";
+        String updateActionString = "UPDATE group18_action SET name = ?, group18_device_id = ? WHERE id = ? AND group18_routine_id = ?";
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false); // Start transaction
 
@@ -208,7 +213,7 @@ public class RoutineServicePostgre implements RoutineService {
                 try (PreparedStatement actionStatement = connection.prepareStatement(updateActionString)) {
                     for (Action action : routine.getActions()) {
                         actionStatement.setString(1, action.getAction());
-                        actionStatement.setInt(2, action.getDeviceID());
+                        actionStatement.setString(2, action.getDeviceID());
                         actionStatement.setInt(3, action.getID());
                         actionStatement.setInt(4, routine.getID());
                         actionStatement.addBatch();
@@ -220,6 +225,20 @@ public class RoutineServicePostgre implements RoutineService {
             connection.commit(); // Commit transaction
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    public boolean deleteActionsByDevice(String deviceId) {
+        String deleteActionsString = "DELETE FROM group18_action WHERE group18_device_id = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(deleteActionsString)) {
+            statement.setString(1, deviceId);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
     

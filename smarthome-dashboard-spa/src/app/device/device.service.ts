@@ -27,4 +27,8 @@ export class DeviceService implements OnInit {
     const url = `${this.apiUrl}/${deviceId}`;
     return this.http.get(url, {  });
   }
+
+  deleteDevice(deviceId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${deviceId}`, {  });
+  }
 }

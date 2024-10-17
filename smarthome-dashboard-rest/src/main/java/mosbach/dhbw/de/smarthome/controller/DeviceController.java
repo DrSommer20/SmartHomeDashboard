@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import mosbach.dhbw.de.smarthome.dto.AllDevices;
+import mosbach.dhbw.de.smarthome.dto.AllTypes;
 import mosbach.dhbw.de.smarthome.dto.ChangeRequest;
 import mosbach.dhbw.de.smarthome.dto.DeviceDTO;
 import mosbach.dhbw.de.smarthome.dto.DeviceGetResponse;
@@ -28,9 +29,11 @@ import mosbach.dhbw.de.smarthome.dto.smartthings.DeviceST;
 import mosbach.dhbw.de.smarthome.dto.smartthings.GetFullStatusResponse;
 import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.User;
+import mosbach.dhbw.de.smarthome.service.api.AuthService;
 import mosbach.dhbw.de.smarthome.service.api.DeviceService;
 import mosbach.dhbw.de.smarthome.service.api.SmartThings;
 import mosbach.dhbw.de.smarthome.service.api.UserService;
+
 @CrossOrigin(origins = {"https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", "https://smarthome-spa.apps.01.cf.eu01.stackit.cloud/"}, allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/device")
@@ -44,6 +47,9 @@ public class DeviceController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AuthService authService;
     
     /**
      * Endpoint to get all devices for the authenticated user.
@@ -59,7 +65,8 @@ public class DeviceController {
             if(deviceService.getDevices(user.getUserID()) == null){
                 return new ResponseEntity<AllDevices>(new AllDevices(), HttpStatus.OK);
             }
-            deviceService.getDevices(user.getUserID()).forEach(device -> {
+            List<Device> devices = deviceService.getDevices(user.getUserID());
+            devices.forEach(device -> {
                 // Get full status of each device from SmartThings
                 GetFullStatusResponse response = smartThings.getDeviceFullStatus(device.getId(), user.getPat());
 
@@ -78,8 +85,7 @@ public class DeviceController {
                 }
             });
             List<DeviceGetResponse> devicesDTO = new ArrayList<>();
-            List<Device> devices = deviceService.getDevices(user.getUserID());
-
+            
             for (Device device : devices) {
                 devicesDTO.add(new DeviceGetResponse(device));
             }
@@ -120,7 +126,7 @@ public class DeviceController {
      * @return a ResponseEntity containing the device or an error message
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getDevice(@PathVariable int id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getDevice(@PathVariable String id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
             Device device = deviceService.getDeviceById(id, user.getUserID());
@@ -143,7 +149,7 @@ public class DeviceController {
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?> deleteDevice(@PathVariable int id, @RequestHeader("Authorization") String token) { 
+    public ResponseEntity<?> deleteDevice(@PathVariable String id, @RequestHeader("Authorization") String token) { 
         User user = userService.getUser(token);
         if(user != null){
             if(!deviceService.deleteDevice(id, user.getUserID())) return new ResponseEntity<MessageReason>(new MessageReason("Device not found"), HttpStatus.NOT_FOUND);
@@ -166,7 +172,7 @@ public class DeviceController {
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?> changeDevice(@RequestHeader("Authorization") String token, @PathVariable int id, @RequestBody ChangeRequest changeRequest) {
+    public ResponseEntity<?> changeDevice(@RequestHeader("Authorization") String token, @PathVariable String id, @RequestBody ChangeRequest changeRequest) {
         User user = userService.getUser(token);
         if (user != null) {
             Device device = deviceService.getDeviceById(id, user.getUserID());
@@ -209,7 +215,7 @@ public class DeviceController {
                 return new ResponseEntity<>(new MessageReason("No PAT found"), HttpStatus.NOT_FOUND);
             }
             for(DeviceST deviceST : smartThings.getAllDevices(user.getPat()).getItems()){ 
-                if(deviceService.getDeviceById(Integer.parseInt(deviceST.getDeviceId()), user.getUserID()) == null ) deviceGetResponse.add(new DeviceGetResponse(deviceST.getDeviceId(), deviceST.getLabel(), "", 0, "", ""));
+                if(deviceService.getDeviceById(deviceST.getDeviceId(), user.getUserID()) == null ) deviceGetResponse.add(new DeviceGetResponse(deviceST.getDeviceId(), deviceST.getLabel()));
             }
             return new ResponseEntity<>(new AllDevices(deviceGetResponse), HttpStatus.OK);
         }
@@ -226,7 +232,7 @@ public class DeviceController {
      * @return a ResponseEntity indicating the health status of the device or an error message
      */
     @GetMapping("/{id}/health-check")
-    public ResponseEntity<?> GetHealth(@PathVariable int id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> GetHealth(@PathVariable String id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
             if(user.getPat().isBlank()){
@@ -252,7 +258,7 @@ public class DeviceController {
      * @return a ResponseEntity indicating the result of the operation
      */
     @PostMapping("/{id}/switch/{action}")
-    public ResponseEntity<?> setDeviceSwitchStatus(@PathVariable int id, @PathVariable String action, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> setDeviceSwitchStatus(@PathVariable String id, @PathVariable String action, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
             Device device = deviceService.getDeviceById(id, user.getUserID());
@@ -275,6 +281,23 @@ public class DeviceController {
         }
 
     }
+
+    /**
+     * Endpoint to get all device types.
+     * 
+     * @param token the authorization token
+     * @return a ResponseEntity containing all device types or an error message
+     */
+    @GetMapping("/device-type")
+    public ResponseEntity<?> getTypes( @RequestHeader("Authorization") String token) {
+        if(!authService.isTokenExpired(token)){
+            return new ResponseEntity<AllTypes>(deviceService.getTypes(), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
+        }
+    }
+    
     
     
 }

@@ -18,10 +18,16 @@ public class DeviceGetResponse {
     private String deviceId;
     @JsonProperty("name")
     private String name;
+    @JsonProperty("typeID")
+    private int typeID;
     @JsonProperty("type")
     private String type;
+    @JsonProperty("typeIcon")
+    private String typeIcon;
     @JsonProperty("location")
     private int location;
+    @JsonProperty("roomName")
+    private String roomName;
     @JsonProperty("status")
     private String status;
     @JsonProperty("state")
@@ -44,7 +50,7 @@ public class DeviceGetResponse {
      * @param deviceId
      * @param status
      */
-    public DeviceGetResponse(String deviceId, String name, String type, int location, String status, String state) {
+    public DeviceGetResponse(String deviceId, String name, String type, String typeIcon, int typeID, int location, String status, String state, String roomName) {
         super();
         this.deviceId = deviceId;
         this.name = name;
@@ -52,7 +58,9 @@ public class DeviceGetResponse {
         this.location = location;
         this.status = status;
         this.state = state;
-
+        this.roomName = roomName;
+        this.typeID = typeID;
+        this.typeIcon = typeIcon;
     }
 
     public DeviceGetResponse(Device device) {
@@ -62,6 +70,16 @@ public class DeviceGetResponse {
         this.location = device.getLocation();
         this.status = device.getStatus();
         this.state = device.getState();
+        this.roomName = device.getRoomName();
+        this.typeID = device.getTypeID();
+        this.typeIcon = device.getTypeIcon();
+    }
+
+
+
+    public DeviceGetResponse(String deviceId2, String label) {
+        this.deviceId = deviceId2;
+        this.name = label;
     }
 
     @JsonProperty("device_id")
@@ -122,6 +140,36 @@ public class DeviceGetResponse {
     @JsonProperty("state")
     public void setState(String state) {
         this.state = state;
+    }
+
+    @JsonProperty("typeID")
+    public int getTypeID() {
+        return typeID;
+    }
+
+    @JsonProperty("typeID")
+    public void setTypeID(int typeID) {
+        this.typeID = typeID;
+    }
+
+    @JsonProperty("typeIcon")
+    public String getTypeIcon() {
+        return typeIcon;
+    }
+
+    @JsonProperty("typeIcon")
+    public void setTypeIcon(String typeIcon) {
+        this.typeIcon = typeIcon;
+    }
+
+    @JsonProperty("roomName")
+    public String getRoomName() {
+        return roomName;
+    }
+
+    @JsonProperty("roomName")
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     @JsonAnyGetter

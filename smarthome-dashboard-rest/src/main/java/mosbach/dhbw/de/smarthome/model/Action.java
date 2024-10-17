@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 public class Action {
     @Id
     private int id;
-    private int deviceID;
+    private String deviceID;
     private String deviceName;
     private String action;
     private int userID;
@@ -20,7 +20,7 @@ public class Action {
      * @param action
      * @param userID
      */
-    public Action(int id, int deviceID, String deviceName, String action, int userID) {
+    public Action(int id, String deviceID, String deviceName, String action, int userID) {
         this.id = id;
         this.deviceID = deviceID;
         this.deviceName = deviceName;
@@ -39,12 +39,12 @@ public class Action {
         this.id = id;
     }
 
-    public int getDeviceID() {
+    public String getDeviceID() {
         return deviceID;
     }
 
 
-    public void setDeviceID(int deviceID) {
+    public void setDeviceID(String deviceID) {
         this.deviceID = deviceID;
     }
 

@@ -20,4 +20,8 @@ export class RoutineService {
 
     return this.http.post(url, {});
   }
+
+  deleteRoutine(routineId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${routineId}`);
+  }
 }

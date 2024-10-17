@@ -41,7 +41,7 @@ public interface SmartThings {
      * @param accessToken the access token
      * @return the full status
      */
-    public GetFullStatusResponse getDeviceFullStatus(int deviceID, String accessToken );
+    public GetFullStatusResponse getDeviceFullStatus(String deviceID, String accessToken );
 
     /**
      * Checks if a switch is on

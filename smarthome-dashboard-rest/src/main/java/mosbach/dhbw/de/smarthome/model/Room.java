@@ -5,7 +5,6 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Room {
-    static int roomIdCounter = 0;
     @Id
     private int roomId;
     private String name;
@@ -15,7 +14,6 @@ public class Room {
      * @param name
      */
     public Room(String name) {
-        this.roomId = roomIdCounter++;
         this.name = name;
     }
 

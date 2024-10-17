@@ -2,6 +2,7 @@ package mosbach.dhbw.de.smarthome.service.api;
 
 import java.util.List;
 
+import mosbach.dhbw.de.smarthome.dto.AllTypes;
 import mosbach.dhbw.de.smarthome.model.Device;
 
 public interface DeviceService {
@@ -29,7 +30,7 @@ public interface DeviceService {
      * @param userID the user id
      * @return the device
      */
-    public Device getDeviceById(int id, Integer userID);
+    public Device getDeviceById(String id, Integer userID);
 
     /**
      * Deletes a device
@@ -38,7 +39,7 @@ public interface DeviceService {
      * @param userID the user id
      * @return true if the device was deleted, false otherwise
      */
-    public boolean deleteDevice(int id, Integer userID);
+    public boolean deleteDevice(String id, Integer userID);
 
     /**
      * Updates a device
@@ -48,5 +49,7 @@ public interface DeviceService {
      * @return true if the device was updated, false otherwise
      */
     public boolean updateDevice(Device device, Integer userID);
+
+    public AllTypes getTypes();
     
 }

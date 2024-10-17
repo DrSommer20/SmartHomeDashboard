@@ -16,7 +16,7 @@ export const routes: Routes = [
       path: 'home', component: HomeComponent,
       children: [
         { path: 'dashboard', component: DashboardComponent ,  data: { title: 'Dashboard' }},
-        { path: 'all-devices', component: AllDevicesComponent,  data: { title: 'Devices', button: 'Add Device'}},
+        { path: 'devices', component: AllDevicesComponent,  data: { title: 'Devices', button: 'Add Device'}},
         { path: 'rooms', component: RoomComponent,  data: { title: 'Rooms', button: 'Add Room'}},
         { path: 'routines', component: RoutineComponent,  data: { title: 'Routines', button: 'Add Routine'}},
         { path: 'user', component: UserProfileComponent ,  data: { title: 'User Profile' }}

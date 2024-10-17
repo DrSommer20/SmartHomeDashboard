@@ -1,26 +1,32 @@
-import { Component, OnDestroy, OnInit, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { DeviceService } from './device.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'an-device',
-  standalone: true, // Standalone component
-  imports: [CommonModule], // Import CommonModule for template directives like *ngIf and *ngFor
+  standalone: true, 
+  imports: [CommonModule], 
   templateUrl: './device.component.html',
   styleUrl: './device.component.css'
 })
 export class AllDevicesComponent implements OnInit, OnDestroy {
   title = 'All Devices';
-  // Using signals for reactive state management in Angular 17
   devices = signal<any[]>([]);
   public refreshInterval: any;
-  constructor(private deviceService: DeviceService) { }
+  isDevicesRoute: boolean = false;
+
+  constructor(private deviceService: DeviceService,  private router: Router) { }
   
   ngOnInit(): void {
     this.updateDevices();
     this.refreshInterval = setInterval(() => {
       this.updateDevices();
     }, 30000); // 30 seconds interval
+
+    this.router.events.subscribe(() => {
+      this.isDevicesRoute = this.router.url === '/home/devices';
+    });
   }
 
   ngOnDestroy(): void {
@@ -46,7 +52,7 @@ export class AllDevicesComponent implements OnInit, OnDestroy {
     this.deviceService.switchDevice(device.device_id, newState).subscribe(
       response => {
         console.log('Device updated successfully:', response);
-        this.refreshDeviceStatus(device.device_id);
+        this.updateDevices();
       },
       error => {
         console.error('Error updating device:', error);
@@ -55,22 +61,21 @@ export class AllDevicesComponent implements OnInit, OnDestroy {
     );
   }
 
-  refreshDeviceStatus(deviceId: string): void {
-    this.deviceService.getDeviceStatus(deviceId).subscribe(
+  deleteDevice(deviceId: string): void {
+    this.deviceService.deleteDevice(deviceId).subscribe(
       response => {
-        console.log('Erfolgreiche Antwort:', response);
-        const deviceIndex = this.devices().findIndex(d => d.device_id === deviceId);
-        if (deviceIndex !== -1) {
-          const updatedDevices = [...this.devices()];
-          updatedDevices[deviceIndex].state = response.state;
-          updatedDevices[deviceIndex].status = response.status;
-          this.devices.set(updatedDevices);
-        }
+        console.log('Device deleted successfully:', response);
+        this.updateDevices(); // Refresh the list of devices
       },
       error => {
-        console.error('Fehler bei der Anfrage:', error);
+        console.error('Error deleting device:', error);
       }
     );
   }
+
+  refreshContent(): void {
+    this.updateDevices();
+  }
+  
 }
 

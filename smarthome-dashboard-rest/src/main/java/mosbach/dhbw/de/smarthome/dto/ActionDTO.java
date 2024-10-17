@@ -22,7 +22,7 @@ public class ActionDTO {
     @JsonProperty("id")
     private int id;
     @JsonProperty("device_id")
-    private int deviceId;
+    private String deviceId;
     @JsonProperty("device_name")
     private String deviceName;
     @JsonProperty("action")
@@ -42,7 +42,7 @@ public class ActionDTO {
      * @param action
      * @param deviceId
      */
-    public ActionDTO(int id, int deviceId, String deviceName, String action) {
+    public ActionDTO(int id, String deviceId, String deviceName, String action) {
         super();
         this.id = id;
         this.deviceId = deviceId;
@@ -61,12 +61,12 @@ public class ActionDTO {
     }
 
     @JsonProperty("device_id")
-    public int getDeviceId() {
+    public String getDeviceId() {
         return deviceId;
     }
 
     @JsonProperty("device_id")
-    public void setDeviceId(int deviceId) {
+    public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
 

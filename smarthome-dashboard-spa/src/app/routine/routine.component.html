@@ -5,6 +5,9 @@
         <h3>
           <span class="material-symbols-outlined">schedule</span> {{ routine.name }}
         </h3>
+        <button class="delete-button" (click)="deleteRoutine(routine.id)">
+          <span class="material-symbols-outlined">delete</span>
+        </button>
       </div>
       <div class="card-separator"></div>
       <div class="routine-info">

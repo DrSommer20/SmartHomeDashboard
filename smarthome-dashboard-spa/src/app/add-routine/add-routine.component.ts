@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -23,6 +23,7 @@ interface Action {
 })
 
 export class AddRoutineComponent implements OnInit {
+  @Output() routineAdded = new EventEmitter<void>();
   devices: Device[] = [];
   routineForm: FormGroup;
 
@@ -51,8 +52,7 @@ export class AddRoutineComponent implements OnInit {
       });
   }
 
-  addRoutineSubmit(event: Event): void {
-    event.preventDefault();
+  addRoutineSubmit(): void {
     const formData = this.routineForm.value;
     const actions: Action[] = [];
 
@@ -77,7 +77,7 @@ export class AddRoutineComponent implements OnInit {
       .subscribe({
         next: (data) => {
           console.log('Routine added', data);
-          window.location.href = 'Routines.html';
+          this.routineAdded.emit();
         },
         error: (error) => {
           console.log('Error: ' + error.status + ' ' + error.message);

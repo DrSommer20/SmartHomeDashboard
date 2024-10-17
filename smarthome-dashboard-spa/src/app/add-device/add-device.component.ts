@@ -14,6 +14,8 @@ import { tap } from 'rxjs';
 export class AddDeviceComponent implements OnInit {
     @Output() deviceAdded = new EventEmitter<void>();
     devices: any[] = [];
+    deviceTypes: any[] = [];
+    rooms: any[] = [];
     deviceForm: FormGroup;
   
     constructor(private fb: FormBuilder, private http: HttpClient) {
@@ -27,21 +29,49 @@ export class AddDeviceComponent implements OnInit {
   
     ngOnInit(): void {
       this.loadSmartThingsDevices();
+      this.loadDeviceTypes();
+      this.loadRooms();
     }
   
     loadSmartThingsDevices(): void {
-
-  
       this.http.get<any>('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device/smartthings')
         .pipe(
           tap(response => {
-            console.log('Erfolgreiche Antwort:', response);
+            console.log('Smartthings answer: ', response);
             this.devices = response.devices;
           })
         )
         .subscribe({
           next: () => {},
           error: error => console.error('Fehler bei der Anfrage:', error)
+        });
+    }
+
+    loadDeviceTypes(): void {
+      this.http.get<any>('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device/device-type')
+        .pipe(
+          tap(response => {
+            console.log('Device types loaded:', response);
+            this.deviceTypes = response.devicetypes;
+          })
+        )
+        .subscribe({
+          next: () => {},
+          error: error => console.error('Error loading device types:', error)
+        });
+    }
+
+    loadRooms(): void {
+      this.http.get<any>('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/room')
+        .pipe(
+          tap(response => {
+            console.log('Rooms loaded:', response);
+            this.rooms = response.rooms;
+          })
+        )
+        .subscribe({
+          next: () => {},
+          error: error => console.error('Error loading rooms:', error)
         });
     }
   
@@ -51,7 +81,7 @@ export class AddDeviceComponent implements OnInit {
       const newDevice = {
         device_id: formData.smartThings,
         name: formData.name,
-        type: formData.type,
+        typeID: formData.type,
         location: formData.location
       };
   

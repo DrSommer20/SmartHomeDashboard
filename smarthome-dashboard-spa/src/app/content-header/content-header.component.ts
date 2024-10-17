@@ -56,7 +56,7 @@ export class ContentHeaderComponent implements OnInit, OnDestroy {
 
   handleButtonClick(): void {
     switch (this.currentRoute) {
-      case '/home/all-devices':
+      case '/home/devices':
         this.showModalForDevice();
         break;
       case '/home/routines':

@@ -67,6 +67,10 @@ public class User {
         this.email = email;
     }
 
+    public void setPasswordWithoutEncode(String password) {
+        this.password = password;
+    }
+
     public void setPassword(String password) {
         this.password = passwordEncoder.encode(password);
     }
@@ -117,5 +121,22 @@ public class User {
      */
     public boolean checkPassword(String password) {
         return passwordEncoder.matches(password, this.password);
+    }
+
+    /**
+     * Returns a string representation of the User object.
+     *
+     * @return a string representation of the User object
+     */
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID=" + userID +
+                ", username='" + firstName + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", isVerified=" + isVerified +
+                ", pat='" + pat + '\'' +
+                '}';
     }
 }

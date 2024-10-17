@@ -8,14 +8,12 @@
     <label for="deviceName" class="input-label">Device Name:</label>
     <input type="text" id="deviceName" formControlName="name" required />
     <label for="deviceType" class="input-label">Device Type:</label>
-    <select id="deviceType" formControlName="type" required>
-      <option value="light">Light</option>
-      <option value="table_lamp">Table Lamp</option>
-      <option value="floor_lamp">Floor Lamp</option>
-      <option value="outlet">Outlet</option>
-      <option value="mode_fan">Fan</option>
-    </select>
-    <label for="deviceLocation" class="input-label">Location:</label>
-    <input type="text" id="deviceLocation" formControlName="location" required />
+  <select id="deviceType" formControlName="type" required>
+    <option *ngFor="let type of deviceTypes" [value]="type.typeID">{{ type.type }}</option>
+  </select>
+  <label for="deviceLocation" class="input-label">Device Location:</label>
+  <select id="deviceLocation" formControlName="location" required>
+    <option *ngFor="let room of rooms" [value]="room.room_id" >{{ room.name }}</option>
+  </select>
     <button class="submit-button">Add</button>
   </form>

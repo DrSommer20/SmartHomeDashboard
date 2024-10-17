@@ -51,4 +51,21 @@ export class RoutineComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  refreshContent(): void {
+    this.updateRoutines();
+  }
+
+  
+  deleteRoutine(routineId: string): void {
+    this.routineService.deleteRoutine(routineId).subscribe(
+      response => {
+        console.log('Routine deleted successfully:', response);
+        this.updateRoutines();
+      },
+      error => {
+        console.error('Error deleting routine:', error);
+      }
+    );
+  }
 }

@@ -1,6 +1,5 @@
 
-.card-separator { /* Sidebar Links Separator */
-  /* Just a really small div that looks like a line*/
+.card-separator {
   margin-bottom: 1rem;
   left: 0;
   width: 100%;
@@ -13,7 +12,6 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   width: 100%;
-  ;
   border-radius: 20px;
   background: var(--secondary-color);
   font-weight: bold;
@@ -80,4 +78,17 @@
     font-size: 1rem;
     line-height: 1rem;
     color: var(--dark-color);
+  }
+
+  .delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: auto;
+  }
+  
+  .delete-button:hover {
+    background-color: #ff1a1a;
   }

@@ -15,5 +15,8 @@
     <div class="group">
       <input type="submit" class="button btn btn-primary" value="Sign In">
     </div>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
   </form>
 </div>

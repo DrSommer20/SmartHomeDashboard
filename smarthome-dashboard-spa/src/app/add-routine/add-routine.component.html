@@ -1,5 +1,5 @@
 <h2>Add new Routine</h2>
-<form [formGroup]="routineForm" (ngSubmit)="addRoutineSubmit($event)" class="content-input">
+<form [formGroup]="routineForm" (ngSubmit)="addRoutineSubmit()" class="content-input">
     <label for="routine-name" class="input-label">Routine Name:</label>
     <input class="input-label" type="text" id="routine-name" formControlName="routineName" required />
     <label for="routine-time" class="input-label">Trigger Time:</label>

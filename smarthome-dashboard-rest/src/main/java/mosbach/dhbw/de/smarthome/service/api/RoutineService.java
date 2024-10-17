@@ -58,4 +58,12 @@ public interface RoutineService {
      * @param userID the user id
      */
     public void updateRoutine(Routine routine, int userID);
+
+    /**
+     * Deletes all actions of a routine
+     * 
+     * @param routineID the routine id
+     * @return true if the actions were deleted, false otherwise
+     */
+    public boolean deleteActionsByDevice(String deviceId);
 }

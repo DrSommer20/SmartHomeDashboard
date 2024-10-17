@@ -93,7 +93,7 @@ public class RoomController {
      * @return a ResponseEntity containing the room or an error message
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getRoom(@PathVariable String id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getRoom(@PathVariable int id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
             Room room = roomService.getRoomById(id, user.getUserID());
@@ -113,7 +113,7 @@ public class RoomController {
      * @return a ResponseEntity indicating the result of the operation
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRoom(@PathVariable String id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> deleteRoom(@PathVariable int id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
             if(!roomService.removeRoom(id, user.getUserID())) return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
@@ -136,7 +136,7 @@ public class RoomController {
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?> changeRoom(@RequestHeader("Authorization") String token, @PathVariable String id, @RequestBody ChangeRequest changeRequest) {
+    public ResponseEntity<?> changeRoom(@RequestHeader("Authorization") String token, @PathVariable int id, @RequestBody ChangeRequest changeRequest) {
         User user = userService.getUser(token);
         if (user != null) {
             Room room = roomService.getRoomById(id, user.getUserID());

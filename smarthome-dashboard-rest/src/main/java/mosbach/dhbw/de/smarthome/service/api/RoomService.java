@@ -12,7 +12,7 @@ public interface RoomService {
      * @param userID the user id
      * @return the rooms
      */
-    public List<Room> getRooms(Integer userID);
+    public List<Room> getRooms(int userID);
 
     /**
      * Gets a room by its id
@@ -21,7 +21,7 @@ public interface RoomService {
      * @param userID the user id
      * @return the room
      */
-    public Room getRoomById(String roomId, Integer userID);
+    public Room getRoomById(int roomId, int userID);
 
     /**
      * Adds a room to the database
@@ -29,7 +29,7 @@ public interface RoomService {
      * @param room the room
      * @param userID the user id
      */
-    public void addRoom(Room room, Integer userID);
+    public void addRoom(Room room, int userID);
 
     /**
      * Updates a room
@@ -37,7 +37,7 @@ public interface RoomService {
      * @param room the room
      * @param userID the user id
      */
-    public void updateRoom(Room room, Integer userID);
+    public void updateRoom(Room room, int userID);
 
     /**
      * Removes a room
@@ -46,5 +46,5 @@ public interface RoomService {
      * @param userID the user id
      * @return true if the room was removed, false otherwise
      */
-    public boolean removeRoom(String roomId, Integer userID);
+    public boolean removeRoom(int roomId, int userID);
 }

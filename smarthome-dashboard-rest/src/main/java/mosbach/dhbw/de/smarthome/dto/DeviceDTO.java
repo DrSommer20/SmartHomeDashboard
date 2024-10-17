@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class DeviceDTO {
 
     @JsonProperty("device_id")
-    private int deviceId;
+    private String deviceId;
     @JsonProperty("name")
     private String name;
     @JsonProperty("typeID")
@@ -43,7 +43,7 @@ public class DeviceDTO {
      * @param location
      * @param type
      */
-    public DeviceDTO(int deviceId, String name, String type, int location, int typeID, String typeIcon) {
+    public DeviceDTO(String deviceId, String name, String type, int location, int typeID, String typeIcon) {
         super();
         this.deviceId = deviceId;
         this.name = name;
@@ -54,12 +54,12 @@ public class DeviceDTO {
     }
 
     @JsonProperty("device_id")
-    public int getDeviceId() {
+    public String getDeviceId() {
         return deviceId;
     }
 
     @JsonProperty("device_id")
-    public void setDeviceId(int deviceId) {
+    public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
 

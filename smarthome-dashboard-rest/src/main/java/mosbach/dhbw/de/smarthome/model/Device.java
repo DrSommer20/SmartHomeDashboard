@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Device {
     @Id
-    private int id;
+    private String id;
     private String name;
     private String type;
     private String typeIcon;
@@ -14,6 +14,7 @@ public class Device {
     private String status;
     private int location;
     private String state;
+    private String roomName;
 
     /**
      * Constructor
@@ -23,7 +24,7 @@ public class Device {
      * @param typeID
      * @param location
      */
-    public Device(int id, String name, int typeID, int location) {
+    public Device(String id, String name, int typeID, int location) {
         this.id = id;
         this.name = name;
         this.typeID = typeID;
@@ -36,11 +37,11 @@ public class Device {
     }
 
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }  
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -108,4 +109,11 @@ public class Device {
         return status.equals("Online");
     }
 
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
 }

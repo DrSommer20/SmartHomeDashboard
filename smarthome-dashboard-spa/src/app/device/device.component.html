@@ -3,13 +3,16 @@
     <div class="display-card">
       <div class="display-card-header">
         <h3>
-          <span class="material-symbols-outlined">{{ device.type }}</span> {{ device.name }}
+          <span class="material-symbols-outlined">{{ device.typeIcon }}</span> {{ device.name }}
         </h3>
+        <button *ngIf="isDevicesRoute" class="delete-button" (click)="deleteDevice(device.device_id)">
+          <span class="material-symbols-outlined">delete</span>
+        </button>
       </div>
       <div class="card-separator"></div>
       <div class="device-info">
         <p>Type: {{ device.type }}</p>
-        <p>Location: {{ device.location }}</p>
+        <p>Location: {{ device.roomName }}</p>
         <p>State: {{ device.status }}</p>
 
         <!-- Toggle Switch -->

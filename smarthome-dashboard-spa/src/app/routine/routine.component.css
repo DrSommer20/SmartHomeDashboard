@@ -156,3 +156,16 @@
   .action-display p {
     color: var(--light-color);
   }
+
+  .delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: auto;
+  }
+  
+  .delete-button:hover {
+    background-color: #ff1a1a;
+  }

@@ -33,12 +33,17 @@ export class ModalComponent implements AfterViewInit {
         break;
       case 'Routine':
         this.componentRef = this.container.createComponent(AddRoutineComponent);
+        this.componentRef.instance.routineAdded.subscribe(() => {
+          this.closeModal();
+        });
         break;
       case 'Rooms':
         this.componentRef = this.container.createComponent(AddRoomComponent);
+        this.componentRef.instance.roomAdded.subscribe(() => {
+          this.closeModal();
+        });
         break;
       default:
-        // Handle default case if needed
         break;
     }
   }

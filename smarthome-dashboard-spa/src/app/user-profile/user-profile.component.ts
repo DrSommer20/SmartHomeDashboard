@@ -2,6 +2,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'an-user-profile',
@@ -14,7 +15,7 @@ export class UserProfileComponent implements OnInit {
   @Output() titleEvent = new EventEmitter<string>();
   userForm: FormGroup;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {
+  constructor(private http: HttpClient, private fb: FormBuilder, private router: Router) {
     this.userForm = this.fb.group({
       firstName: [''],
       lastName: [''],
@@ -38,7 +39,6 @@ export class UserProfileComponent implements OnInit {
           firstName: response.firstName,
           lastName: response.lastName,
           email: response.email,
-          password: response.password,
           pat: response.pat
         });
       },
@@ -85,7 +85,7 @@ export class UserProfileComponent implements OnInit {
         if (response.email !== currentData.email) {
           this.updateField('email', currentData.email);
         }
-        if (response.password !== currentData.password) {
+        if (currentData.password !== '') {
           this.updateField('password', currentData.password);
         }
         if (response.pat !== currentData.pat) {
@@ -97,4 +97,20 @@ export class UserProfileComponent implements OnInit {
       }
     );
   }
+
+  deleteProfile(): void {
+    const confirmation = confirm('Are you sure you want to delete your profile? This action cannot be undone.');
+    if (confirmation) {
+      this.http.delete('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/user').subscribe(
+        response => {
+          console.log('Profile deleted successfully:', response);
+          this.router.navigate(['/login']);
+        },
+        error => {
+          console.error('Error deleting profile:', error);
+        }
+      );
+    }
+  }
+  
 }

@@ -83,14 +83,14 @@ public class AuthController {
         path = "/sign-up",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?> signIn(@RequestBody UserDTO userRequest) { 
+    public ResponseEntity<?> signUp(@RequestBody UserDTO userRequest) { 
         User user;
         if(userService.getUserByEmail(userRequest.getEmail()) == null){
             if(userRequest.getPat() != null) user = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail(), userRequest.getPassword(), userRequest.getPat());
             else user = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail(), userRequest.getPassword());
             userService.addUser(user);
             String verificationToken = authService.generateVerificationToken(user);
-            verificationService.sendVerificationEmail(user.getEmail(), "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud//public/login-page/verify-email.html?token="+verificationToken);
+            verificationService.sendVerificationEmail(user.getEmail(), "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud//public/login-page/verify-email.html?token="+verificationToken);  //TODO: Change URL
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account created"), HttpStatus.OK);
         }
         else{
