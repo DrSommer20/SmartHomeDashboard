@@ -81,16 +81,3 @@
       line-height: 1rem;
       color: var(--dark-color);
     }
-
-    .delete-button {
-        background-color: #ff4d4d;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    
-    .delete-button:hover {
-    background-color: #ff1a1a;
-    }
-  

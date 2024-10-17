@@ -183,8 +183,8 @@ public class DeviceController {
                 case "name":
                     device.setName(changeRequest.getNewValue());
                     break;
-                case "type":
-                    device.setType(changeRequest.getNewValue());
+                case "typeID":
+                    device.setTypeID(Integer.parseInt(changeRequest.getNewValue()));
                     break;
                 case "location":
                     device.setLocation(Integer.parseInt(changeRequest.getNewValue()));

@@ -23,7 +23,6 @@ export class ModalComponent implements AfterViewInit {
   }
 
   loadComponent() {
-    console.log(this.type);
     switch (this.type) {
       case 'Device':
         this.componentRef = this.container.createComponent(AddDeviceComponent);

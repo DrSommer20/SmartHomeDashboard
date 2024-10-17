@@ -37,7 +37,6 @@ export class AddDeviceComponent implements OnInit {
       this.http.get<any>('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device/smartthings')
         .pipe(
           tap(response => {
-            console.log('Smartthings answer: ', response);
             this.devices = response.devices;
           })
         )
@@ -51,7 +50,6 @@ export class AddDeviceComponent implements OnInit {
       this.http.get<any>('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device/device-type')
         .pipe(
           tap(response => {
-            console.log('Device types loaded:', response);
             this.deviceTypes = response.devicetypes;
           })
         )
@@ -65,7 +63,6 @@ export class AddDeviceComponent implements OnInit {
       this.http.get<any>('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/room')
         .pipe(
           tap(response => {
-            console.log('Rooms loaded:', response);
             this.rooms = response.rooms;
           })
         )
@@ -85,7 +82,6 @@ export class AddDeviceComponent implements OnInit {
         location: formData.location
       };
   
-      console.log(newDevice);
   
       this.http.post('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device', newDevice)
         .pipe(
