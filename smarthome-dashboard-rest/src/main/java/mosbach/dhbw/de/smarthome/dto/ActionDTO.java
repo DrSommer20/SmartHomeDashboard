@@ -19,6 +19,8 @@ import mosbach.dhbw.de.smarthome.model.User;
 
 public class ActionDTO {
 
+    @JsonProperty("id")
+    private int id;
     @JsonProperty("device_id")
     private String deviceId;
     @JsonProperty("device_name")
@@ -40,11 +42,22 @@ public class ActionDTO {
      * @param action
      * @param deviceId
      */
-    public ActionDTO(String deviceId, String deviceName, String action) {
+    public ActionDTO(int id, String deviceId, String deviceName, String action) {
         super();
+        this.id = id;
         this.deviceId = deviceId;
         this.action = action;
         this.deviceName = deviceName;
+    }
+
+    @JsonProperty("id")
+    public int getId() {
+        return id;
+    }
+
+    @JsonProperty("id")
+    public void setId(int id) {
+        this.id = id;
     }
 
     @JsonProperty("device_id")
@@ -92,7 +105,7 @@ public class ActionDTO {
         if (actions != null) {
             actionDTOs = new ArrayList<ActionDTO>();
             for (Action action : actions) {
-                actionDTOs.add(new ActionDTO(action.getDeviceID(), action.getDeviceName(), action.getAction()));
+                actionDTOs.add(new ActionDTO(action.getID(), action.getDeviceID(), action.getDeviceName(), action.getAction()));
             }
         }
         return actionDTOs;
@@ -103,7 +116,7 @@ public class ActionDTO {
         if (actions != null) {
             actionModels = new ArrayList<Action>();
             for (ActionDTO actionDTO : actions) {
-                actionModels.add(new Action(actionDTO.getDeviceId(), actionDTO.getDeviceName(), actionDTO.getAction(), user.getUserID()));
+                actionModels.add(new Action(actionDTO.getId(), actionDTO.getDeviceId(), actionDTO.getDeviceName(), actionDTO.getAction(), user.getUserID()));
             }
         }
         return actionModels;

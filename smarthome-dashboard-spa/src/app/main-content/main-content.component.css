@@ -1,0 +1,10 @@
+
+
+#main-content {
+  flex-grow: 1;
+  margin-left: 90px;
+  padding: 30px;
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,19 @@
+<div class="row" *ngIf="rooms.length > 0; else noRooms">
+    <div *ngFor="let room of rooms; let i = index" class="col-sm-12 col-md-12 col-lg-6 col-xl-4">
+      <div class="display-card">
+        <div class="display-card-header">
+          <h3>
+            <span class="material-symbols-outlined">home</span> {{ room.name }}
+          </h3>
+        </div>
+        <div class="card-separator"></div>
+        <div class="room-info">
+          <p>ID: {{ room.room_id }}</p>
+          <button *ngIf="room.name !== 'Default Room'" (click)="deleteRoom(room.room_id)" class="delete-button"><span class="material-symbols-outlined">delete</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noRooms>
+    <p>No rooms available. Please add a room.</p>
+  </ng-template>

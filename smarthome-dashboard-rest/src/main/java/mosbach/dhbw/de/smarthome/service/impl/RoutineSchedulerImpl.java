@@ -67,10 +67,10 @@ public class RoutineSchedulerImpl implements RoutineScheduler {
         System.out.println("Executing routine at: " + LocalDateTime.now());
         for (Action action : actions) {
             System.out.println("Device ID: " + action.getDeviceID() + ", Action: " + action.getAction() + ", User-PAT: " + userService.getUserPATbyID(action.getUserID()));
-            boolean response = smartThings.setDeviceStatus(action.getAction(),action.getDeviceID(), "switch", userService.getUserPATbyID(action.getUserID()));
+            boolean response = smartThings.setDeviceStatus(action.getAction(),action.getDeviceID()+"", "switch", userService.getUserPATbyID(action.getUserID()));
             System.out.println("Response: "+ response);
             if(response) {
-                if(smartThings.isSwitchOn(action.getDeviceID(),userService.getUserPATbyID(action.getUserID()))) deviceService.getDeviceById(action.getDeviceID(), action.getUserID()).setState("On");
+                if(smartThings.isSwitchOn(action.getDeviceID()+"",userService.getUserPATbyID(action.getUserID()))) deviceService.getDeviceById(action.getDeviceID(), action.getUserID()).setState("On");
                 else deviceService.getDeviceById(action.getDeviceID(), action.getUserID()).setState("Off");
             }
             else {

@@ -11,16 +11,24 @@ import mosbach.dhbw.de.smarthome.service.impl.RoutineSchedulerImpl;
 @Entity
 public class Routine {
 
-    private static int idCounter = 0;
     @Id
-    private String id;
+    private int id;
     private String name;
     private List<Action> actions;
     private String triggerTime;
     private boolean state;
     private RoutineScheduler routineScheduler;
 
-    public Routine(String id, String name, List<Action> actions, String triggerTime, boolean state) {
+    /**
+     * Constructor
+     * 
+     * @param id
+     * @param name
+     * @param actions
+     * @param triggerTime
+     * @param state
+     */
+    public Routine(int id, String name, List<Action> actions, String triggerTime, boolean state) {
         this.id = id;
         this.name = name;
         this.actions = actions;
@@ -32,14 +40,17 @@ public class Routine {
     }
 
     public Routine(String name, List<Action> actions, String triggerTime, boolean state) {
-        this(idCounter++ + "", name, actions, triggerTime, state);
+        this(0, name, actions, triggerTime, state);
     }
 
-    public String getID() {
+    public Routine() {
+    }
+
+    public int getID() {
         return id;
     }
 
-    public void setID(String id) {
+    public void setID(int id) {
         this.id = id;
     }
 

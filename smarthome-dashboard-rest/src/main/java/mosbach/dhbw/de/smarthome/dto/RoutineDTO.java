@@ -18,7 +18,7 @@ import mosbach.dhbw.de.smarthome.model.User;
 public class RoutineDTO {
 
     @JsonProperty("id")
-    private String id;
+    private int id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("actions")
@@ -43,7 +43,7 @@ public class RoutineDTO {
      * @param trigger
      * @param actions
      */
-    public RoutineDTO(String id, String name, List<ActionDTO> actions, Trigger trigger, boolean state) {
+    public RoutineDTO(int id, String name, List<ActionDTO> actions, Trigger trigger, boolean state) {
         super();
         this.id = id;
         this.name = name;
@@ -93,12 +93,12 @@ public class RoutineDTO {
     }
 
     @JsonProperty("id")
-    public String getID() {
+    public int getID() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setID(String id) {
+    public void setID(int id) {
         this.id = id;
     }
 

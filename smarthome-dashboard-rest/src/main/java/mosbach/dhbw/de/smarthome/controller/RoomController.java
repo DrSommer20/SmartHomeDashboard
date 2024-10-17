@@ -28,7 +28,7 @@ import mosbach.dhbw.de.smarthome.model.User;
 import mosbach.dhbw.de.smarthome.service.api.RoomService;
 import mosbach.dhbw.de.smarthome.service.api.UserService;
 
-@CrossOrigin(origins = "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", allowedHeaders = "*")
+@CrossOrigin(origins = {"https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", "https://smarthome-spa.apps.01.cf.eu01.stackit.cloud/"}, allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/room")
 public class RoomController {
@@ -39,6 +39,12 @@ public class RoomController {
     @Autowired
     private UserService userService;
     
+    /**
+     * Retrieves all rooms for the authenticated user.
+     * 
+     * @param token the authorization token
+     * @return a ResponseEntity containing all rooms or an error message
+     */
     @GetMapping
     public ResponseEntity<?> getAllRooms(@RequestHeader("Authorization") String token) { 
         User user = userService.getUser(token);
@@ -57,6 +63,13 @@ public class RoomController {
 
     }
 
+    /**
+     * Creates a new room for the authenticated user.
+     * 
+     * @param token the authorization token
+     * @param roomDTO the room data transfer object
+     * @return a ResponseEntity indicating the result of the operation
+     */
     @PostMapping(
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
@@ -72,8 +85,15 @@ public class RoomController {
         }
     }
 
+    /**
+     * Retrieves a specific room by its ID for the authenticated user.
+     * 
+     * @param id the room ID
+     * @param token the authorization token
+     * @return a ResponseEntity containing the room or an error message
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getRoom(@PathVariable String id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getRoom(@PathVariable int id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
             Room room = roomService.getRoomById(id, user.getUserID());
@@ -85,14 +105,18 @@ public class RoomController {
         }
     }
 
+    /**
+     * Deletes a specific room by its ID for the authenticated user.
+     * 
+     * @param id the room ID
+     * @param token the authorization token
+     * @return a ResponseEntity indicating the result of the operation
+     */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRoom(@PathVariable String id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> deleteRoom(@PathVariable int id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
-            boolean result = roomService.removeRoom(id, user.getUserID());
-            if(!result){
-                return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
-            }
+            if(!roomService.removeRoom(id, user.getUserID())) return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Room deleted"), HttpStatus.OK);
         }
         else {
@@ -100,11 +124,19 @@ public class RoomController {
         }
     }
      
+    /**
+     * Updates a specific room by its ID for the authenticated user.
+     * 
+     * @param token the authorization token
+     * @param id the room ID
+     * @param changeRequest the change request containing the field to update and the new value
+     * @return a ResponseEntity indicating the result of the operation
+     */
     @PutMapping(
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?> changeRoom(@RequestHeader("Authorization") String token, @PathVariable String id, @RequestBody ChangeRequest changeRequest) {
+    public ResponseEntity<?> changeRoom(@RequestHeader("Authorization") String token, @PathVariable int id, @RequestBody ChangeRequest changeRequest) {
         User user = userService.getUser(token);
         if (user != null) {
             Room room = roomService.getRoomById(id, user.getUserID());
@@ -118,6 +150,7 @@ public class RoomController {
                 default:
                     return new ResponseEntity<MessageReason>(new MessageReason("Field not available"), HttpStatus.BAD_REQUEST);
             }
+            roomService.updateRoom(room, user.getUserID());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Room updated"), HttpStatus.OK);
         }
         else {

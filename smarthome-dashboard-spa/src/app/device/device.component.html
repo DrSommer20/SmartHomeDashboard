@@ -1,0 +1,31 @@
+<div class="row" *ngIf="devices().length > 0">
+  <div *ngFor="let device of devices(); let i = index" class="col-sm-12 col-md-12 col-lg-6 col-xl-4">
+    <div class="display-card">
+      <div class="display-card-header">
+        <h3>
+          <span class="material-symbols-outlined">{{ device.typeIcon }}</span> {{ device.name }}
+        </h3>
+        <button *ngIf="isDevicesRoute" class="delete-button" (click)="deleteDevice(device.device_id)">
+          <span class="material-symbols-outlined">delete</span>
+        </button>
+      </div>
+      <div class="card-separator"></div>
+      <div class="device-info">
+        <p>Type: {{ device.type }}</p>
+        <p>Location: {{ device.roomName }}</p>
+        <p>State: {{ device.status }}</p>
+
+        <!-- Toggle Switch -->
+        <input type="checkbox"
+               [checked]="device.state === 'On'"
+               (change)="toggleDevice(device, $event)"
+               id="toggleCheckbox{{ i }}"
+               class="toggleCheckbox" />
+        <label for="toggleCheckbox{{ i }}" class="toggleContainer">
+          <div>OFF</div>
+          <div>ON</div>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
