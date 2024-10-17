@@ -8,6 +8,8 @@ applications:
   # Necessary:
   random-route: true
   memory: 1G
+  buildpacks:
+   - java_buildpack
   #needed for Java 17:
   env:
     JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'

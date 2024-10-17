@@ -5,14 +5,19 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Room {
-    static int roomIdCounter = 0;
     @Id
     private int roomId;
     private String name;
 
+    /**
+     * Constructor
+     * @param name
+     */
     public Room(String name) {
-        this.roomId = roomIdCounter++;
         this.name = name;
+    }
+
+    public Room() {
     }
 
     public int getRoomId() {

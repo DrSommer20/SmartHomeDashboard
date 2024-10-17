@@ -1,0 +1,21 @@
+.weather-container {
+    padding: 20px;
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 8px;
+  }
+  
+  .weather-container h2 {
+    margin-top: 0;
+  }
+  
+  .weather-container p {
+    margin: 5px 0;
+  }
+  
+  .weather-container img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }

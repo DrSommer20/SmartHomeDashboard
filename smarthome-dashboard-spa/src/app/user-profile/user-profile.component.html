@@ -1,0 +1,13 @@
+<!-- user-profile.component.html -->
+<div class="col-md-4 col-sm-12">
+  <form [formGroup]="userForm" class="content-input">
+    <input id="userfirstName" formControlName="firstName" placeholder="First Name">
+    <input id="userlastName" formControlName="lastName" placeholder="Last Name">
+    <input id="useremail" formControlName="email" placeholder="Email">
+    <input id="userpassword" formControlName="password" placeholder="Password">
+    <input id="userpat" formControlName="pat" placeholder="Personal Access Token">
+    <button type="button" class="head-button" (click)="onEditButtonClick()">Edit User</button>
+    <button type="button" class="btn btn-danger" (click)="deleteProfile()">Delete Profile</button>
+  </form>
+</div>
+  

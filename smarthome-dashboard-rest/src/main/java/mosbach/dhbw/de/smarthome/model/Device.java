@@ -9,17 +9,40 @@ public class Device {
     private String id;
     private String name;
     private String type;
+    private String typeIcon;
+    private int typeID;
     private String status;
-    private String location;
+    private int location;
     private String state;
+    private String roomName;
 
-    public Device(String id, String name, String type, String location) {
+    /**
+     * Constructor
+     * 
+     * @param id
+     * @param name
+     * @param typeID
+     * @param location
+     */
+    public Device(String id, String name, int typeID, int location) {
         this.id = id;
         this.name = name;
-        this.type = type;
+        this.typeID = typeID;
         this.location = location;
         this.status = "Offline";
         this.state = "Off";
+    }
+
+    public Device() {
+    }
+
+
+    public void setId(String id) {
+        this.id = id;
+    }  
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -34,16 +57,12 @@ public class Device {
         return status;
     }
 
-    public String getLocation() {
+    public int getLocation() {
         return location;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public void setName(String name) {
@@ -54,7 +73,7 @@ public class Device {
         this.type = type;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(int location) {
         this.location = location;
     }
 
@@ -64,5 +83,37 @@ public class Device {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getTypeIcon() {
+        return typeIcon;
+    }
+
+    public void setTypeIcon(String typeIcon) {
+        this.typeIcon = typeIcon;
+    }
+
+    public int getTypeID() {
+        return typeID;
+    }
+
+    public void setTypeID(int typeID) {
+        this.typeID = typeID;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status ? "Online" : "Offline";
+    }
+
+    public boolean getStatusBoolean() {
+        return status.equals("Online");
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 }

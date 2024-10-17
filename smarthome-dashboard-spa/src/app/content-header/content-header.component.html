@@ -1,0 +1,7 @@
+<header>
+  <div class="header">
+    <h1>{{ title }}</h1>
+    <button *ngIf="buttonTitle" (click)="handleButtonClick()" class="head-button">{{buttonTitle}}</button>
+  </div>
+  <ng-template #modalContainer></ng-template>
+</header>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mosbach.dhbw.de.smarthome.dto.ActionDTO;
@@ -25,7 +26,7 @@ import mosbach.dhbw.de.smarthome.model.User;
 import mosbach.dhbw.de.smarthome.service.api.RoutineService;
 import mosbach.dhbw.de.smarthome.service.api.UserService;
 
-@CrossOrigin(origins = "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", allowedHeaders = "*")
+@CrossOrigin(origins = {"https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", "https://smarthome-spa.apps.01.cf.eu01.stackit.cloud/"}, allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/routine")
 public class RoutineController {
@@ -36,6 +37,13 @@ public class RoutineController {
     @Autowired
     private UserService userService;
     
+    /**
+     * Retrieves all routines for the authenticated user.
+     *
+     * @param token The authorization token of the user.
+     * @return A ResponseEntity containing all routines if the user is authenticated,
+     *         or an error message if the credentials are wrong.
+     */
     @GetMapping
     public ResponseEntity<?> getAllRoutines(@RequestHeader("Authorization") String token) { 
         User user = userService.getUser(token);
@@ -46,6 +54,14 @@ public class RoutineController {
          return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * Deletes a routine by its ID.
+     *
+     * @param id The ID of the routine to delete.
+     * @param token The authorization token of the user.
+     * @return A ResponseEntity containing a success message if the routine was deleted,
+     *         or an error message if the routine was not found or the credentials were wrong.
+     */
     @PostMapping(
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
@@ -61,6 +77,13 @@ public class RoutineController {
         }
     }
 
+    /**
+     * Retrieves a routine by its ID.
+     * 
+     * @param id The ID of the routine to retrieve.
+     * @param token The authorization token of the user.
+     * @return A ResponseEntity containing the routine if it was found,
+     */
     @GetMapping(
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
@@ -81,6 +104,14 @@ public class RoutineController {
         }
     }
 
+    /**
+     * Deletes a routine by its ID.
+     *
+     * @param id The ID of the routine to delete.
+     * @param token The authorization token of the user.
+     * @return A ResponseEntity containing a success message if the routine was deleted,
+     *         or an error message if the routine was not found or the credentials were wrong.
+     */
     @DeleteMapping(
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
@@ -88,18 +119,23 @@ public class RoutineController {
     public ResponseEntity<?> deleteRoutine(@PathVariable String id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
-            if(routineService.deleteRoutine(id, user)){
-                return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine deleted"), HttpStatus.OK);
-            }
-            else{
-                return new ResponseEntity<MessageReason>(new MessageReason("Routine not found"), HttpStatus.NOT_FOUND);
-            }
+            if(routineService.deleteRoutine(id, user)) return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine deleted"), HttpStatus.OK);
+            else return new ResponseEntity<MessageReason>(new MessageReason("Routine not found"), HttpStatus.NOT_FOUND);
         }
         else{
             return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
     }
      
+    /**
+     * Updates a routine by its ID.
+     *
+     * @param id The ID of the routine to update.
+     * @param token The authorization token of the user.
+     * @param changeRequest The change request containing the field to update and the new value.
+     * @return A ResponseEntity containing a success message if the routine was updated,
+     *         or an error message if the routine was not found or the credentials were wrong.
+     */
     @PutMapping(
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
@@ -114,6 +150,7 @@ public class RoutineController {
                 routine.setTriggerTime(changeRequest.getTrigger().getValue());
                 routine.setState(changeRequest.isState());
                 routine.refresh();
+                routineService.updateRoutine(routine, user.getUserID());
                 return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine changed"), HttpStatus.OK);
             }
             else{
@@ -124,6 +161,33 @@ public class RoutineController {
             return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
         }
 
+    }
+
+    /**
+     * Switches a routine by its ID.
+     *
+     * @param id The ID of the routine to switch.
+     * @param token The authorization token of the user.
+     * @param state The state to switch the routine to.
+     * @return A ResponseEntity containing a success message if the routine was switched,
+     *         or an error message if the routine was not found or the credentials were wrong.
+     */
+    @PostMapping(
+        path = "/{id}/{state}"
+    )
+    public ResponseEntity<?> switchRoutine(@RequestHeader("Authorization") String token, @RequestParam String state, @RequestParam String id) {
+        User user = userService.getUser(token);
+        if(user != null){
+            if(routineService.switchRoutine(id, state.equals("on"), user)){
+                return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine switched"), HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<MessageReason>(new MessageReason("Routine not found"), HttpStatus.NOT_FOUND);
+            }
+        }
+        else{
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
+        }
     }
 
 }

@@ -16,6 +16,7 @@ $(document).ready(function() {
         }
     });
 
+
  $.ajax({
                 url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device/device-type',
                 type: 'GET',
@@ -50,6 +51,7 @@ $(document).ready(function() {
         }
 });
 
+
     $("#AddDeviceSubmit").click(function() {
         var AddNewDevice = {
             device_id: $("#deviceSmartThings").find('option:selected').val(),
@@ -68,6 +70,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(data) {
                 location.href = 'Devices.html';
+
             },
             data: JSON.stringify(AddNewDevice),
             processData: false,

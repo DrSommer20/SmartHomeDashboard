@@ -6,17 +6,37 @@ import jakarta.persistence.Id;
 @Entity
 public class Action {
     @Id
+    private int id;
     private String deviceID;
     private String deviceName;
     private String action;
     private int userID;
 
-
-    public Action(String deviceID, String deviceName, String action, int userID) {
+    /**
+     * Constructor
+     * @param id 
+     * @param deviceID 
+     * @param deviceName
+     * @param action
+     * @param userID
+     */
+    public Action(int id, String deviceID, String deviceName, String action, int userID) {
+        this.id = id;
         this.deviceID = deviceID;
         this.deviceName = deviceName;
         this.action = action;
         this.userID = userID;
+    }
+
+    public Action() {
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    public void setID(int id) {
+        this.id = id;
     }
 
     public String getDeviceID() {

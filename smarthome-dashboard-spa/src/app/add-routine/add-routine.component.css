@@ -1,0 +1,74 @@
+
+.delete-action{
+    background-color: red;
+    color: var(--light-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 1vw;
+  }
+  
+  .action{
+    background-color: var(--secondary-color);
+    color: var(--light-color);
+    border: none;
+    border-radius: 5px;
+    display:flex;
+    margin: 1vh;
+  }
+  
+  .action-type{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .action-group{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    margin: 1vw;
+    width: 100%;
+  }
+  
+  .add-action{
+    background-color: var(--grey-color);
+    color: var(--light-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+  }
+  
+  .action-device{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .actions-display{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1vw;
+    background-color: var(--secondary-color);
+    color: var(--light-color);
+    border-radius: 5px;
+    margin-bottom: 1vh;
+  }
+  
+  .action-display{
+    padding: 1vw;
+    color: var(--light-color);
+    border-radius: 5px;
+    border: 1px solid;
+    margin: 1vh;
+  }
+  
+  .action-display p {
+    color: var(--light-color);
+  }
