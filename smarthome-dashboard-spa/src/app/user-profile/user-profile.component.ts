@@ -34,7 +34,6 @@ export class UserProfileComponent implements OnInit {
 
     this.http.get<any>('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/user').subscribe(
       response => {
-        console.log('Erfolgreiche Antwort:', response);
         this.userForm.patchValue({
           firstName: response.firstName,
           lastName: response.lastName,
@@ -56,12 +55,7 @@ export class UserProfileComponent implements OnInit {
 
     this.http.put('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/user', data).subscribe(
       response => {
-        console.log(`Feld ${field} erfolgreich aktualisiert:`, response);
-        if (field === 'password') {
-          console.log(`Feld ${field} wird aktualisiert.`);
-        } else {
-          console.log(`Feld ${field} wird aktualisiert auf: ${newValue}`);
-        }
+            //TODO: Info on success
       },
       error => {
         console.error(`Fehler beim Aktualisieren von ${field}:`, error);
@@ -103,7 +97,6 @@ export class UserProfileComponent implements OnInit {
     if (confirmation) {
       this.http.delete('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/user').subscribe(
         response => {
-          console.log('Profile deleted successfully:', response);
           this.router.navigate(['/login']);
         },
         error => {
