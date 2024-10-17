@@ -54,7 +54,7 @@ $(document).ready(function() {
         var AddNewDevice = {
             device_id: $("#deviceSmartThings").find('option:selected').val(),
             name: $("#deviceName").val(),
-            type: $("#deviceType").find('option:selected').val(),
+            typeID: $("#deviceType").find('option:selected').val(),
             location: $("#deviceLocation").find('option:selected').val(),
         };
         console.log(AddNewDevice);
