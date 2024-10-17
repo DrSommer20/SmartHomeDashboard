@@ -57,7 +57,6 @@ export class UserProfileComponent implements OnInit {
 
     this.http.put('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/user', data).subscribe(
       response => {
-        
       },
       error => {
         console.error(`Fehler beim Aktualisieren von ${field}:`, error);
