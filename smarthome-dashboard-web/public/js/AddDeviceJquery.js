@@ -16,48 +16,67 @@ $(document).ready(function() {
         }
     });
 
-    $("#deviceSmartThings").change(function() {
-        alert(this.value);
-    });
-    
+
+ $.ajax({
+                url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device/device-type',
+                type: 'GET',
+                headers: {
+                    'Authorization': localStorage.getItem('authToken')
+                },
+                success: function(response) {
+                    console.log('Erfolgreiche Antwort: device Type', response);
+                    response.devicetypes.forEach(type => {
+                        $('#deviceType').append(new Option(type.type, type.typeID));
+                    });
+                },
+                error: function(error) {
+                    console.error('Fehler bei der Anfrage:', error);
+                }
+            });
+
+ $.ajax({
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/room',
+        type: 'GET',
+        headers: {
+           'Authorization': localStorage.getItem('authToken')
+        },
+        success: function(response) {
+            console.log('Erfolgreiche Antwort: Room', response);
+            response.rooms.forEach(room => {
+            $('#deviceLocation').append(new Option(room.name, room.room_id));
+            });
+        },
+        error: function(error) {
+            console.error('Fehler bei der Anfrage:', error);
+        }
+});
+
+
     $("#AddDeviceSubmit").click(function() {
-
         var AddNewDevice = {
-                device_id: $("#deviceSmartThings").find('option:selected').val(),
-                name: $("#deviceName").val(),
-                type:$("#deviceType").val(),
-                location:$("#deviceLocation").val()
-            };
-
+            device_id: $("#deviceSmartThings").find('option:selected').val(),
+            name: $("#deviceName").val(),
+            typeID: $("#deviceType").find('option:selected').val(),
+            location: $("#deviceLocation").find('option:selected').val(),
+        };
         console.log(AddNewDevice);
         $.ajax({
             url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device',
-            type: 'post',
+            type: 'POST',
             dataType: 'json',
             headers: {
-                        'Authorization': localStorage.getItem('authToken')
-                    },
-
-             contentType: 'application/json',
-
-            success: function (data) {
-                location.href='../homepage.html';
+                'Authorization': localStorage.getItem('authToken')
             },
+            contentType: 'application/json',
+            success: function(data) {
+                location.href = 'Devices.html';
 
+            },
             data: JSON.stringify(AddNewDevice),
-
             processData: false,
-
-            contentType: "application/json; charset=UTF-8",
-
-            error: function (xhr, ajaxOptions, thrownError) {
-
+            error: function(xhr, ajaxOptions, thrownError) {
                 alert('Error: ' + xhr.status + '   ' + thrownError);
-
             }
-
         });
-
     });
 });
-
