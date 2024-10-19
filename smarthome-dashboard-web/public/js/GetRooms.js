@@ -34,7 +34,7 @@ function displayRooms(rooms) {
                      <div class="display-card-header">
                        <h3>
                 <span></span> ${room.name}
-                <button class="edit-button" id="room-edit-button `+ uniqueId +`" >Edit</button>
+                <button class="edit-button" id="room-edit-button`+uniqueId+`" >Edit</button>
             </h3>
         </div>
         <div class="card-separator"></div>
@@ -72,3 +72,80 @@ function displayRooms(rooms) {
     });
   }
 }
+
+//Edit Room
+let roomOldData = {};
+function editbuttonclick(room_id) {
+    $('.popup').css('display', 'flex');
+    $(document).ready(function() {
+        $.ajax({
+            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/room/' + room_id,
+            type: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('authToken')
+            },
+            success: function(response) {
+                $('#roomName').val(response.name);
+
+                roomOldData = {
+                    name: response.name,
+                    room_id: response.room_id
+                    
+                };
+                console.log('roomOldData', roomOldData);
+            },
+            error: function(error) {
+                console.error('Fehler bei der Anfrage:', error);
+            }
+        });
+        });
+}
+
+// Save button, Change function
+$("#saveBtn").click(function() {
+    const currentData = {
+        name: $('#roomName').val(),
+        };
+        console.log('currentData', currentData);
+    updateRoomIfDifferent('name', currentData.name, roomOldData.name, roomOldData.room_id);
+});
+
+function updateRoomIfDifferent(field, newValue, oldValue, room_id) {
+    if (newValue !== oldValue) {
+        updateFieldRoom(field, newValue, room_id);
+    }
+}
+
+function updateFieldRoom(field, newValue, room_id) {
+    const data = {
+        "new-value": newValue,
+        "field": field
+    };
+    console.log(data, 'was soll geputet werden');
+    $.ajax({
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/room/' + room_id,
+        type: 'PUT',
+        dataType: 'json',
+        headers: {
+            'Authorization': localStorage.getItem('authToken')
+        },
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(response) {
+            console.log(`Field ${field} successfully updated:`, response);
+            window.location.reload();
+            window.location.href = 'Rooms.html';
+            
+        },
+        error: function(error) {
+            console.error('Fehler beim Aktualisieren von ' + field + ':', error.status, error.statusText);
+
+           
+            
+        },
+    });
+}
+
+$('.popup-close').click(function() {
+    $('.popup').css('display', 'none');
+});
