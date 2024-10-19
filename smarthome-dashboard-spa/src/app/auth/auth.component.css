@@ -9,7 +9,21 @@
   color: #6a6f8c;
   font: 100% 'Open Sans',sans-serif;
   background: linear-gradient(120deg, #1e90ff,blue, green);
-  transition: all .5s linear;
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  height: 100vh;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .button-container {
@@ -39,8 +53,9 @@
 .login-box {
   width: auto;
   max-height: 97vh;
+  border-radius: 15px;
   padding: 5vw;
-  background-color: var(--dark-color);
+  background-color: var(--dark-color-transparent);
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
   border: none;
   outline: none;

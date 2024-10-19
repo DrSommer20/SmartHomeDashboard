@@ -1,22 +1,17 @@
-/*!
- * Bootstrap v4.0.0 (https://getbootstrap.com)
- * Copyright 2011-2018 The Bootstrap Authors
- * Copyright 2011-2018 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
 
 :root {
   --primary-color: #5fa8d3;
   --secondary-color: #4a7b9d;
   --dark-color: #1c3d5a;
+  --dark-color-transparent: #1c3d5a9f;
   --light-color: #F9F9F9;
   --submit-color: #4CAF50;
-  --grey-color: #999;
+  --grey-color: #c3c1c1;
   --textbox-color: #a1b4b4;
 }
 
 body {
-  background: var(--light-color);
+  background: #e9eefa;
 }
 
 select {

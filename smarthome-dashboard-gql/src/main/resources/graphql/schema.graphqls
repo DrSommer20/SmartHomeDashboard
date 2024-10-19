@@ -1,0 +1,17 @@
+type Query {
+    deviceById(id: ID): Device
+}
+
+type device {
+    id: ID
+    name: String
+    type: Type
+    status: String
+    state: String
+}
+
+type Type {
+    id: ID
+    name: String
+    icon: String
+}

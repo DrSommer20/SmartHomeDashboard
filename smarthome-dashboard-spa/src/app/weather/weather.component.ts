@@ -58,7 +58,7 @@ export class WeatherComponent implements OnInit {
           temperature_2m_min: response.daily.temperature_2m_min[index],
           precipitation_sum: response.daily.precipitation_sum[index],
           weathercode: response.daily.weathercode[index]
-        })).slice(0, 3);
+        })).slice(1, 4);
       },
       (error) => {
         console.error('Error fetching weather data:', error);

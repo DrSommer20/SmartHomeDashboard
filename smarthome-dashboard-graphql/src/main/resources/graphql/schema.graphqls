@@ -1,0 +1,24 @@
+type Query {
+    deviceById(id: ID): Device
+}
+
+type device {
+    id: ID
+    name: String
+    type: Type
+    room: Room
+    status: String
+    state: String
+
+}
+
+type Type {
+    id: ID
+    name: String
+    icon: String
+}
+
+type Room {
+    id: ID
+    name: String
+}
