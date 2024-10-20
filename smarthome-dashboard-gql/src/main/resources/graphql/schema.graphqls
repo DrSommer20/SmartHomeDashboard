@@ -2,15 +2,15 @@ type Query {
     deviceById(id: ID): Device
 }
 
-type device {
+type Device {
     id: ID
     name: String
-    type: Type
+    type: DeviceType
     status: String
     state: String
 }
 
-type Type {
+type DeviceType {
     id: ID
     name: String
     icon: String
