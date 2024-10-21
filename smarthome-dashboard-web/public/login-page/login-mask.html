@@ -22,11 +22,11 @@
                             <form class="login" id="login-form">
                                 <div class="group">
                                     <label for="login-mail" class="label">E-mail</label>
-                                    <input id="login-mail" type="text" class="input" placeholder="Enter your email">
+                                    <input id="login-mail" autocomplete="username" type="text" class="input" placeholder="Enter your email">
                                 </div>
                                 <div class="group">
                                     <label for="pass" class="label">Password</label>
-                                    <input id="pass" type="password" class="input" data-type="password" placeholder="Enter your password">
+                                    <input id="pass" autocomplete="current-password" type="password" class="input" data-type="password" placeholder="Enter your password">
                                 </div>
                                 <div class="group">
                                     <input id="check" type="checkbox" class="check" checked>
@@ -42,19 +42,19 @@
                             <form class="sign-up-form" id="sign-up-form">
                                 <div class="group">
                                     <label for="userfirstname" class="label">First Name</label>
-                                    <input id="userfirstname" type="text" class="input" placeholder="Enter your first name" required>
+                                    <input id="userfirstname" autocomplete="given-name" type="text" class="input" placeholder="Enter your first name" required>
                                 </div>
                                 <div class="group">
                                     <label for="userlastname" class="label">Last Name</label>
-                                    <input id="userlastname" type="text" class="input" placeholder="Enter your last name" required>
+                                    <input id="userlastname" autocomplete="family-name" type="text" class="input" placeholder="Enter your last name" required>
                                 </div>
                                 <div class="group">
                                     <label for="useremail" class="label">Email Address</label>
-                                    <input id="useremail" type="email" class="input" placeholder="Enter your email address" required>
+                                    <input id="useremail" autocomplete="email" type="email" class="input" placeholder="Enter your email address" required>
                                 </div>
                                 <div class="group">
                                     <label for="userpassword" class="label">Password</label>
-                                    <input id="userpassword" type="password" class="input" data-type="password" placeholder="Create your password" minlength="6" required>
+                                    <input id="userpassword" autocomplete="new-password" type="password" class="input" data-type="password" placeholder="Create your password" minlength="6" required>
                                 </div>
                                 <div class="group">
                                     <label for="userpat" class="label">SmartThings PAT (Optional)</label>
