@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class User {
  
-    private int userID;
+    private int id;
     private String firstName;
     private String lastName;
     private String email;
@@ -84,12 +84,12 @@ public class User {
         this.pat = pat;
     }    
 
-    public int getUserID() {
-        return userID;
+    public int getId() {
+        return id;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isVerified() {
@@ -128,7 +128,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userID=" + userID +
+                "id=" + id +
                 ", username='" + firstName + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

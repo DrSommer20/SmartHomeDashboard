@@ -2,7 +2,7 @@ package mosbach.dhbw.de.smarthome.model;
 
 public class Room {
 
-    private int roomId;
+    private int id;
     private String name;
 
     /**
@@ -16,12 +16,12 @@ public class Room {
     public Room() {
     }
 
-    public int getRoomId() {
-        return roomId;
+    public int getId() {
+        return id;
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

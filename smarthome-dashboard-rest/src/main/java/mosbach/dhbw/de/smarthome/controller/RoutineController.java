@@ -1,5 +1,7 @@
 package mosbach.dhbw.de.smarthome.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,15 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import mosbach.dhbw.de.smarthome.dto.ActionDTO;
 import mosbach.dhbw.de.smarthome.dto.AllRoutines;
 import mosbach.dhbw.de.smarthome.dto.MessageAnswer;
 import mosbach.dhbw.de.smarthome.dto.MessageReason;
 import mosbach.dhbw.de.smarthome.dto.RoutineDTO;
-import mosbach.dhbw.de.smarthome.model.Routine;
 import mosbach.dhbw.de.smarthome.model.User;
-import mosbach.dhbw.de.smarthome.service.api.RoutineService;
 import mosbach.dhbw.de.smarthome.service.api.UserService;
+import mosbach.dhbw.de.smarthome.service.impl.RoutineClientService;
 
 @CrossOrigin(origins = {"https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", "https://smarthome-spa.apps.01.cf.eu01.stackit.cloud/"}, allowedHeaders = "*")
 @RestController
@@ -32,7 +32,7 @@ import mosbach.dhbw.de.smarthome.service.api.UserService;
 public class RoutineController {
 
     @Autowired
-    private RoutineService routineService;
+    private RoutineClientService routineService;
 
     @Autowired
     private UserService userService;
@@ -48,7 +48,13 @@ public class RoutineController {
     public ResponseEntity<?> getAllRoutines(@RequestHeader("Authorization") String token) { 
         User user = userService.getUser(token);
         if(user != null){
-            AllRoutines allRoutines = AllRoutines.convertToDTO(routineService.getRoutines(user));
+            AllRoutines allRoutines = null;
+            try {
+                allRoutines = routineService.getAllRoutines(token);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             return new ResponseEntity<>(allRoutines, HttpStatus.OK);
         }
          return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
@@ -68,9 +74,14 @@ public class RoutineController {
     public ResponseEntity<?> createRoutine(@RequestHeader("Authorization") String token, @RequestBody RoutineDTO routinePostRequest) {
         User user = userService.getUser(token);
         if(user != null){
-            Routine routine = RoutineDTO.convertToModel(routinePostRequest, user);
-            routineService.addRoutine(user, routine);
-            return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine created"),HttpStatus.OK);
+            try {
+                routineService.createRoutine(token, routinePostRequest);
+                return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine created"),HttpStatus.OK);
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ResponseEntity<MessageReason>(new MessageReason("Internal Server Error during creating Routine"), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
         else{
             return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
@@ -88,12 +99,17 @@ public class RoutineController {
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?> getRoutine(@PathVariable String id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getRoutine(@PathVariable int id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
-            Routine routine = routineService.getRoutineByID(id, user);
+            RoutineDTO routine = null;
+            try {
+                routine = routineService.getRoutineById(token, id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if(routine != null){
-                return new ResponseEntity<>(RoutineDTO.convertToDTO(routine), HttpStatus.OK);
+                return new ResponseEntity<>(routine, HttpStatus.OK);
             }
             else{
                 return new ResponseEntity<MessageReason>(new MessageReason("Routine not found"), HttpStatus.NOT_FOUND);
@@ -116,11 +132,16 @@ public class RoutineController {
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?> deleteRoutine(@PathVariable String id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> deleteRoutine(@PathVariable int id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
         if(user != null){
-            if(routineService.deleteRoutine(id, user)) return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine deleted"), HttpStatus.OK);
-            else return new ResponseEntity<MessageReason>(new MessageReason("Routine not found"), HttpStatus.NOT_FOUND);
+            try {
+                if(routineService.deleteRoutine(token, id)) return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine deleted"), HttpStatus.OK);
+                else return new ResponseEntity<MessageReason>(new MessageReason("Routine not found"), HttpStatus.NOT_FOUND);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ResponseEntity<MessageReason>(new MessageReason("Internal Server Error during creating Routine"), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
         else{
             return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
@@ -140,21 +161,19 @@ public class RoutineController {
         path = "/{id}",
         consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?> changeRoutine(@PathVariable String id, @RequestHeader("Authorization") String token,@RequestBody RoutineDTO changeRequest) {
+    public ResponseEntity<?> changeRoutine(@PathVariable int id, @RequestHeader("Authorization") String token,@RequestBody RoutineDTO changeRequest) {
         User user = userService.getUser(token);
         if(user != null){
-            Routine routine = routineService.getRoutineByID(id, user);
-            if(routine != null){
-                routine.setName(changeRequest.getName());
-                routine.setActions(ActionDTO.convertToModel(changeRequest.getActions(), user));
-                routine.setTriggerTime(changeRequest.getTrigger().getValue());
-                routine.setState(changeRequest.isState());
-                routine.refresh();
-                routineService.updateRoutine(routine, user.getUserID());
-                return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine changed"), HttpStatus.OK);
-            }
-            else{
-                return new ResponseEntity<MessageReason>(new MessageReason("Routine not found"), HttpStatus.NOT_FOUND);
+            try {
+                if(routineService.updateRoutine(token, id, changeRequest)){
+                    return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine changed"), HttpStatus.OK);
+                }
+                else{
+                    return new ResponseEntity<MessageReason>(new MessageReason("Routine not found"), HttpStatus.NOT_FOUND);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ResponseEntity<MessageReason>(new MessageReason("Internal Server Error during creating Routine"), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         else{
@@ -175,14 +194,19 @@ public class RoutineController {
     @PostMapping(
         path = "/{id}/{state}"
     )
-    public ResponseEntity<?> switchRoutine(@RequestHeader("Authorization") String token, @RequestParam String state, @RequestParam String id) {
+    public ResponseEntity<?> switchRoutine(@RequestHeader("Authorization") String token, @RequestParam String state, @RequestParam int id) {
         User user = userService.getUser(token);
         if(user != null){
-            if(routineService.switchRoutine(id, state.equals("on"), user)){
-                return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine switched"), HttpStatus.OK);
-            }
-            else{
-                return new ResponseEntity<MessageReason>(new MessageReason("Routine not found"), HttpStatus.NOT_FOUND);
+            try {
+                if(routineService.switchRoutine(token, id, state)){
+                    return new ResponseEntity<MessageAnswer>(new MessageAnswer("Routine switched"), HttpStatus.OK);
+                }
+                else{
+                    return new ResponseEntity<MessageReason>(new MessageReason("Routine not found"), HttpStatus.NOT_FOUND);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ResponseEntity<MessageReason>(new MessageReason("Internal Server Error during creating Routine"), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         else{

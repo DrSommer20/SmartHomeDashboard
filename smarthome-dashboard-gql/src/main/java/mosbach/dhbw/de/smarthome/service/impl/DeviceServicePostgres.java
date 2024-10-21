@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import mosbach.dhbw.de.smarthome.config.PostgresConnectionPool;
 import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.DeviceType;
+import mosbach.dhbw.de.smarthome.model.Room;
 import mosbach.dhbw.de.smarthome.service.api.DeviceService;
 import mosbach.dhbw.de.smarthome.service.api.RoutineService;
 
@@ -35,7 +36,7 @@ public class DeviceServicePostgres implements DeviceService{
             preparedStatement.setString(2, device.getName());
             preparedStatement.setBoolean(3, device.getStatusBoolean());
             preparedStatement.setInt(4, device.getType().getId());
-            preparedStatement.setInt(5, device.getLocation());
+            preparedStatement.setInt(5, device.getRoom().getId());
             preparedStatement.setInt(6, userID);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -61,8 +62,11 @@ public class DeviceServicePostgres implements DeviceService{
                 device.setId(resultSet.getString("id"));
                 device.setName(resultSet.getString("name"));
                 device.setStatusBoolean(resultSet.getBoolean("status"));
-                device.setLocation(resultSet.getInt("group18_room_id"));
-                device.setRoomName(resultSet.getString("roomName"));
+
+                Room room = new Room();
+                room.setId(resultSet.getInt("group18_room_id"));
+                room.setName(resultSet.getString("roomName"));
+                device.setRoom(room);
 
                 DeviceType type = new DeviceType();
                 type.setId(resultSet.getInt("group18_deviceType_id"));
@@ -80,10 +84,12 @@ public class DeviceServicePostgres implements DeviceService{
 
     @Override
     public Device getDeviceById(String id, Integer userID) {
-        String selectDeviceString = "SELECT d.id, d.name, d.status, d.group18_deviceType_id, d.group18_room_id, dt.name AS deviceTypeName, dt.icon AS deviceTypeIcon " +
-                                "FROM group18_device d " +
-                                "JOIN group18_deviceType dt ON d.group18_deviceType_id = dt.id " +
-                                "WHERE d.id = ? AND d.group18_user_id = ?";
+        String selectDeviceString = "SELECT d.id, d.name, d.status, d.group18_deviceType_id, d.group18_room_id, dt.name AS deviceTypeName, dt.icon AS deviceTypeIcon, " +
+                                        "r.name AS roomName, r.id AS roomId " +
+                                        "FROM group18_device d " +
+                                        "JOIN group18_deviceType dt ON d.group18_deviceType_id = dt.id " +
+                                        "JOIN group18_room r ON d.group18_room_id = r.id " +
+                                        "WHERE d.id = ? AND d.group18_user_id = ?";
         Device device = null;
         try (Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(selectDeviceString)) {
@@ -95,13 +101,16 @@ public class DeviceServicePostgres implements DeviceService{
                 device.setId(resultSet.getString("id"));
                 device.setName(resultSet.getString("name"));
                 device.setStatusBoolean(resultSet.getBoolean("status"));
-                device.setLocation(resultSet.getInt("group18_room_id"));
+
+                Room room = new Room();
+                room.setId(resultSet.getInt("group18_room_id"));
+                room.setName(resultSet.getString("roomName"));
+                device.setRoom(room);
 
                 DeviceType type = new DeviceType();
                 type.setId(resultSet.getInt("group18_deviceType_id"));
                 type.setName(resultSet.getString("deviceTypeName"));
                 type.setIcon(resultSet.getString("deviceTypeIcon"));
-
                 device.setType(type);
 
             }
@@ -134,7 +143,7 @@ public class DeviceServicePostgres implements DeviceService{
             preparedStatement.setString(1, device.getName());
             preparedStatement.setBoolean(2, device.getStatusBoolean());
             preparedStatement.setInt(3, device.getType().getId());
-            preparedStatement.setInt(4, device.getLocation());
+            preparedStatement.setInt(4, device.getRoom().getId());
             preparedStatement.setString(5, device.getId());
             preparedStatement.setInt(6, userID);
             return preparedStatement.executeUpdate() > 0;

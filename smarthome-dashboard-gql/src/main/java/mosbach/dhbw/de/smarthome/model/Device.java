@@ -7,8 +7,7 @@ public class Device {
     private DeviceType type;
     private String status;
     private String state;
-    private String roomName;
-    private int location;
+    private Room room;
     
 
     /**
@@ -19,15 +18,18 @@ public class Device {
      * @param typeID
      * @param location
      */
-    public Device(String id, String name, DeviceType type, int location) {
+    public Device(String id, String name, DeviceType type, Room room) {
+        this();
         this.id = id;
         this.name = name;
         this.type = type;
-        this.status = "Offline";
-        this.state = "Off";
+        this.room = room;
+        
     }
 
     public Device() {
+        this.status = "Offline";
+        this.state = "Off";
     }
 
 
@@ -79,20 +81,11 @@ public class Device {
         this.status = status ? "Online" : "Offline";
     }
 
-    public int getLocation() {
-        return location;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setLocation(int location) {
-        this.location = location;
-    }
-
-
-    public String getRoomName() {
-        return roomName;
-    }
-
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }

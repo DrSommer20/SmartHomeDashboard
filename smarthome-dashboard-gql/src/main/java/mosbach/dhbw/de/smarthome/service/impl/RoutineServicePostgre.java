@@ -37,7 +37,7 @@ public class RoutineServicePostgre implements RoutineService {
                 routineStatement.setString(1, routine.getName());
                 routineStatement.setString(2, routine.getTriggerTime());
                 routineStatement.setBoolean(3, routine.isState());
-                routineStatement.setInt(4, user.getUserID());
+                routineStatement.setInt(4, user.getId());
                 routineStatement.executeUpdate();
 
                 // Get generated routine ID
@@ -48,7 +48,7 @@ public class RoutineServicePostgre implements RoutineService {
                         // Insert actions
                         try (PreparedStatement actionStatement = connection.prepareStatement(insertActionString)) {
                             for (Action action : routine.getActions()) {
-                                actionStatement.setString(1, action.getAction());
+                                actionStatement.setString(1, action.getSetTo());
                                 actionStatement.setString(2, action.getDeviceID());
                                 actionStatement.setInt(3, routineId);
                                 actionStatement.addBatch();
@@ -72,25 +72,25 @@ public class RoutineServicePostgre implements RoutineService {
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement routineStatement = connection.prepareStatement(selectRoutinesString)) {
-            routineStatement.setInt(1, user.getUserID());
+            routineStatement.setInt(1, user.getId());
             ResultSet routineResultSet = routineStatement.executeQuery();
 
             while (routineResultSet.next()) {
                 Routine routine = new Routine();
-                routine.setID(routineResultSet.getInt("id"));
+                routine.setId(routineResultSet.getInt("id"));
                 routine.setName(routineResultSet.getString("name"));
                 routine.setTriggerTime(routineResultSet.getString("trigger_time"));
                 routine.setState(routineResultSet.getBoolean("state"));
 
                 // Get actions for the routine
                 try (PreparedStatement actionStatement = connection.prepareStatement(selectActionsString)) {
-                    actionStatement.setInt(1, routine.getID());
+                    actionStatement.setInt(1, routine.getId());
                     ResultSet actionResultSet = actionStatement.executeQuery();
                     List<Action> actions = new ArrayList<>();
                     while (actionResultSet.next()) {
                         Action action = new Action();
-                        action.setID(actionResultSet.getInt("id"));
-                        action.setAction(actionResultSet.getString("name"));
+                        action.setId(actionResultSet.getInt("id"));
+                        action.setSetTo(actionResultSet.getString("name"));
                         action.setDeviceID(actionResultSet.getString("group18_device_id"));
                         action.setDeviceName(actionResultSet.getString("device_name"));
                         
@@ -117,24 +117,24 @@ public class RoutineServicePostgre implements RoutineService {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement routineStatement = connection.prepareStatement(selectRoutineString)) {
                 routineStatement.setInt(1, Integer.parseInt(id));
-                routineStatement.setInt(2, user.getUserID());
+                routineStatement.setInt(2, user.getId());
                 ResultSet routineResultSet = routineStatement.executeQuery();
                 if (routineResultSet.next()) {
                     routine = new Routine();
-                    routine.setID(routineResultSet.getInt("id"));
+                    routine.setId(routineResultSet.getInt("id"));
                     routine.setName(routineResultSet.getString("name"));
                     routine.setTriggerTime(routineResultSet.getString("trigger_time"));
                     routine.setState(routineResultSet.getBoolean("state"));
 
                     // Retrieve actions
                     try (PreparedStatement actionStatement = connection.prepareStatement(selectActionsString)) {
-                        actionStatement.setInt(1, routine.getID());
+                        actionStatement.setInt(1, routine.getId());
                         ResultSet actionResultSet = actionStatement.executeQuery();
                         List<Action> actions = new ArrayList<>();
                         while (actionResultSet.next()) {
                             Action action = new Action();
-                            action.setID(actionResultSet.getInt("id"));
-                            action.setAction(actionResultSet.getString("name"));
+                            action.setId(actionResultSet.getInt("id"));
+                            action.setSetTo(actionResultSet.getString("name"));
                             action.setDeviceID(actionResultSet.getString("group18_device_id"));
                             action.setDeviceName(actionResultSet.getString("device_name"));
                             actions.add(action);
@@ -156,7 +156,7 @@ public class RoutineServicePostgre implements RoutineService {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement routineStatement = connection.prepareStatement(deleteRoutineString)) {
             routineStatement.setInt(1, Integer.parseInt(id));
-            routineStatement.setInt(2, user.getUserID());
+            routineStatement.setInt(2, user.getId());
             return routineStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -184,7 +184,7 @@ public class RoutineServicePostgre implements RoutineService {
              PreparedStatement routineStatement = connection.prepareStatement(updateRoutineString)) {
             routineStatement.setBoolean(1, state);
             routineStatement.setInt(2, Integer.parseInt(id));
-            routineStatement.setInt(3, user.getUserID());
+            routineStatement.setInt(3, user.getId());
             return routineStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -204,17 +204,17 @@ public class RoutineServicePostgre implements RoutineService {
             try (PreparedStatement routineStatement = connection.prepareStatement(updateRoutineString)) {
                 routineStatement.setString(1, routine.getName());
                 routineStatement.setString(2, routine.getTriggerTime());
-                routineStatement.setInt(3, routine.getID());
+                routineStatement.setInt(3, routine.getId());
                 routineStatement.setInt(4, userID);
                 routineStatement.executeUpdate();
 
                 // Update actions
                 try (PreparedStatement actionStatement = connection.prepareStatement(updateActionString)) {
                     for (Action action : routine.getActions()) {
-                        actionStatement.setString(1, action.getAction());
+                        actionStatement.setString(1, action.getSetTo());
                         actionStatement.setString(2, action.getDeviceID());
-                        actionStatement.setInt(3, action.getID());
-                        actionStatement.setInt(4, routine.getID());
+                        actionStatement.setInt(3, action.getId());
+                        actionStatement.setInt(4, routine.getId());
                         actionStatement.addBatch();
                     }
                     actionStatement.executeBatch();

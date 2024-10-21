@@ -99,11 +99,11 @@ public class AuthServiceImpl implements AuthService {
                 .compact();
     }
 
+    @SuppressWarnings(value = { "" })
     public static void main(String[] args) {
         AuthServiceImpl authService = new AuthServiceImpl();
         UserService userService = new UserServicePostgres();
         User user = userService.getUserById(1);
-        String token = authService.generateToken(user);
-        System.out.println(token);
+        System.out.println(authService.generateToken(user));
     }
 }

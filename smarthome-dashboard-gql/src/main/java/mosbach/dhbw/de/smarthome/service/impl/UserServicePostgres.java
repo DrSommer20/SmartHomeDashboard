@@ -46,7 +46,7 @@ public class UserServicePostgres implements UserService {
             preparedStatement.setBoolean(6, user.isVerified());
             preparedStatement.executeUpdate();
 
-            roomService.addRoom(new Room("Default Room"), user.getUserID());
+            roomService.addRoom(new Room("Default Room"), user.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,7 +66,7 @@ public class UserServicePostgres implements UserService {
 
             if (resultSet.next()) {
                 user = new User();
-                user.setUserID(resultSet.getInt("id"));
+                user.setId(resultSet.getInt("id"));
                 user.setFirstName(resultSet.getString("firstName"));
                 user.setLastName(resultSet.getString("lastName"));
                 user.setEmail(resultSet.getString("email"));
@@ -120,7 +120,7 @@ public class UserServicePostgres implements UserService {
 
             if (resultSet.next()) {
                 user = new User();
-                user.setUserID(resultSet.getInt("id"));
+                user.setId(resultSet.getInt("id"));
                 user.setFirstName(resultSet.getString("firstName"));
                 user.setLastName(resultSet.getString("lastName"));
                 user.setEmail(resultSet.getString("email"));
@@ -148,7 +148,7 @@ public class UserServicePostgres implements UserService {
             preparedStatement.setString(4, user.getPassword());
             preparedStatement.setString(5, user.getPat());
             preparedStatement.setBoolean(6, user.isVerified());
-            preparedStatement.setInt(7, user.getUserID());
+            preparedStatement.setInt(7, user.getId());
 
             return preparedStatement.executeUpdate() > 0;
 

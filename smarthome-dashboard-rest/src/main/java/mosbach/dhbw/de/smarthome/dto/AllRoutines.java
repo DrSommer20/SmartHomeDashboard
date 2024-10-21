@@ -1,7 +1,6 @@
 
 package mosbach.dhbw.de.smarthome.dto;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +10,6 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import mosbach.dhbw.de.smarthome.model.Routine;
-
-
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AllRoutines {
@@ -58,16 +53,6 @@ public class AllRoutines {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
-    }
-
-    public static AllRoutines convertToDTO(List<Routine> routines) {
-        if(routines == null) return new AllRoutines(null);
-        List<RoutineDTO> routineDTOs = new ArrayList<>();
-        for (Routine routine : routines) {
-            RoutineDTO routineDTO = RoutineDTO.convertToDTO(routine);
-            routineDTOs.add(routineDTO);
-        }
-        return new AllRoutines(routineDTOs);
     }
 
 }

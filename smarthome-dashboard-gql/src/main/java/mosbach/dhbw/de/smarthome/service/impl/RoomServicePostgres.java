@@ -32,7 +32,7 @@ public class RoomServicePostgres implements RoomService{
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                Room room = new Room();
-               room.setRoomId(resultSet.getInt("id"));
+               room.setId(resultSet.getInt("id"));
                room.setName(resultSet.getString("name"));
                rooms.add(room);
             }
@@ -55,7 +55,7 @@ public class RoomServicePostgres implements RoomService{
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 room = new Room();
-                room.setRoomId(resultSet.getInt("id"));
+                room.setId(resultSet.getInt("id"));
                 room.setName(resultSet.getString("name"));
             }
         } catch (SQLException e) {
@@ -85,7 +85,7 @@ public class RoomServicePostgres implements RoomService{
         try (Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateRoomString)) {
             preparedStatement.setString(1, room.getName());
-            preparedStatement.setInt(2, room.getRoomId());
+            preparedStatement.setInt(2, room.getId());
             preparedStatement.setInt(3, userID);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

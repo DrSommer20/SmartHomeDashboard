@@ -43,11 +43,11 @@ public class Routine {
     public Routine() {
     }
 
-    public int getID() {
+    public int getId() {
         return id;
     }
 
-    public void setID(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 

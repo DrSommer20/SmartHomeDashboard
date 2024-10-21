@@ -24,12 +24,10 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("AuthInterceptor: preHandle called");
-        String token = request.getHeader("Authorization");
-        System.out.println("Token: " + token);
-        if (token != null) {
+        String token = request.getHeader("Authorization");  
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
             String email = authService.extractEmail(token);
-            System.out.println("Email: " + email);
             User user = userService.getUserByEmail(email);
             authenticatedUser.set(user);
         }
