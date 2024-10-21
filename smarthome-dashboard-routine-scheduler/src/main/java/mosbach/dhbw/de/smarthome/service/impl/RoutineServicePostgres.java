@@ -15,17 +15,67 @@ import java.sql.SQLException;
 import mosbach.dhbw.de.smarthome.config.PostgresConnectionPool;
 import mosbach.dhbw.de.smarthome.model.Action;
 import mosbach.dhbw.de.smarthome.model.Routine;
-import mosbach.dhbw.de.smarthome.model.User;
+import mosbach.dhbw.de.smarthome.service.api.RoutineScheduler;
 import mosbach.dhbw.de.smarthome.service.api.RoutineService;
 
 @Service
-public class RoutineServicePostgre implements RoutineService {
+public class RoutineServicePostgres implements RoutineService {
 
-    private DataSource dataSource = PostgresConnectionPool.getDataSource();
+    private static List<Routine> scheduledRoutines = new ArrayList<>();
+
+    private static DataSource dataSource = PostgresConnectionPool.getDataSource();
+
+    public static void initializeRoutines() {
+        String selectRoutinesString = "SELECT * FROM group18_routine";
+        String selectActionsString = "SELECT a.id, a.name, a.group18_device_id, d.name as device_name, d.group18_user_id FROM group18_action a JOIN group18_device d ON a.group18_device_id = d.id WHERE a.group18_routine_id = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement routineStatement = connection.prepareStatement(selectRoutinesString);
+             ResultSet routineResultSet = routineStatement.executeQuery()) {
+            while (routineResultSet.next()) {
+                Routine routine = new Routine();
+                routine.setId(routineResultSet.getInt("id"));
+                routine.setName(routineResultSet.getString("name"));
+                routine.setTriggerTime(routineResultSet.getString("trigger_time"));
+                routine.setState(routineResultSet.getBoolean("state"));
+
+                // Get actions for the routine
+                try (PreparedStatement actionStatement = connection.prepareStatement(selectActionsString)) {
+                    actionStatement.setInt(1, routine.getId());
+                    ResultSet actionResultSet = actionStatement.executeQuery();
+                    List<Action> actions = new ArrayList<>();
+                    while (actionResultSet.next()) {
+                        Action action = new Action();
+                        action.setId(actionResultSet.getInt("id"));
+                        action.setSetTo(actionResultSet.getString("name"));
+                        action.setDeviceID(actionResultSet.getString("group18_device_id"));
+                        action.setUser(actionResultSet.getInt("group18_user_id"));
+                        
+                        actions.add(action);
+                    }
+                    routine.setActions(actions);
+                }
+                scheduledRoutines.add(routine);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        initializeRoutine();
+    }
+    
+    private static void initializeRoutine() {
+        for (Routine routine : scheduledRoutines) {
+            RoutineScheduler routineScheduler = new RoutineSchedulerImpl(routine.getActions());
+            routine.setRoutineScheduler(routineScheduler);
+            if (routine.isState()) {                
+                routine.activateRoutine();
+            }
+        }
+    }
 
 
     @Override
-    public void addRoutine(User user, Routine routine) {
+    public void addRoutine(int user, Routine routine) {
         String insertRoutineString = "INSERT INTO group18_routine (name, trigger_time, state, group18_user_id) VALUES (?, ?, ?, ?)";
         String insertActionString = "INSERT INTO group18_action (name, group18_device_id, group18_routine_id) VALUES (?, ?, ?)";
         
@@ -37,7 +87,7 @@ public class RoutineServicePostgre implements RoutineService {
                 routineStatement.setString(1, routine.getName());
                 routineStatement.setString(2, routine.getTriggerTime());
                 routineStatement.setBoolean(3, routine.isState());
-                routineStatement.setInt(4, user.getUserID());
+                routineStatement.setInt(4, user);
                 routineStatement.executeUpdate();
 
                 // Get generated routine ID
@@ -48,7 +98,7 @@ public class RoutineServicePostgre implements RoutineService {
                         // Insert actions
                         try (PreparedStatement actionStatement = connection.prepareStatement(insertActionString)) {
                             for (Action action : routine.getActions()) {
-                                actionStatement.setString(1, action.getAction());
+                                actionStatement.setString(1, action.getSetTo());
                                 actionStatement.setString(2, action.getDeviceID());
                                 actionStatement.setInt(3, routineId);
                                 actionStatement.addBatch();
@@ -56,6 +106,12 @@ public class RoutineServicePostgre implements RoutineService {
                             actionStatement.executeBatch();
                         }
                     }
+                }
+
+                scheduledRoutines.add(routine);RoutineScheduler routineScheduler = new RoutineSchedulerImpl(routine.getActions());
+                routine.setRoutineScheduler(routineScheduler);
+                if (routine.isState()) {
+                    routine.activateRoutine();                    
                 }
             }
             connection.commit(); ;
@@ -65,32 +121,32 @@ public class RoutineServicePostgre implements RoutineService {
     }
 
     @Override
-    public List<Routine> getRoutines(User user) {
+    public List<Routine> getRoutines(int user) {
         String selectRoutinesString = "SELECT id, name, trigger_time, state FROM group18_routine WHERE group18_user_id = ?";
         String selectActionsString = "SELECT a.id, a.name, a.group18_device_id, d.name as device_name FROM group18_action a JOIN group18_device d ON a.group18_device_id = d.id WHERE a.group18_routine_id = ?";
         List<Routine> routines = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement routineStatement = connection.prepareStatement(selectRoutinesString)) {
-            routineStatement.setInt(1, user.getUserID());
+            routineStatement.setInt(1, user);
             ResultSet routineResultSet = routineStatement.executeQuery();
 
             while (routineResultSet.next()) {
                 Routine routine = new Routine();
-                routine.setID(routineResultSet.getInt("id"));
+                routine.setId(routineResultSet.getInt("id"));
                 routine.setName(routineResultSet.getString("name"));
                 routine.setTriggerTime(routineResultSet.getString("trigger_time"));
                 routine.setState(routineResultSet.getBoolean("state"));
 
                 // Get actions for the routine
                 try (PreparedStatement actionStatement = connection.prepareStatement(selectActionsString)) {
-                    actionStatement.setInt(1, routine.getID());
+                    actionStatement.setInt(1, routine.getId());
                     ResultSet actionResultSet = actionStatement.executeQuery();
                     List<Action> actions = new ArrayList<>();
                     while (actionResultSet.next()) {
                         Action action = new Action();
-                        action.setID(actionResultSet.getInt("id"));
-                        action.setAction(actionResultSet.getString("name"));
+                        action.setId(actionResultSet.getInt("id"));
+                        action.setSetTo(actionResultSet.getString("name"));
                         action.setDeviceID(actionResultSet.getString("group18_device_id"));
                         action.setDeviceName(actionResultSet.getString("device_name"));
                         
@@ -110,32 +166,31 @@ public class RoutineServicePostgre implements RoutineService {
 
 
     @Override
-    public Routine getRoutineByID(String id, User user) {
+    public Routine getRoutineByID(int id, int user) {
         String selectRoutineString = "SELECT id, name, trigger_time, state FROM group18_routine WHERE id = ? AND group18_user_id = ?";
         String selectActionsString = "SELECT a.id, a.name, a.group18_device_id, d.name as device_name FROM group18_action a JOIN group18_device d ON a.group18_device_id = d.id WHERE a.group18_routine_id = ?";
         Routine routine = null;
         try (Connection connection = dataSource.getConnection()) {
-            // Retrieve routine
             try (PreparedStatement routineStatement = connection.prepareStatement(selectRoutineString)) {
-                routineStatement.setInt(1, Integer.parseInt(id));
-                routineStatement.setInt(2, user.getUserID());
+                routineStatement.setInt(1, id);
+                routineStatement.setInt(2, user);
                 ResultSet routineResultSet = routineStatement.executeQuery();
                 if (routineResultSet.next()) {
                     routine = new Routine();
-                    routine.setID(routineResultSet.getInt("id"));
+                    routine.setId(routineResultSet.getInt("id"));
                     routine.setName(routineResultSet.getString("name"));
                     routine.setTriggerTime(routineResultSet.getString("trigger_time"));
                     routine.setState(routineResultSet.getBoolean("state"));
 
                     // Retrieve actions
                     try (PreparedStatement actionStatement = connection.prepareStatement(selectActionsString)) {
-                        actionStatement.setInt(1, routine.getID());
+                        actionStatement.setInt(1, routine.getId());
                         ResultSet actionResultSet = actionStatement.executeQuery();
                         List<Action> actions = new ArrayList<>();
                         while (actionResultSet.next()) {
                             Action action = new Action();
-                            action.setID(actionResultSet.getInt("id"));
-                            action.setAction(actionResultSet.getString("name"));
+                            action.setId(actionResultSet.getInt("id"));
+                            action.setSetTo(actionResultSet.getString("name"));
                             action.setDeviceID(actionResultSet.getString("group18_device_id"));
                             action.setDeviceName(actionResultSet.getString("device_name"));
                             actions.add(action);
@@ -151,13 +206,17 @@ public class RoutineServicePostgre implements RoutineService {
     }
 
     @Override
-    public boolean deleteRoutine(String id, User user) {
-        deleteActionByRoutineID(Integer.parseInt(id));
+    public boolean deleteRoutine(int id, int user) {
+        deleteActionByRoutineID(id);
         String deleteRoutineString = "DELETE FROM group18_routine WHERE id = ? AND group18_user_id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement routineStatement = connection.prepareStatement(deleteRoutineString)) {
-            routineStatement.setInt(1, Integer.parseInt(id));
-            routineStatement.setInt(2, user.getUserID());
+            routineStatement.setInt(1, id);
+            routineStatement.setInt(2, user);
+            scheduledRoutines.stream().filter(routine -> routine.getId() == id).forEach(routine -> {
+                routine.deactivateRoutine();
+            });
+            scheduledRoutines.removeIf(routine -> routine.getId() == id);
             return routineStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -171,6 +230,10 @@ public class RoutineServicePostgre implements RoutineService {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement actionStatement = connection.prepareStatement(deleteActionString)) {
             actionStatement.setInt(1, routineID);
+            scheduledRoutines.stream().filter(routine -> routine.getId() == routineID).forEach(routine -> {
+                routine.deactivateRoutine();
+            });
+            scheduledRoutines.removeIf(routine -> routine.getId() == routineID);
             return actionStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -179,13 +242,20 @@ public class RoutineServicePostgre implements RoutineService {
     }
 
     @Override
-    public boolean switchRoutine(String id, boolean state, User user) {
+    public boolean switchRoutine(int id, boolean state, int user) {
         String updateRoutineString = "UPDATE group18_routine SET state = ? WHERE id = ? AND group18_user_id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement routineStatement = connection.prepareStatement(updateRoutineString)) {
             routineStatement.setBoolean(1, state);
-            routineStatement.setInt(2, Integer.parseInt(id));
-            routineStatement.setInt(3, user.getUserID());
+            routineStatement.setInt(2, id);
+            routineStatement.setInt(3, user);
+            scheduledRoutines.stream().filter(routine -> routine.getId() == id).forEach(routine -> {
+                if (state) {
+                    routine.activateRoutine();
+                } else {
+                    routine.deactivateRoutine();
+                }
+            });
             return routineStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -205,20 +275,27 @@ public class RoutineServicePostgre implements RoutineService {
             try (PreparedStatement routineStatement = connection.prepareStatement(updateRoutineString)) {
                 routineStatement.setString(1, routine.getName());
                 routineStatement.setString(2, routine.getTriggerTime());
-                routineStatement.setInt(3, routine.getID());
+                routineStatement.setInt(3, routine.getId());
                 routineStatement.setInt(4, userID);
                 routineStatement.executeUpdate();
 
                 // Update actions
                 try (PreparedStatement actionStatement = connection.prepareStatement(updateActionString)) {
                     for (Action action : routine.getActions()) {
-                        actionStatement.setString(1, action.getAction());
+                        actionStatement.setString(1, action.getSetTo());
                         actionStatement.setString(2, action.getDeviceID());
-                        actionStatement.setInt(3, action.getID());
-                        actionStatement.setInt(4, routine.getID());
+                        actionStatement.setInt(3, action.getId());
+                        actionStatement.setInt(4, routine.getId());
                         actionStatement.addBatch();
                     }
                     actionStatement.executeBatch();
+                }
+                scheduledRoutines.removeIf(r -> r.getId() == routine.getId());
+                scheduledRoutines.add(routine);
+                RoutineScheduler routineScheduler = new RoutineSchedulerImpl(routine.getActions());
+                routine.setRoutineScheduler(routineScheduler);
+                if (routine.isState()) {
+                    routine.activateRoutine();
                 }
             }
 
@@ -235,6 +312,10 @@ public class RoutineServicePostgre implements RoutineService {
              PreparedStatement statement = connection.prepareStatement(deleteActionsString)) {
             statement.setString(1, deviceId);
             int rowsAffected = statement.executeUpdate();
+            scheduledRoutines.stream().filter(routine -> routine.getActions().get(0).getDeviceID().equals(deviceId)).forEach(routine -> {
+                routine.deactivateRoutine();
+            });
+            scheduledRoutines.removeIf(routine -> routine.getActions().get(0).getDeviceID().equals(deviceId));
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();

@@ -3,15 +3,12 @@ package mosbach.dhbw.de.smarthome.model;
 import java.time.LocalTime;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+
 import mosbach.dhbw.de.smarthome.service.api.RoutineScheduler;
 import mosbach.dhbw.de.smarthome.service.impl.RoutineSchedulerImpl;
 
-@Entity
 public class Routine {
 
-    @Id
     private int id;
     private String name;
     private List<Action> actions;
@@ -46,11 +43,11 @@ public class Routine {
     public Routine() {
     }
 
-    public int getID() {
+    public int getId() {
         return id;
     }
 
-    public void setID(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 

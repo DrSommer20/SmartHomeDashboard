@@ -6,7 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { RoomComponent } from './room/room.component';
 import { RoutineComponent } from './routine/routine.component';
 import { UserProfileComponent } from './user-profile/user-profile.component'; 
-import { AuthGuard } from './auth.guard'; // Import AuthGuard
+import { AuthGuard } from './auth.guard';
 import { AuthComponent } from './auth/auth.component';
 import { SignupComponent } from './signup/signup.component';
 

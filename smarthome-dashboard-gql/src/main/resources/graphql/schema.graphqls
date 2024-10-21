@@ -1,0 +1,80 @@
+type Query {
+    deviceById(id: ID!): Device
+    allDevices: [Device]!
+    deviceTypeById(id: ID!): DeviceType
+    allDeviceTypes: [DeviceType]!
+    roomById(id: ID!): Room
+    allRooms: [Room]!
+    routineById(id: ID!): Routine
+    allRoutines: [Routine]!
+    userInfo: User
+}
+
+type Mutation {
+    createDevice(id: ID!, name: String!, typeId: ID!, roomId: ID!): Boolean
+    updateDevice(id: ID!, name: String, typeId: ID, roomId: ID): Device
+    switchDevice(id: ID!, status: String!): Device
+    deleteDevice(id: ID!): Boolean
+
+    createRoutine(name: String!, actions: [ActionInput]!, triggerTime: String!): Boolean
+    updateRoutine(id: ID!, name: String, actions: [ActionInput], triggerTime: String, state: Boolean): Routine
+    switchRoutine(id: ID!, state: Boolean): Boolean
+    deleteRoutine(id: ID!): Boolean
+
+    createRoom(name: String!): Boolean
+    updateRoom(id: ID!, name: String!): Room
+    deleteRoom(id: ID!): Boolean
+
+    updateUser(firstName: String, lastName: String, email: String, pat:String, isVerified: Boolean): User
+}
+
+type Device {
+    id: ID!
+    name: String!
+    type: DeviceType!
+    room: Room!
+    status: String
+    state: String
+}
+
+type DeviceType {
+    id: ID!
+    name: String!
+    icon: String
+}
+
+type Routine {
+    id: ID!
+    name: String!
+    actions: [Action]!
+    triggerTime: String!
+    state: Boolean
+}
+
+type Room {
+    id: ID!
+    name: String!
+}
+
+type Action {
+    id: ID
+    deviceID: String!
+    deviceName: String
+    setTo: String!
+}
+
+
+
+type User {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    pat: String!
+    isVerified: Boolean!
+}
+
+input ActionInput {
+    deviceID: String!
+    setTo: String!
+}

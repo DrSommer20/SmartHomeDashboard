@@ -1,9 +1,7 @@
 
 package mosbach.dhbw.de.smarthome.dto;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -11,9 +9,6 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import mosbach.dhbw.de.smarthome.model.Action;
-import mosbach.dhbw.de.smarthome.model.User;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
@@ -98,28 +93,6 @@ public class ActionDTO {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
-    }
-
-    public static List<ActionDTO> convertToDTO(List<Action> actions) {
-        List<ActionDTO> actionDTOs = null;
-        if (actions != null) {
-            actionDTOs = new ArrayList<ActionDTO>();
-            for (Action action : actions) {
-                actionDTOs.add(new ActionDTO(action.getID(), action.getDeviceID(), action.getDeviceName(), action.getAction()));
-            }
-        }
-        return actionDTOs;
-    }
-
-    public static List<Action> convertToModel(List<ActionDTO> actions, User user) {
-        List<Action> actionModels = null;
-        if (actions != null) {
-            actionModels = new ArrayList<Action>();
-            for (ActionDTO actionDTO : actions) {
-                actionModels.add(new Action(actionDTO.getId(), actionDTO.getDeviceId(), actionDTO.getDeviceName(), actionDTO.getAction(), user.getUserID()));
-            }
-        }
-        return actionModels;
     }
 
 }

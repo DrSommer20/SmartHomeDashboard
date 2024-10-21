@@ -1,0 +1,11 @@
+applications:
+- name: SmartHomeRoutines
+  instances: 1
+  host: SmartHomeRoutines{random-word}
+  path: target/smartHomeRoutines-0.0.1-SNAPSHOT.jar
+  random-route: true
+  memory: 750M
+  buildpacks:
+    - java_buildpack
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'

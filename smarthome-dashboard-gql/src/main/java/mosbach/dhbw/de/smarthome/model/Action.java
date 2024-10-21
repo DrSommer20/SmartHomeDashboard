@@ -1,15 +1,10 @@
 package mosbach.dhbw.de.smarthome.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-@Entity
 public class Action {
-    @Id
     private int id;
     private String deviceID;
     private String deviceName;
-    private String action;
+    private String setTo;
     private int userID;
 
     /**
@@ -20,22 +15,22 @@ public class Action {
      * @param action
      * @param userID
      */
-    public Action(int id, String deviceID, String deviceName, String action, int userID) {
+    public Action(int id, String deviceID, String deviceName, String setTo, int userID) {
         this.id = id;
         this.deviceID = deviceID;
         this.deviceName = deviceName;
-        this.action = action;
+        this.setTo = setTo;
         this.userID = userID;
     }
 
     public Action() {
     }
 
-    public int getID() {
+    public int getId() {
         return id;
     }
 
-    public void setID(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -57,13 +52,13 @@ public class Action {
     }
 
 
-    public String getAction() {
-        return action;
+    public String getSetTo() {
+        return setTo;
     }
 
 
-    public void setAction(String action) {
-        this.action = action;
+    public void setSetTo(String setTo) {
+        this.setTo = setTo;
     }
 
     public int getUserID() {

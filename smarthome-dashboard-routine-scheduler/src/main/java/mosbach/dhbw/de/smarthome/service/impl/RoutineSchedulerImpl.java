@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mosbach.dhbw.de.smarthome.model.Action;
-import mosbach.dhbw.de.smarthome.service.api.DeviceService;
 import mosbach.dhbw.de.smarthome.service.api.RoutineScheduler;
 import mosbach.dhbw.de.smarthome.service.api.SmartThings;
 import mosbach.dhbw.de.smarthome.service.api.UserService;
@@ -26,12 +25,9 @@ public class RoutineSchedulerImpl implements RoutineScheduler {
     private final List<Action> actions;
 
     @Autowired
-    private DeviceService deviceService;
-
-    @Autowired
     private UserService userService;
 
-    @Autowired
+    @Autowired 
     private SmartThings smartThings;
 
     // Constructor to create the TaskScheduler instance
@@ -66,16 +62,8 @@ public class RoutineSchedulerImpl implements RoutineScheduler {
 
         System.out.println("Executing routine at: " + LocalDateTime.now());
         for (Action action : actions) {
-            System.out.println("Device ID: " + action.getDeviceID() + ", Action: " + action.getAction() + ", User-PAT: " + userService.getUserPATbyID(action.getUserID()));
-            boolean response = smartThings.setDeviceStatus(action.getAction(),action.getDeviceID()+"", "switch", userService.getUserPATbyID(action.getUserID()));
-            System.out.println("Response: "+ response);
-            if(response) {
-                if(smartThings.isSwitchOn(action.getDeviceID()+"",userService.getUserPATbyID(action.getUserID()))) deviceService.getDeviceById(action.getDeviceID(), action.getUserID()).setState("On");
-                else deviceService.getDeviceById(action.getDeviceID(), action.getUserID()).setState("Off");
-            }
-            else {
-                System.out.println("Failed to execute action.");
-            }
+            System.out.println("Device ID: " + action.getDeviceID() + ", Action: " + action.getSetTo() + ", User-PAT: " + userService.getUserPATbyID(action.getUserID()));
+            smartThings.setDeviceStatus(action.getSetTo(),action.getDeviceID()+"", "switch", userService.getUserPATbyID(action.getUserID()));
         }
     }
 
