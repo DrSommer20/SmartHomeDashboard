@@ -30,23 +30,25 @@ function displayRooms(rooms) {
       roomDiv.classList.add("col-sm-12", "col-md-12", "col-lg-6", "col-xl-4");
       //TODO: Edit Button auf Dashboard verstecken
       roomDiv.innerHTML =`
-                 <div class="display-card">
+                   <div class="display-card">
                      <div class="display-card-header">
-                       <h3>
-                <span></span> ${room.name}
-                <button class="edit-button" id="room-edit-button`+uniqueId+`" >Edit</button>
-            </h3>
-        </div>
-        <div class="card-separator"></div>
-        <div class="device-info">
-            <p>ID: ${room.room_id}</p>
-             <input type="checkbox" id="` + uniqueId +`" class="toggleCheckbox" />
-        <label for="` + uniqueId + `" class="toggleContainer">
-        <div>OFF</div>
-        <div>ON</div>
-         </label>
-            </div>
-        </div>
+                        <h3>
+                            <span></span> ${room.name}
+                        </h3>
+                            <div class="button-container">
+                                 <button class="delete-button" id="device-delete-button`+uniqueId+`" ><span class="material-symbols-outlined">delete</span></button>
+                                 <button class="edit-button" id="device-edit-button`+uniqueId+`" >Edit</button>
+                            </div>
+                        <div class="card-separator"></div>
+                        <div class="device-info">
+                            <p>ID: ${room.room_id}</p>
+                            <input type="checkbox" id="` + uniqueId +`" class="toggleCheckbox" />
+                        <label for="` + uniqueId + `" class="toggleContainer">
+                            <div>OFF</div>
+                            <div>ON</div>
+                        </label>
+                     </div>
+                    </div>
             `;
       contentDiv.appendChild(roomDiv);
       // Set checkbox to checked if the device state is "On"

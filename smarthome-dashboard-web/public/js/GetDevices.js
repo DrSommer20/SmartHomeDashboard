@@ -31,24 +31,27 @@ function displayDevices(devices) {
                 //TODO: Edit Button auf Dashboard verstecken
                 deviceDiv.innerHTML = `
                 <div class="display-card">
-                    <div class="display-card-header">
-                        <h3>
-                            <span class="material-symbols-outlined">${device.typeIcon}</span> ${device.name}
-                            <button class="edit-button" id="device-edit-button`+uniqueId+`" >Edit</button>
-                        </h3>
-                    </div>
-                    <div class="card-separator"></div>
-                    <div class="device-info">
-                        <p>Type: ${device.type}</p>
-                        <p>Location: ${device.roomName}</p>
-                        <p>State: ${device.status}</p>
-                         <input type="checkbox" id="`+uniqueId+`" class="toggleCheckbox" />
-                    <label for="`+uniqueId+`" class="toggleContainer">
-                    <div>OFF</div>
-                    <div>ON</div>
-                  </label>
+            <div class="display-card-header">
+                <h3>
+                    <span class="material-symbols-outlined">${device.typeIcon}</span> ${device.name}
+                </h3>
+                <div class="button-container">
+                  <button class="delete-button" id="device-delete-button`+uniqueId+`" ><span class="material-symbols-outlined">delete</span></button>
+                  <button class="edit-button" id="device-edit-button`+uniqueId+`" >Edit</button>
                 </div>
-              </div>
+            </div>
+            <div class="card-separator"></div>
+            <div class="device-info">
+                <p>Type: ${device.type}</p>
+                <p>Location: ${device.roomName}</p>
+                <p>State: ${device.status}</p>
+                 <input type="checkbox" id="`+uniqueId+`" class="toggleCheckbox" />
+            <label for="`+uniqueId+`" class="toggleContainer">
+            <div>OFF</div>
+            <div>ON</div>
+          </label>
+        </div>
+      </div>
             `;
             contentDiv.appendChild(deviceDiv);
             // Set checkbox to checked if the device state is "On"
@@ -114,7 +117,9 @@ function displayDevices(devices) {
                 }
             });
     }
+//
 //Edit Device
+//
 function editbuttonclick(device_id) {
     $('.popup').css('display', 'flex');
     $.ajax({
@@ -228,3 +233,9 @@ $('.popup-close').click(function() {
     $('.popup').css('display', 'none');
 });
 }
+
+//
+//Delete Device
+//
+
+

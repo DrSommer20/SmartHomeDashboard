@@ -39,24 +39,28 @@ function displayRoutine(routines) {
             routineDiv.classList.add('col-sm-12', 'col-md-12', 'col-lg-6', 'col-xl-4');
             routineDiv.innerHTML = `
             <div class="display-card">
-                <div class="display-card-header">
-                    <h3>
-                        <span class="material-symbols-outlined">schedule</span> ${routine.name}
-                    </h3>
-                </div>
-                <div class="card-separator"></div>
-                <div class="routine-info">
-                    <p>Trigger Time: ${routine.trigger.value}</p>
-                    <div class="actions-display">
-                        <h5>Actions:</h5>
-                        ${actionsDisplay.innerHTML}     
-                    </div>
-                    <input type="checkbox" id="`+uniqueId+`" class="toggleCheckbox" />
-                        <label for="`+uniqueId+`" class="toggleContainer">
-                        <div>OFF</div>
-                        <div>ON</div>
-                        </label>
+        <div class="display-card-header">
+            <h3>
+                <span class="material-symbols-outlined">schedule</span> ${routine.name}
+            </h3>
+            <div class="button-container">
+              <button class="delete-button" id="routine-delete-button`+uniqueId+`" ><span class="material-symbols-outlined">delete</span></button>
+              <button class="edit-button" id="routine-edit-button`+uniqueId+`" >Edit</button>
+         </div>
+        </div>
+        <div class="card-separator"></div>
+        <div class="routine-info">
+            <p>Trigger Time: ${routine.trigger.value}</p>
+            <div class="actions-display">
+                <h5>Actions:</h5>
+                ${actionsDisplay.innerHTML}     
             </div>
+            <input type="checkbox" id="`+uniqueId+`" class="toggleCheckbox" />
+                <label for="`+uniqueId+`" class="toggleContainer">
+                <div>OFF</div>
+                <div>ON</div>
+                </label>
+    </div>
             `;
 
            contentDiv.appendChild(routineDiv);

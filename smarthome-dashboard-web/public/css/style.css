@@ -462,16 +462,66 @@ height:100px;
   border-radius: 5px;
   float: right;
   font-size: medium;
+  width: 4rem;
 }
 
 .edit-button:hover {
   color: var(--primary-color);
   background-color: var(--light-color);
 }
+
+.delete-button{
+  color: var(--light-color);
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  float: right;
+  font-size: 1rem;
+  align-items: center;
+  width: 4rem;
+}
+.delete-button:hover {
+  color: red;
+  background-color: var(--light-color);
+}
+
 .gap{
 margin-bottom: 20px;
 }
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
+.edit-userButton{
+  padding: 5px;
+  color: var(--light-color);
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 4rem;
+}
+.edit-userButton:hover{
+  background-color: var(--dark-color);
+  color: var(--light-color);
+}
+
+.delete-userButton{
+  padding: 5px;
+  color: var(--light-color);
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 4rem;
+}
+
+.delete-userButton:hover{
+  background-color: darkred;
+  color: var(--light-color);
+}
 
 /* PoP Up Fenster */
 .popup {
@@ -488,8 +538,8 @@ margin-bottom: 20px;
   align-items: center;
 }
 .popup-content {
-  background-color: var(--dark-color);
-  color: var(--light-color);
+  background-color: var(--light-color);
+  color: var(--dark-color);
   padding: 20px;
   border-radius: 20px;
   width: 80%;
@@ -506,8 +556,8 @@ margin-bottom: 20px;
   border: none;
   border-radius: 5px;
   padding: 5px;
-  color: var(--light-color);
-  background-color: var(--dark-color);
+  color: var(--dark-color);
+  background-color: var(--light-color);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -520,7 +570,7 @@ margin-bottom: 20px;
 .popup-device {
   padding: 20px;
   margin: 5px;
-  background-color: var(--dark-color);
+  background-color: var(--light-color);
   border-radius: 20px;
 }
 .popup-device-separator {
@@ -528,7 +578,7 @@ margin-bottom: 20px;
   left: 0;
   width: 100%;
   height: 1px;
-  background: var(--light-color);
+  background: var(--dark-color);
 }
 .popup-button {
   background-color: var(--dark-color);
@@ -541,5 +591,50 @@ margin-bottom: 20px;
 }
 .popup-button:hover {
   background-color: var(--submit-color);
+  color: var(--light-color);
+}
+
+/* Delete PoP Up Fenster */
+.deletepopup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(110, 110, 110, 0.5); /* Halbtransparenter Hintergrund */
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-delete-button{
+  background-color: red;
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 4rem;
+  padding: 0.5rem;
+}
+.popup-delete-button:hover{
+  background-color: darkred;
+  color: var(--light-color);
+}
+
+.delete-popup-close {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  color: var(--dark-color);
+  background-color: var(--light-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.delete-popup-close:hover {
+  background-color: var(--secondary-color);
   color: var(--light-color);
 }
