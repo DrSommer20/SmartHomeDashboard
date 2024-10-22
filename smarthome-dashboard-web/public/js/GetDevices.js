@@ -57,6 +57,7 @@ function displayDevices(devices) {
             // Set checkbox to checked if the device state is "On"
             const checkbox = document.getElementById(uniqueId);
             const editbutton = document.getElementById("device-edit-button" + uniqueId);
+            const deletebutton = document.getElementById("device-delete-button" + uniqueId);
             if (device.state === 'On') {
                 checkbox.checked = true;
             }
@@ -68,11 +69,15 @@ function displayDevices(devices) {
             function handleeditbuttonclick(){
                 editbuttonclick(device.device_id);
             }
+            function handledeletebuttonclick(){
+                deletebuttonclick(device.device_id);
+            }
             editbutton.addEventListener("click", handleeditbuttonclick);
-
+            deletebutton.addEventListener("click", handledeletebuttonclick);
             checkbox.addEventListener('change', handleCheckboxChange);
             index++;
             }
+            
         );
     }
 }
@@ -234,8 +239,11 @@ $('.popup-close').click(function() {
 });
 }
 
-//
 //Delete Device
-//
-
-
+function deletebuttonclick(device_id) {
+    $('.deletepopup').css('display', 'flex');
+    
+    $('.deletepopup-close').click(function() {
+        $('.deletepopup').css('display', 'none');
+    });
+}

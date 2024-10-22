@@ -36,8 +36,8 @@ function displayRooms(rooms) {
                             <span></span> ${room.name}
                         </h3>
                             <div class="button-container">
-                                 <button class="delete-button" id="device-delete-button`+uniqueId+`" ><span class="material-symbols-outlined">delete</span></button>
-                                 <button class="edit-button" id="device-edit-button`+uniqueId+`" >Edit</button>
+                                 <button class="delete-button" id="room-delete-button`+uniqueId+`" ><span class="material-symbols-outlined">delete</span></button>
+                                 <button class="edit-button" id="room-edit-button`+uniqueId+`" >Edit</button>
                             </div>
                         <div class="card-separator"></div>
                         <div class="device-info">
@@ -151,3 +151,6 @@ function updateFieldRoom(field, newValue, room_id) {
 $('.popup-close').click(function() {
     $('.popup').css('display', 'none');
 });
+
+
+// Delete Room
