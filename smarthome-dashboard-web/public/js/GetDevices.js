@@ -242,8 +242,28 @@ $('.popup-close').click(function() {
 //Delete Device
 function deletebuttonclick(device_id) {
     $('.deletepopup').css('display', 'flex');
-    
-    $('.deletepopup-close').click(function() {
+    $('#deviceDeleteBtn').click(function() {
+        $.ajax({
+            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device/' + device_id,
+            type: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('authToken'),
+                'Content-Type': 'application/json'
+            },
+            success: function(response) {
+                console.log('Device deleted successfully:', response);
+                window.location.href = 'Devices.html';
+                window.location.reload();
+            },
+            error: function(error) {
+                console.error('Error deleting device:', error);
+                window.location.href = 'Devices.html';
+                
+            }
+        });
+    });
+
+    $('#deviceclosePopup').click(function() {
         $('.deletepopup').css('display', 'none');
     });
 }
