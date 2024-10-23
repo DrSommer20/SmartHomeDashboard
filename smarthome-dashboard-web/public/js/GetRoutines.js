@@ -8,7 +8,8 @@ function updateRoutines(){
            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine',
            type: 'GET',
            headers: {
-               'Authorization': localStorage.getItem('authToken')
+               'Authorization': localStorage.getItem('authToken'),
+               'Content-Type': 'application/json'
            },
            success: function(response) {
                console.log('Erfolgreiche Antwort:', response);
@@ -69,19 +70,51 @@ function displayRoutine(routines) {
            if (routine.state) {
                checkbox.checked = true;
            }
+           const deletebutton = document.getElementById("routine-delete-button"+uniqueId);
 
            function handleCheckboxChange() {
                handleChange(this.checked, routine.id, uniqueId, this);
            }
-
+            function handledeletebuttonclick(){
+                deletebuttonclick(routine.id);
+            }  
+            deletebutton.addEventListener("click", handledeletebuttonclick);
+           
            checkbox.addEventListener('change', handleCheckboxChange);
            index++;
            }
        );
    }
+   function handleChange(isChecked, device_id, uniqueId, checkboxElement){
 }
 
 
-   function handleChange(isChecked, device_id, uniqueId, checkboxElement){
-           
-   }
+  
+
+
+//Delete Routine
+function deletebuttonclick(id){
+    $('.deletepopup').css('display', 'flex');
+    $('#routineDeleteBtn').click(function() {
+        $.ajax({
+            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine/' + id,
+            type: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('authToken'),
+                'Content-Type': 'application/json'
+            },
+            success: function(response) {
+                console.log('Routine delete succesfully:', response);
+                window.location.href = "routines.html";
+                window.location.reload();
+            },
+            error: function(error) {
+                console.error('Error deleting routine:', error);
+            }
+        });
+    });
+    $('#routineclosePopup').click(function() {
+        $('.deletepopup').css('display', 'none');
+    });
+}
+};
