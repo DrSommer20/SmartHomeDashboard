@@ -523,6 +523,10 @@ margin-bottom: 20px;
   color: var(--light-color);
 }
 
+.button-container {
+  display: flex;
+}
+
 /* PoP Up Fenster */
 .popup {
   display: none;

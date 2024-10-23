@@ -53,6 +53,12 @@ function displayDevices(devices) {
         </div>
       </div>
             `;
+            if (window.location.pathname === '/public/homepage.html') {
+                const buttonContainer = deviceDiv.querySelector('.button-container');
+                if (buttonContainer) {
+                    buttonContainer.style.display = 'none';
+                }
+            }
             contentDiv.appendChild(deviceDiv);
             // Set checkbox to checked if the device state is "On"
             const checkbox = document.getElementById(uniqueId);
@@ -77,6 +83,7 @@ function displayDevices(devices) {
             checkbox.addEventListener('change', handleCheckboxChange);
             index++;
             }
+            
             
         );
     }

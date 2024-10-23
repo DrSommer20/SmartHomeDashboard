@@ -3,6 +3,7 @@ $(document).ready(function() {
     updateRooms();
     setInterval(updateRooms, 30000);
 });
+ 
 function updateRooms(){
     $.ajax({
            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/room',
@@ -28,7 +29,6 @@ function displayRooms(rooms) {
         const uniqueId = 'toggleCheckbox' + index;
       const roomDiv = document.createElement("div");
       roomDiv.classList.add("col-sm-12", "col-md-12", "col-lg-6", "col-xl-4");
-      //TODO: Edit Button auf Dashboard verstecken
       roomDiv.innerHTML =`
                    <div class="display-card">
                      <div class="display-card-header">
@@ -50,6 +50,13 @@ function displayRooms(rooms) {
                      </div>
                     </div>
             `;
+            if (room.room_id == 17) {
+                const buttonContainer = roomDiv.querySelector('.button-container');
+                if (buttonContainer) {
+                    buttonContainer.style.display = 'none';
+                }
+            }
+            
       contentDiv.appendChild(roomDiv);
       // Set checkbox to checked if the device state is "On"
       const checkbox = document.getElementById(uniqueId);
