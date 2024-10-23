@@ -78,7 +78,7 @@
       <div class="row" id="content"></div>
     
 
-    <!-- Popup Mask-->
+    <!-- Edit Popup Mask-->
     <div class="popup">
       <div class="popup-content">
         <div class="popup-header">
@@ -100,7 +100,18 @@
       </div>
     </div>
 
-
+     <!-- Delete User Popup Mask -->
+     <div class="deletepopup">
+      <div class="popup-content">
+        <div class="popup-header">
+          <h5>Delete User</h5>
+          <button class="delete-popup-close" id="deviceclosePopup"><span class="material-symbols-outlined">close</span></button>
+        </div>
+          <label for="deviceName" class="input-label gap">Are you sure you want to delete this device?</label>
+          <input type="hidden" id="deviceId" >
+          <button class="popup-delete-button" id="deviceDeleteBtn">Delete</button>
+      </div>
+      
   </body>
   <script src="../js/GetUserInfo.js"></script>
   <script src="../js/Sidebar.js"></script>

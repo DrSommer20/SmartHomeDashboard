@@ -31,29 +31,39 @@ function displayDevices(devices) {
                 //TODO: Edit Button auf Dashboard verstecken
                 deviceDiv.innerHTML = `
                 <div class="display-card">
-                    <div class="display-card-header">
-                        <h3>
-                            <span class="material-symbols-outlined">${device.typeIcon}</span> ${device.name}
-                            <button class="edit-button" id="device-edit-button`+uniqueId+`" >Edit</button>
-                        </h3>
-                    </div>
-                    <div class="card-separator"></div>
-                    <div class="device-info">
-                        <p>Type: ${device.type}</p>
-                        <p>Location: ${device.roomName}</p>
-                        <p>State: ${device.status}</p>
-                         <input type="checkbox" id="`+uniqueId+`" class="toggleCheckbox" />
-                    <label for="`+uniqueId+`" class="toggleContainer">
-                    <div>OFF</div>
-                    <div>ON</div>
-                  </label>
+            <div class="display-card-header">
+                <h3>
+                    <span class="material-symbols-outlined">${device.typeIcon}</span> ${device.name}
+                </h3>
+                <div class="button-container">
+                  <button class="delete-button" id="device-delete-button`+uniqueId+`" ><span class="material-symbols-outlined">delete</span></button>
+                  <button class="edit-button" id="device-edit-button`+uniqueId+`" >Edit</button>
                 </div>
-              </div>
+            </div>
+            <div class="card-separator"></div>
+            <div class="device-info">
+                <p>Type: ${device.type}</p>
+                <p>Location: ${device.roomName}</p>
+                <p>State: ${device.status}</p>
+                 <input type="checkbox" id="`+uniqueId+`" class="toggleCheckbox" />
+            <label for="`+uniqueId+`" class="toggleContainer">
+            <div>OFF</div>
+            <div>ON</div>
+          </label>
+        </div>
+      </div>
             `;
+            if (window.location.pathname === '/public/homepage.html') {
+                const buttonContainer = deviceDiv.querySelector('.button-container');
+                if (buttonContainer) {
+                    buttonContainer.style.display = 'none';
+                }
+            }
             contentDiv.appendChild(deviceDiv);
             // Set checkbox to checked if the device state is "On"
             const checkbox = document.getElementById(uniqueId);
             const editbutton = document.getElementById("device-edit-button" + uniqueId);
+            const deletebutton = document.getElementById("device-delete-button" + uniqueId);
             if (device.state === 'On') {
                 checkbox.checked = true;
             }
@@ -65,11 +75,16 @@ function displayDevices(devices) {
             function handleeditbuttonclick(){
                 editbuttonclick(device.device_id);
             }
+            function handledeletebuttonclick(){
+                deletebuttonclick(device.device_id);
+            }
             editbutton.addEventListener("click", handleeditbuttonclick);
-
+            deletebutton.addEventListener("click", handledeletebuttonclick);
             checkbox.addEventListener('change', handleCheckboxChange);
             index++;
             }
+            
+            
         );
     }
 }
@@ -114,7 +129,9 @@ function displayDevices(devices) {
                 }
             });
     }
+//
 //Edit Device
+//
 function editbuttonclick(device_id) {
     $('.popup').css('display', 'flex');
     $.ajax({
@@ -227,4 +244,33 @@ function updateField(field, newValue, device_id) {
 $('.popup-close').click(function() {
     $('.popup').css('display', 'none');
 });
+}
+
+//Delete Device
+function deletebuttonclick(device_id) {
+    $('.deletepopup').css('display', 'flex');
+    $('#deviceDeleteBtn').click(function() {
+        $.ajax({
+            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device/' + device_id,
+            type: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('authToken'),
+                'Content-Type': 'application/json'
+            },
+            success: function(response) {
+                console.log('Device deleted successfully:', response);
+                window.location.href = 'Devices.html';
+                window.location.reload();
+            },
+            error: function(error) {
+                console.error('Error deleting device:', error);
+                window.location.href = 'Devices.html';
+                
+            }
+        });
+    });
+
+    $('#deviceclosePopup').click(function() {
+        $('.deletepopup').css('display', 'none');
+    });
 }

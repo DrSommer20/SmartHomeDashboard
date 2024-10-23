@@ -92,3 +92,30 @@ function updateField(field, newValue) {
     });
      location.reload(true);
 }
+
+// Delete User
+$("#delete-userButton").click(function() {
+    $('.deletepopup').css('display', 'flex');
+    $("#userDeleteBtn").click(function() {
+        $.ajax({
+            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/user',
+            type: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('authToken')
+            },
+            success: function(response) {
+                console.log('Benutzer erfolgreich gelöscht:', response);
+                localStorage.removeItem('authToken');
+                localStorage.clear();
+                window.location.href = 'https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/public/login-page/login-mask.html';
+                },
+            error: function(error) {
+                console.error('Fehler beim Löschen des Benutzers:', error);
+            }
+    });
+    });
+    
+    $('.delete-popup-close').click(function() {
+        $('.deletepopup').css('display', 'none');
+    });
+});

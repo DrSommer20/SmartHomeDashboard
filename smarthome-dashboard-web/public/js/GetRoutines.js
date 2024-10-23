@@ -8,7 +8,8 @@ function updateRoutines(){
            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine',
            type: 'GET',
            headers: {
-               'Authorization': localStorage.getItem('authToken')
+               'Authorization': localStorage.getItem('authToken'),
+               'Content-Type': 'application/json'
            },
            success: function(response) {
                console.log('Erfolgreiche Antwort:', response);
@@ -39,24 +40,28 @@ function displayRoutine(routines) {
             routineDiv.classList.add('col-sm-12', 'col-md-12', 'col-lg-6', 'col-xl-4');
             routineDiv.innerHTML = `
             <div class="display-card">
-                <div class="display-card-header">
-                    <h3>
-                        <span class="material-symbols-outlined">schedule</span> ${routine.name}
-                    </h3>
-                </div>
-                <div class="card-separator"></div>
-                <div class="routine-info">
-                    <p>Trigger Time: ${routine.trigger.value}</p>
-                    <div class="actions-display">
-                        <h5>Actions:</h5>
-                        ${actionsDisplay.innerHTML}     
-                    </div>
-                    <input type="checkbox" id="`+uniqueId+`" class="toggleCheckbox" />
-                        <label for="`+uniqueId+`" class="toggleContainer">
-                        <div>OFF</div>
-                        <div>ON</div>
-                        </label>
+        <div class="display-card-header">
+            <h3>
+                <span class="material-symbols-outlined">schedule</span> ${routine.name}
+            </h3>
+            <div class="button-container">
+              <button class="delete-button" id="routine-delete-button`+uniqueId+`" ><span class="material-symbols-outlined">delete</span></button>
+              <button class="edit-button" id="routine-edit-button`+uniqueId+`" >Edit</button>
+         </div>
+        </div>
+        <div class="card-separator"></div>
+        <div class="routine-info">
+            <p>Trigger Time: ${routine.trigger.value}</p>
+            <div class="actions-display">
+                <h5>Actions:</h5>
+                ${actionsDisplay.innerHTML}     
             </div>
+            <input type="checkbox" id="`+uniqueId+`" class="toggleCheckbox" />
+                <label for="`+uniqueId+`" class="toggleContainer">
+                <div>OFF</div>
+                <div>ON</div>
+                </label>
+    </div>
             `;
 
            contentDiv.appendChild(routineDiv);
@@ -65,19 +70,51 @@ function displayRoutine(routines) {
            if (routine.state) {
                checkbox.checked = true;
            }
+           const deletebutton = document.getElementById("routine-delete-button"+uniqueId);
 
            function handleCheckboxChange() {
                handleChange(this.checked, routine.id, uniqueId, this);
            }
-
+            function handledeletebuttonclick(){
+                deletebuttonclick(routine.id);
+            }  
+            deletebutton.addEventListener("click", handledeletebuttonclick);
+           
            checkbox.addEventListener('change', handleCheckboxChange);
            index++;
            }
        );
    }
+   function handleChange(isChecked, device_id, uniqueId, checkboxElement){
 }
 
 
-   function handleChange(isChecked, device_id, uniqueId, checkboxElement){
-           
-   }
+  
+
+
+//Delete Routine
+function deletebuttonclick(id){
+    $('.deletepopup').css('display', 'flex');
+    $('#routineDeleteBtn').click(function() {
+        $.ajax({
+            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine/' + id,
+            type: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('authToken'),
+                'Content-Type': 'application/json'
+            },
+            success: function(response) {
+                console.log('Routine delete succesfully:', response);
+                window.location.href = "routines.html";
+                window.location.reload();
+            },
+            error: function(error) {
+                console.error('Error deleting routine:', error);
+            }
+        });
+    });
+    $('#routineclosePopup').click(function() {
+        $('.deletepopup').css('display', 'none');
+    });
+}
+};

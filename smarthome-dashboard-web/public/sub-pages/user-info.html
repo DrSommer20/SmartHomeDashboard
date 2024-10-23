@@ -109,12 +109,27 @@
             <label for="userpat" class="input-label"
               >Personal acces token:</label
             >
-            <input type="text" id="userpat" class="input-field" name="pat" />
-            <button id="user-editButton" class="head-button">Edit</button>
+            <input type="text" id="userpat" class="input-field gap" name="pat" />
+            <div class="button-container">
+              <button id="delete-userButton" class="delete-userButton">Delete</button>
+              <button id="user-editButton" class="edit-userButton">Edit</button>
+          </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Delete User Popup Mask -->
+    <div class="deletepopup">
+      <div class="popup-content">
+        <div class="popup-header">
+          <h5>Delete User</h5>
+          <button class="delete-popup-close" id="closePopup"><span class="material-symbols-outlined">close</span></button>
+        </div>
+          <label for="deviceName" class="input-label gap">Are you sure you want to delete this user?</label>
+          <input type="hidden" id="deviceId" >
+          <button class="popup-delete-button" id="userDeleteBtn">Delete</button>
+      </div>
 
     <script src="../js/GetUserInfo.js"></script>
     <script src="../js/Sidebar.js"></script>
