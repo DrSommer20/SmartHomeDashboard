@@ -568,8 +568,8 @@ margin-bottom: 20px;
   justify-content: center;
 }
 .popup-close:hover {
-  background-color: var(--light-color);
-  color: var(--dark-color);
+  background-color: var(--secondary-color);
+  color: var(--light-color);
 }
 .popup-device {
   padding: 20px;
