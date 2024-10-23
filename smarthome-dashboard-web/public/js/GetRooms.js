@@ -56,6 +56,7 @@ function displayRooms(rooms) {
       const editbutton = document.getElementById(
         "room-edit-button" + uniqueId
       );
+      const deletebutton = document.getElementById("room-delete-button" + uniqueId);
       if (room.state === "On") {
         checkbox.checked = true;
       }
@@ -67,8 +68,11 @@ function displayRooms(rooms) {
       function handleeditbuttonclick() {
         editbuttonclick(room.room_id);
       }
+      function handledeletebuttonclick() {
+        deletebuttonclick(room.room_id);
+      }
       editbutton.addEventListener("click", handleeditbuttonclick);
-
+      deletebutton.addEventListener("click", handledeletebuttonclick);
       checkbox.addEventListener("change", handleCheckboxChange);
       index++;
     });
@@ -154,3 +158,26 @@ $('.popup-close').click(function() {
 
 
 // Delete Room
+function deletebuttonclick(room_id) {
+    $('.deletepopup').css('display', 'flex');
+    $('#roomDeleteBtn').click(function() {
+        $.ajax({
+            url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/room/' + room_id,
+            type: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('authToken')
+            },
+            success: function(response) {
+                console.log('Raum erfolgreich gelöscht:', response);
+                window.location.reload();
+                window.location.href = 'Rooms.html';
+            },
+            error: function(error) {
+                console.error('Fehler beim Löschen des Raums:', error);
+            },
+        });
+    });
+    $('#roomclosePopup').click(function() {
+        $('.deletepopup').css('display', 'none');
+    });
+}
