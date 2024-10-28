@@ -65,7 +65,6 @@ function displayRoutine(routines) {
             `;
 
            contentDiv.appendChild(routineDiv);
-           // Set checkbox to checked if the device state is "On"
            const checkbox = document.getElementById(uniqueId);
            if (routine.state) {
                checkbox.checked = true;
@@ -175,8 +174,6 @@ function addAction(actionId = '', selectedDeviceId = '', selectedAction = '') {
             </button>
         </div>
     `);
-
-    // Geräteliste hinzufügen und das ausgewählte Gerät markieren
     devices.forEach(device => {
         const option = new Option(device.name, device.device_id);
         if (device.device_id === selectedDeviceId) {
@@ -184,13 +181,9 @@ function addAction(actionId = '', selectedDeviceId = '', selectedAction = '') {
         }
         actionDiv.find('.action-device').append(option);
     });
-
-    // Klick-Event für das Löschen der Aktion
     actionDiv.find('.delete-action').click(function () {
         $(this).closest('.action').remove();
     });
-
-    // Aktion zum Actions-Bereich hinzufügen
     $('#actions').append(actionDiv);
 }
 
