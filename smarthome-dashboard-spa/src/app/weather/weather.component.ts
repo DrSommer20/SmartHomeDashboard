@@ -9,16 +9,19 @@ import * as weatherCodes from '../../../public/json/weathercodes.json';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './weather.component.html',
-  styleUrl: './weather.component.css'
+  styleUrl: './weather.component.css',
 })
 export class WeatherComponent implements OnInit {
   currentWeather: any;
   forecast: any[] = [];
 
-
-
   locationError: string = '';
-  weatherIcons: { [key: string]: { day: { description: string, image: string }, night: { description: string, image: string } } } = {};
+  weatherIcons: {
+    [key: string]: {
+      day: { description: string; image: string };
+      night: { description: string; image: string };
+    };
+  } = {};
 
   constructor(private http: HttpClient) {}
 
@@ -26,7 +29,6 @@ export class WeatherComponent implements OnInit {
     this.weatherIcons = weatherCodes;
     this.getLocation();
   }
-
 
   getLocation(): void {
     if (navigator.geolocation) {
@@ -52,13 +54,15 @@ export class WeatherComponent implements OnInit {
     this.http.get<any>(apiUrl).subscribe(
       (response) => {
         this.currentWeather = response.current_weather;
-        this.forecast = response.daily.time.map((time: string, index: number) => ({
-          time,
-          temperature_2m_max: response.daily.temperature_2m_max[index],
-          temperature_2m_min: response.daily.temperature_2m_min[index],
-          precipitation_sum: response.daily.precipitation_sum[index],
-          weathercode: response.daily.weathercode[index]
-        })).slice(1, 4);
+        this.forecast = response.daily.time
+          .map((time: string, index: number) => ({
+            time,
+            temperature_2m_max: response.daily.temperature_2m_max[index],
+            temperature_2m_min: response.daily.temperature_2m_min[index],
+            precipitation_sum: response.daily.precipitation_sum[index],
+            weathercode: response.daily.weathercode[index],
+          }))
+          .slice(1, 4);
       },
       (error) => {
         console.error('Error fetching weather data:', error);
@@ -66,7 +70,6 @@ export class WeatherComponent implements OnInit {
     );
   }
 
-    
   getWeatherIcon(weatherCode: number, isDaytime: boolean): string {
     if (!this.weatherIcons || !this.weatherIcons[weatherCode.toString()]) {
       console.warn(`Weather icon for code ${weatherCode.toString()} not found`);
@@ -76,7 +79,9 @@ export class WeatherComponent implements OnInit {
     const timeOfDay = isDaytime ? 'day' : 'night';
     const icon = this.weatherIcons[weatherCode.toString()][timeOfDay]?.image;
     if (!icon) {
-      console.warn(`Weather icon for code ${weatherCode} and time of day ${timeOfDay} not found`);
+      console.warn(
+        `Weather icon for code ${weatherCode} and time of day ${timeOfDay} not found`
+      );
       return 'assets/icons/default.png'; // Use a default icon if the specific icon is not available
     }
     return icon;

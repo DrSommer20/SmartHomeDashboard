@@ -23,7 +23,7 @@ import mosbach.dhbw.de.smarthome.dto.RoutineDTO;
 @Service
 public class RoutineClientService {
 
-    private static final String BASE_URL = "http://SmartHomeRoutines-optimistic-swan-pf.apps.01.cf.eu01.stackit.cloud/api/intern/routine";
+    private static final String BASE_URL = "https://SmartHomeRoutines-optimistic-swan-pf.apps.01.cf.eu01.stackit.cloud/api/intern/routine";
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
     private final ObjectMapper objectMapper = new ObjectMapper();
 

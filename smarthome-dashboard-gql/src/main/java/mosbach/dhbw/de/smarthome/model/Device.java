@@ -73,6 +73,8 @@ public class Device {
         this.state = state;
     }
 
+    
+
     public boolean getStatusBoolean() {
         return status.equals("Online");
     }

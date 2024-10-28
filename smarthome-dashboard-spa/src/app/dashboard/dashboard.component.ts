@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { AllDevicesComponent } from '../device/device.component';
 import { WeatherComponent } from '../weather/weather.component';
 
@@ -7,7 +7,6 @@ import { WeatherComponent } from '../weather/weather.component';
   standalone: true,
   imports: [AllDevicesComponent, WeatherComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent {
-}
+export class DashboardComponent {}

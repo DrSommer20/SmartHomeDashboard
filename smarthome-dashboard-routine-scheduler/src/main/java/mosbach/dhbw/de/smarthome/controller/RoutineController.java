@@ -112,8 +112,7 @@ public class RoutineController {
      *         or an error message if the routine was not found or the credentials were wrong.
      */
     @DeleteMapping(
-        path = "/{id}",
-        consumes = {MediaType.APPLICATION_JSON_VALUE}
+        path = "/{id}"
     )
     public ResponseEntity<?> deleteRoutine(@PathVariable int id, @RequestHeader("Authorization") String token) {
         User user = userService.getUser(token);
@@ -148,7 +147,6 @@ public class RoutineController {
                 routine.setActions(ActionDTO.convertToModel(changeRequest.getActions(), user));
                 routine.setTriggerTime(changeRequest.getTrigger().getValue());
                 routine.setState(changeRequest.isState());
-                routine.refresh();
                 routineService.updateRoutine(routine, user.getUserID());
                 return new ResponseEntity<>(HttpStatus.OK);
             }
@@ -174,7 +172,7 @@ public class RoutineController {
     @PostMapping(
         path = "/{id}/{state}"
     )
-    public ResponseEntity<?> switchRoutine(@RequestHeader("Authorization") String token, @RequestParam String state, @RequestParam int id) {
+    public ResponseEntity<?> switchRoutine(@RequestHeader("Authorization") String token, @PathVariable String state, @PathVariable int id) {
         User user = userService.getUser(token);
         if(user != null){
             if(routineService.switchRoutine(id, state.equals("on"), user.getUserID())){

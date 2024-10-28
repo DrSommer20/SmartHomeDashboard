@@ -1,22 +1,43 @@
 <!-- src/app/weather/weather.component.html -->
 <div class="weather-container" *ngIf="currentWeather">
-    <h2>Current Weather</h2>
-    <img [src]="getWeatherIcon(currentWeather.weathercode, isDaytime())" alt="Weather Icon">
-    <p>Temperature: {{ currentWeather.temperature }}°C</p>
-    <p>Wind Speed: {{ currentWeather.windspeed }} km/h</p>
-    <p>Precipitation: {{ forecast[1].precipitation }} mm</p>
-    <p>Weather: {{ weatherIcons[currentWeather.weathercode]?.[isDaytime() ? 'day' : 'night']?.description }}</p>
-  
-    <h2>3-Day Forecast</h2>
-    <div *ngFor="let day of forecast">
-      <h4>Date: {{ day.time.substr(8,2) + "." + day.time.substr(5,2) + "." + day.time.substr(0,4) }}</h4>
-      <img [src]="getWeatherIcon(day.weathercode, isDaytime())" alt="Weather Icon">
-      <p>Max Temperature: {{ day.temperature_2m_max }}°C</p>
-      <p>Min Temperature: {{ day.temperature_2m_min }}°C</p>
-      <p>Precipitation: {{ day.precipitation_sum }} mm</p>
-      <p>Weather: {{ weatherIcons[day.weathercode]?.[isDaytime() ? 'day' : 'night']?.description }}</p>
-    </div>
+  <h2>Current Weather</h2>
+  <img
+    [src]="getWeatherIcon(currentWeather.weathercode, isDaytime())"
+    alt="Weather Icon"
+  />
+  <p>Temperature: {{ currentWeather.temperature }}°C</p>
+  <p>Wind Speed: {{ currentWeather.windspeed }} km/h</p>
+  <p>Precipitation: {{ forecast[1].precipitation }} mm</p>
+  <p>
+    Weather:
+    {{ weatherIcons[currentWeather.weathercode][isDaytime() ? 'day' : 'night'].description }}
+  </p>
+
+  <h2>3-Day Forecast</h2>
+  <div *ngFor="let day of forecast">
+    <h4>
+      Date:
+      {{
+        day.time.substr(8, 2) +
+          "." +
+          day.time.substr(5, 2) +
+          "." +
+          day.time.substr(0, 4)
+      }}
+    </h4>
+    <img
+      [src]="getWeatherIcon(day.weathercode, isDaytime())"
+      alt="Weather Icon"
+    />
+    <p>Max Temperature: {{ day.temperature_2m_max }}°C</p>
+    <p>Min Temperature: {{ day.temperature_2m_min }}°C</p>
+    <p>Precipitation: {{ day.precipitation_sum }} mm</p>
+    <p>
+      Weather:
+      {{ weatherIcons[day.weathercode][isDaytime() ? 'day' : 'night'].description }}
+    </p>
   </div>
-  <div *ngIf="locationError">
-    <p>{{ locationError }}</p>
-  </div>
+</div>
+<div *ngIf="locationError">
+  <p>{{ locationError }}</p>
+</div>

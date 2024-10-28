@@ -3,28 +3,72 @@
   <form [formGroup]="signUpForm" (ngSubmit)="onSignUpSubmit()">
     <div class="group">
       <label for="userfirstname" class="label">First Name</label>
-      <input id="userfirstname" autocomplete="given-name" type="text" class="input" formControlName="firstName" placeholder="Enter your first name" required>
+      <input
+        id="userfirstname"
+        autocomplete="given-name"
+        type="text"
+        class="input"
+        formControlName="firstName"
+        placeholder="Enter your first name"
+        required
+      />
     </div>
     <div class="group">
       <label for="userlastname" class="label">Last Name</label>
-      <input id="userlastname" autocomplete="family-name" type="text" class="input" formControlName="lastName" placeholder="Enter your last name" required>
+      <input
+        id="userlastname"
+        autocomplete="family-name"
+        type="text"
+        class="input"
+        formControlName="lastName"
+        placeholder="Enter your last name"
+        required
+      />
     </div>
     <div class="group">
       <label for="useremail" class="label">Email Address</label>
-      <input id="useremail" autocomplete="username" type="email" class="input" formControlName="email" placeholder="Enter your email address" required>
+      <input
+        id="useremail"
+        autocomplete="username"
+        type="email"
+        class="input"
+        formControlName="email"
+        placeholder="Enter your email address"
+        required
+      />
     </div>
     <div class="group">
       <label for="userpassword" class="label">Password</label>
-      <input id="userpassword" autocomplete="new-password" type="password" class="input" formControlName="password" type="password" placeholder="Create your password" required>
+      <input
+        id="userpassword"
+        autocomplete="new-password"
+        type="password"
+        class="input"
+        formControlName="password"
+        type="password"
+        placeholder="Create your password"
+        required
+      />
     </div>
     <div class="group">
       <label for="userpat" class="label">SmartThings PAT (Optional)</label>
-      <input id="userpat" type="text" class="input" formControlName="pat" placeholder="Enter your SmartThings PAT (optional)">
+      <input
+        id="userpat"
+        type="text"
+        class="input"
+        formControlName="pat"
+        placeholder="Enter your SmartThings PAT (optional)"
+      />
     </div>
     <div class="group">
       <button class="button btn btn-primary" type="submit">Sign Up</button>
     </div>
   </form>
-  <div id="sign-up-success" *ngIf="signUpSuccess">Sign up successful! <br> Please verify your Email</div>
-  <div id="sign-up-failure" *ngIf="signUpFailure">Sign up failed. Please try again.</div>
+  <div id="sign-up-success" *ngIf="signUpSuccess">
+    Sign up successful! <br />
+    Please verify your Email
+  </div>
+  <div id="sign-up-failure" *ngIf="signUpFailure">
+    Sign up failed. Please try again.
+  </div>
 </div>

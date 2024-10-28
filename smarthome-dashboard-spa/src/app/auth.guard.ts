@@ -4,7 +4,7 @@ import { CanActivate, Router } from '@angular/router';
 import { LoginService } from './login/login.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
   private loginService = inject(LoginService); // Using inject API

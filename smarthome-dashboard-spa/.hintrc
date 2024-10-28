@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "axe/forms": "off",
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "scrollbar-width",
+          "-webkit-overflow-scrolling",
+          "scrollbar-width: none"
+        ]
+      }
+    ]
+  }
+}

@@ -1,19 +1,26 @@
 <h2>Add new Device</h2>
 <form [formGroup]="deviceForm" (ngSubmit)="addDevice()" class="content-input">
-
-    <label for="deviceSmartThings" class="input-label">SmartThings Connection:</label>
-    <select id="deviceSmartThings" formControlName="smartThings" required>
-      <option *ngFor="let device of devices" [value]="device.device_id">{{ device.name }}</option>
-    </select>
-    <label for="deviceName" class="input-label">Device Name:</label>
-    <input type="text" id="deviceName" formControlName="name" required />
-    <label for="deviceType" class="input-label">Device Type:</label>
+  <label for="deviceSmartThings" class="input-label"
+    >SmartThings Connection:</label
+  >
+  <select id="deviceSmartThings" formControlName="smartThings" required>
+    <option *ngFor="let device of devices" [value]="device.device_id">
+      {{ device.name }}
+    </option>
+  </select>
+  <label for="deviceName" class="input-label">Device Name:</label>
+  <input type="text" id="deviceName" formControlName="name" required />
+  <label for="deviceType" class="input-label">Device Type:</label>
   <select id="deviceType" formControlName="type" required>
-    <option *ngFor="let type of deviceTypes" [value]="type.typeID">{{ type.type }}</option>
+    <option *ngFor="let type of deviceTypes" [value]="type.typeID">
+      {{ type.type }}
+    </option>
   </select>
   <label for="deviceLocation" class="input-label">Device Location:</label>
   <select id="deviceLocation" formControlName="location" required>
-    <option *ngFor="let room of rooms" [value]="room.room_id" >{{ room.name }}</option>
+    <option *ngFor="let room of rooms" [value]="room.room_id">
+      {{ room.name }}
+    </option>
   </select>
-    <button class="submit-button">Add</button>
-  </form>
+  <button type="submit" class="submit-button">Add</button>
+</form>

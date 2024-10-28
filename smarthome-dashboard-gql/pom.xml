@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>dhbw.mosbach.de</groupId>
-	<artifactId>smarthome.graphql</artifactId>
+	<artifactId>smartHomeGraphQL</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SmartHome GraphQL</name>
+	<name>SmartHomeGraphQL</name>
 	<description>GraphQL API for University Project</description>
 	<properties>
 		<java.version>17</java.version>

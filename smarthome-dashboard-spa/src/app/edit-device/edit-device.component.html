@@ -1,0 +1,26 @@
+<!-- src/app/edit-device/edit-device.component.html -->
+<h2>Edit Device</h2>
+<form
+  [formGroup]="deviceForm"
+  (ngSubmit)="updateDevice()"
+  class="content-input"
+>
+  <label for="deviceName" class="input-label">Device Name:</label>
+  <input type="text" id="deviceName" formControlName="name" required />
+
+  <label for="deviceType" class="input-label">Device Type:</label>
+  <select id="deviceType" formControlName="type" required>
+    <option *ngFor="let type of deviceTypes" [value]="type.id">
+      {{ type.name }}
+    </option>
+  </select>
+
+  <label for="deviceLocation" class="input-label">Device Location:</label>
+  <select id="deviceLocation" formControlName="location" required>
+    <option *ngFor="let room of rooms" [value]="room.id">
+      {{ room.name }}
+    </option>
+  </select>
+
+  <button type="submit" class="submit-button">Update Device</button>
+</form>

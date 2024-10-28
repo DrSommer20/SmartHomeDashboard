@@ -2,17 +2,34 @@
   <div class="custom-container">
     <div class="row justify-content-center align-items-center min-vh-100">
       <div class="col-12 col-md-12 col-lg-12 col-xl-12" id="loginResize">
-        <div class="login-box" [ngClass]="{'box-expand': isSignUpPage}">
+        <div class="login-box" [ngClass]="{ 'box-expand': isSignUpPage }">
           <div class="login-snip">
             <div>
               <!-- Tab controls -->
-              <input type="radio" class="sign-in" id="tab-1" name="tab" routerLink="/auth/login" [checked]="!isSignUpPage" />
+              <input
+                type="radio"
+                class="sign-in"
+                id="tab-1"
+                name="tab"
+                routerLink="/auth/login"
+                [checked]="!isSignUpPage"
+              />
               <label for="tab-1" class="tab">Login</label>
-              <input type="radio" class="sign-up" id="tab-2" name="tab" routerLink="/auth/sign-up" [checked]="isSignUpPage"/>
+              <input
+                type="radio"
+                class="sign-up"
+                id="tab-2"
+                name="tab"
+                routerLink="/auth/sign-up"
+                [checked]="isSignUpPage"
+              />
               <label for="tab-2" class="tab">Sign Up</label>
             </div>
             <div [@routeAnimation]="prepareRoute(outlet)">
-              <router-outlet #outlet="outlet" (activate)="onRouteChange($event)"></router-outlet>
+              <router-outlet
+                #outlet="outlet"
+                (activate)="onRouteChange($event)"
+              ></router-outlet>
             </div>
           </div>
         </div>

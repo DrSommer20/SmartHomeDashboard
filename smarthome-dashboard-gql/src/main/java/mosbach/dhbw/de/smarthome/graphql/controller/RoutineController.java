@@ -1,5 +1,6 @@
 package mosbach.dhbw.de.smarthome.graphql.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,21 +15,31 @@ import mosbach.dhbw.de.smarthome.model.Action;
 import mosbach.dhbw.de.smarthome.model.ActionInput;
 import mosbach.dhbw.de.smarthome.model.Routine;
 import mosbach.dhbw.de.smarthome.model.User;
-import mosbach.dhbw.de.smarthome.service.api.RoutineService;
+import mosbach.dhbw.de.smarthome.service.api.AuthService;
+
+import mosbach.dhbw.de.smarthome.service.impl.RoutineClientService;
 
 @Controller
 public class RoutineController {
 
     @Autowired
-    private RoutineService routineService;
+    private RoutineClientService routineService;
+
+    @Autowired
+    private AuthService authService;
 
     @QueryMapping
-    public Routine routineById(@Argument String id) {
+    public Routine routineById(@Argument int id) {
         User authenticatedUser = AuthInterceptor.getAuthenticatedUser();
         if (authenticatedUser == null) {
             throw new RuntimeException("User not authenticated");
         }
-        return routineService.getRoutineByID(id, authenticatedUser);
+        try {
+            return routineService.getRoutineById(authService.generateToken(authenticatedUser), id, authenticatedUser.getId());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @QueryMapping
@@ -37,11 +48,16 @@ public class RoutineController {
         if (authenticatedUser == null) {
             throw new RuntimeException("User not authenticated");
         }
-        return routineService.getRoutines(authenticatedUser);
+        try {
+        return routineService.getAllRoutines(authService.generateToken(authenticatedUser), authenticatedUser.getId());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @MutationMapping
-    public Routine createRoutine(@Argument String name, @Argument List<ActionInput> actions, @Argument String triggerTime) {
+    public boolean createRoutine(@Argument String name, @Argument List<ActionInput> actions, @Argument String triggerTime) {
         User authenticatedUser = AuthInterceptor.getAuthenticatedUser();
         if (authenticatedUser == null) {
             throw new RuntimeException("User not authenticated");
@@ -57,17 +73,26 @@ public class RoutineController {
         }
         routine.setActions(newActions);
         routine.setTriggerTime(triggerTime);
-        routineService.addRoutine(authenticatedUser, routine);
-        return routine;
+        try {
+            return routineService.createRoutine(authService.generateToken(authenticatedUser), routine);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @MutationMapping
-    public Routine updateRoutine(@Argument String id, @Argument String name, @Argument List<ActionInput> actions, @Argument String triggerTime, @Argument Boolean state) {
+    public Routine updateRoutine(@Argument int id, @Argument String name, @Argument List<ActionInput> actions, @Argument String triggerTime, @Argument Boolean state) {
         User authenticatedUser = AuthInterceptor.getAuthenticatedUser();
         if (authenticatedUser == null) {
             throw new RuntimeException("User not authenticated");
         }
-        Routine routine = routineService.getRoutineByID(id, authenticatedUser);
+        Routine routine = null;
+        try {
+            routine = routineService.getRoutineById(authService.generateToken(authenticatedUser),id, authenticatedUser.getId());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (routine == null) {
             throw new RuntimeException("Routine not found");
         }
@@ -87,28 +112,41 @@ public class RoutineController {
         if (triggerTime != null) {
             routine.setTriggerTime(triggerTime);
         }
-        if (state != null) {
-            routine.setState(state);
+        try {
+            routineService.updateRoutine(authService.generateToken(authenticatedUser), id, routine);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-        routineService.updateRoutine(routine, authenticatedUser.getId());
         return routine;
     }
 
     @MutationMapping
-    public Boolean switchRoutine(@Argument String id, @Argument Boolean state) {
+    public Boolean switchRoutine(@Argument int id, @Argument Boolean state) {
         User authenticatedUser = AuthInterceptor.getAuthenticatedUser();
         if (authenticatedUser == null) {
             throw new RuntimeException("User not authenticated");
         }
-        return routineService.switchRoutine(id, state, authenticatedUser);
+        try {
+            return routineService.switchRoutine(authService.generateToken(authenticatedUser), id, state ? "on" : "off");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @MutationMapping
-    public Boolean deleteRoutine(@Argument String id) {
+    public Boolean deleteRoutine(@Argument int id) {
         User authenticatedUser = AuthInterceptor.getAuthenticatedUser();
         if (authenticatedUser == null) {
             throw new RuntimeException("User not authenticated");
         }
-        return routineService.deleteRoutine(id, authenticatedUser);
+        try {
+            System.out.println(authService.generateToken(authenticatedUser) + " ID: " + id);
+            return routineService.deleteRoutine(authService.generateToken(authenticatedUser), id);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

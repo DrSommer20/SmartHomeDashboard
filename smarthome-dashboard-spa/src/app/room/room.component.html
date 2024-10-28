@@ -5,11 +5,16 @@
           <h3>
             <span class="material-symbols-outlined">home</span> {{ room.name }}
           </h3>
+          <button *ngIf="room.name !== 'Default Room'"  class="delete-button" (click)="deleteRoom(room.id)">
+          <span class="material-symbols-outlined">delete</span>
+          </button>
+          <button class="edit-button" (click)="editRoom(room.id)">
+            Edit
+          </button>
         </div>
         <div class="card-separator"></div>
         <div class="room-info">
           <p>ID: {{ room.room_id }}</p>
-          <button *ngIf="room.name !== 'Default Room'" (click)="deleteRoom(room.room_id)" class="delete-button"><span class="material-symbols-outlined">delete</span></button>
         </div>
       </div>
     </div>
@@ -17,3 +22,6 @@
   <ng-template #noRooms>
     <p>No rooms available. Please add a room.</p>
   </ng-template>
+
+  <!-- Modal Container -->
+<div #modalContainer></div>

@@ -1,4 +1,10 @@
-import { Component, Input, ViewChild, AfterViewChecked, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  AfterViewChecked,
+  OnInit,
+} from '@angular/core';
 import { ContentHeaderComponent } from '../content-header/content-header.component';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
@@ -9,9 +15,9 @@ import { filter, map } from 'rxjs';
   standalone: true,
   imports: [ContentHeaderComponent, RouterOutlet],
   templateUrl: './main-content.component.html',
-  styleUrl: './main-content.component.css'
+  styleUrl: './main-content.component.css',
 })
-  export class MainContentComponent implements OnInit {
+export class MainContentComponent implements OnInit {
   @Input() marginLeft: string = '90px';
   @ViewChild(ContentHeaderComponent) contentHeader!: ContentHeaderComponent;
   @ViewChild(RouterOutlet) outlet!: RouterOutlet;
@@ -40,8 +46,13 @@ import { filter, map } from 'rxjs';
   }
 
   refreshContent() {
-    const activeComponent = this.outlet.component as { refreshContent?: () => void };
-    if (activeComponent && typeof activeComponent.refreshContent === 'function') {
+    const activeComponent = this.outlet.component as {
+      refreshContent?: () => void;
+    };
+    if (
+      activeComponent &&
+      typeof activeComponent.refreshContent === 'function'
+    ) {
       activeComponent['refreshContent']();
     }
   }

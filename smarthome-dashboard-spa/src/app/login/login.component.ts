@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -9,14 +14,17 @@ import { Router, ActivatedRoute } from '@angular/router';
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
-
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, public router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    public router: Router
+  ) {
     this.loginForm = this.fb.group({}); // Initialize login form
   }
 
@@ -24,23 +32,25 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       email: [''],
       password: [''],
-      keepSignedIn: [false] 
+      keepSignedIn: [false],
     });
-
-    
   }
 
   onLoginSubmit() {
-    const loginUrl = 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/auth';
+    const loginUrl =
+      'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/auth';
 
     const loginData = {
       email: this.loginForm.get('email')?.value,
-      password: this.loginForm.get('password')?.value
+      password: this.loginForm.get('password')?.value,
     };
 
     const keepSignedIn = this.loginForm.get('keepSignedIn')?.value;
 
-    this.http.post(loginUrl, loginData, { headers: { 'Content-Type': 'application/json' } })
+    this.http
+      .post(loginUrl, loginData, {
+        headers: { 'Content-Type': 'application/json' },
+      })
       .subscribe({
         next: (response: any) => {
           // Store token in localStorage if "Keep me Signed in" is checked, else in sessionStorage
@@ -53,10 +63,9 @@ export class LoginComponent implements OnInit {
         },
         error: (error) => {
           console.error('Login error:', error);
-          this.errorMessage = 'The email or password is incorrect. Please try again.';
-        }
+          this.errorMessage =
+            'The email or password is incorrect. Please try again.';
+        },
       });
   }
-
-  
 }

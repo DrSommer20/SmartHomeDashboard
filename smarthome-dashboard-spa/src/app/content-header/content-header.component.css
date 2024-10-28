@@ -7,7 +7,7 @@
   display: flex;
 }
 
-.head-button{
+.head-button {
   padding: 10px;
   color: var(--light-color);
   background-color: var(--secondary-color);
@@ -16,7 +16,7 @@
   cursor: pointer;
   margin-left: auto;
 }
-.head-button:hover{
+.head-button:hover {
   background-color: var(--light-color);
-  color:var(--secondary-color);
+  color: var(--secondary-color);
 }
