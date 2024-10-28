@@ -153,12 +153,12 @@ function editbuttonclick(id) {
 function displayExistingActions(actions) {
     $('#actions').empty();
     actions.forEach(action => {
-        addAction(action.device_id, action.action); 
+        addAction(action.id, action.device_id, action.action);
     });
 }
-function addAction(selectedDeviceId = '', selectedAction = '') {
+function addAction(actionId = '', selectedDeviceId = '', selectedAction = '') {
     const actionDiv = $(`
-        <div class="action">
+        <div class="action" data-action-id="${actionId}">
             <div class="action-group">
                 <label for="action-device">Gerät:</label>
                 <select class="action-device" required></select>
@@ -171,44 +171,53 @@ function addAction(selectedDeviceId = '', selectedAction = '') {
                 </select>
             </div>
             <button type="button" class="delete-action">
-                <span class="material-symbols-outlined">DELETE</span>
+                <span class="material-symbols-outlined">delete</span>
             </button>
         </div>
     `);
 
+    // Geräteliste hinzufügen und das ausgewählte Gerät markieren
     devices.forEach(device => {
-        const isSelected = device.device_id === selectedDeviceId ? 'selected' : '';
-        actionDiv.find('.action-device').append(new Option(device.name, device.device_id, isSelected));
+        const option = new Option(device.name, device.device_id);
+        if (device.device_id === selectedDeviceId) {
+            $(option).attr("selected", "selected");
+        }
+        actionDiv.find('.action-device').append(option);
     });
 
+    // Klick-Event für das Löschen der Aktion
     actionDiv.find('.delete-action').click(function () {
-        $(this).closest('.action').remove(); 
+        $(this).closest('.action').remove();
     });
+
+    // Aktion zum Actions-Bereich hinzufügen
     $('#actions').append(actionDiv);
-    console.log('Action hinzugefügt', actions, actionDiv);
 }
+
 //save/change Routine
 let routineId = null;
+
 $('#RoutinesaveBtn').click(function (id) {
     const routineName = $('#routineName').val();
     const routineTime = $('#routineTime').val();
     const actions = [];
     $('.action').each(function () {
+        const actionId = $(this).data('action-id');
         const deviceId = $(this).find('.action-device').find('option:selected').val();
         const deviceName = $(this).find('.action-device').find('option:selected').text();
         const actionType = $(this).find('.action-type').find('option:selected').val();
-        actions.push({ device_id: deviceId, device_name: deviceName, action: actionType });
-        
-        console.log('Aktionen:', actions);
+        actions.push({ action_id: actionId, device_id: deviceId, device_name: deviceName, action: actionType });
 
     });
     const routine = {
         name: routineName,
+        actions: actions,
         trigger: {
             type: 'time',
             value: routineTime
         },
-        actions: actions
+        state: true
+
     };
     $.ajax({
         url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine/' + routineId,
@@ -220,17 +229,15 @@ $('#RoutinesaveBtn').click(function (id) {
         data: JSON.stringify(routine),
             success: function (response) {
                 console.log('Routine erfolgreich erstellt:', response);
-                console.log('Neu gespeicherte Routine:', response.routine); // Überprüfen, was zurückgegeben wird
-          
+                window.location.href = "routines.html";
+                window.location.reload();
             },
             
-        
         error: function (error) {
             console.error('Fehler beim Erstellen der Routine:', error);
         }
     });
 });
-// neue Aktion wird nicht gespeichert -> rest Funktioniert
 
 //Delete Routine
 function deletebuttonclick(id){

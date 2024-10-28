@@ -92,7 +92,7 @@
             },
             success: function (data) {
                 console.log('Routine added', data);
-                window.location.href = 'Routines.html'; // Weiterleitung auf eine andere Seite
+                window.location.href = 'Routines.html'; 
             },
             data: JSON.stringify(routineData),
             contentType: "application/json; charset=UTF-8",
