@@ -55,12 +55,12 @@ public class RoutineController {
     }
 
     /**
-     * Deletes a routine by its ID.
+     * Creates a new routine.
      *
-     * @param id The ID of the routine to delete.
      * @param token The authorization token of the user.
-     * @return A ResponseEntity containing a success message if the routine was deleted,
-     *         or an error message if the routine was not found or the credentials were wrong.
+     * @param routinePostRequest The routine to create.
+     * @return A ResponseEntity containing a success message if the routine was created,
+     *         or an error message if the credentials were wrong.
      */
     @PostMapping(
         consumes = {MediaType.APPLICATION_JSON_VALUE}
