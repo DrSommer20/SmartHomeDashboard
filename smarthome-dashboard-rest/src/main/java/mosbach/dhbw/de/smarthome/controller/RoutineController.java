@@ -52,7 +52,6 @@ public class RoutineController {
             try {
                 allRoutines = routineService.getAllRoutines(token);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return new ResponseEntity<>(allRoutines, HttpStatus.OK);
