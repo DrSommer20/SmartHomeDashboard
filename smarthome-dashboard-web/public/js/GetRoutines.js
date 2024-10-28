@@ -65,21 +65,23 @@ function displayRoutine(routines) {
             `;
 
            contentDiv.appendChild(routineDiv);
-           // Set checkbox to checked if the device state is "On"
            const checkbox = document.getElementById(uniqueId);
            if (routine.state) {
                checkbox.checked = true;
            }
            const deletebutton = document.getElementById("routine-delete-button"+uniqueId);
-
+           const editbutton = document.getElementById("routine-edit-button"+uniqueId);
            function handleCheckboxChange() {
                handleChange(this.checked, routine.id, uniqueId, this);
            }
             function handledeletebuttonclick(){
                 deletebuttonclick(routine.id);
             }  
+            function handleeditbuttonclick(){
+                editbuttonclick(routine.id);
+            }
             deletebutton.addEventListener("click", handledeletebuttonclick);
-           
+            editbutton.addEventListener("click", handleeditbuttonclick);
            checkbox.addEventListener('change', handleCheckboxChange);
            index++;
            }
@@ -88,9 +90,147 @@ function displayRoutine(routines) {
    function handleChange(isChecked, device_id, uniqueId, checkboxElement){
 }
 
+//Edit Routine
+const devices = [];
 
-  
+$(document).ready(function() {
+    return $.ajax({
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device',
+        type: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('authToken')
+        },
+        success: function (response) {
+            console.log('Geräte erfolgreich abgerufen:', response);
+            response.devices.forEach(device => {
+                devices.push(device); 
+            });
+        },
+        error: function (error) {
+            console.error('Fehler beim Abrufen der Geräte:', error);
+        }
+    });
+});
 
+function editbuttonclick(id) {
+    routineId = id;
+    $('.popup').css('display', 'flex');
+    $.ajax({
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine/' + id,
+        type: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('authToken'),
+            'Content-Type': 'application/json'
+        },
+        success: function (response) {
+            console.log('Routine erfolgreich abgerufen:', response);
+            $('#routineName').val(response.name);
+            $('#routineTime').val(response.trigger.value);
+            displayExistingActions(response.actions);
+        },
+        error: function (error) {
+            console.error('Fehler beim Abrufen der Routine:', error);
+        }
+    });
+    if (devices.length === 0) {
+        fetchDevices().done(function () {
+            $('#add-action').click(function () {
+                addAction();
+            });
+        });
+    } else {
+        $('#add-action').click(function () {
+            addAction();
+        });
+    }
+
+    $('.popup-close').click(function () {
+        $('.popup').css('display', 'none');
+    });
+}
+
+function displayExistingActions(actions) {
+    $('#actions').empty();
+    actions.forEach(action => {
+        addAction(action.id, action.device_id, action.action);
+    });
+}
+function addAction(actionId = '', selectedDeviceId = '', selectedAction = '') {
+    const actionDiv = $(`
+        <div class="action" data-action-id="${actionId}">
+            <div class="action-group">
+                <label for="action-device">Gerät:</label>
+                <select class="action-device" required></select>
+            </div>
+            <div class="action-group">
+                <label for="action-type">Aktion:</label>
+                <select class="action-type" required>
+                    <option value="on" ${selectedAction === 'on' ? 'selected' : ''}>An</option>
+                    <option value="off" ${selectedAction === 'off' ? 'selected' : ''}>Aus</option>
+                </select>
+            </div>
+            <button type="button" class="delete-action">
+                <span class="material-symbols-outlined">delete</span>
+            </button>
+        </div>
+    `);
+    devices.forEach(device => {
+        const option = new Option(device.name, device.device_id);
+        if (device.device_id === selectedDeviceId) {
+            $(option).attr("selected", "selected");
+        }
+        actionDiv.find('.action-device').append(option);
+    });
+    actionDiv.find('.delete-action').click(function () {
+        $(this).closest('.action').remove();
+    });
+    $('#actions').append(actionDiv);
+}
+
+//save/change Routine
+let routineId = null;
+
+$('#RoutinesaveBtn').click(function (id) {
+    const routineName = $('#routineName').val();
+    const routineTime = $('#routineTime').val();
+    const actions = [];
+    $('.action').each(function () {
+        const actionId = $(this).data('action-id');
+        const deviceId = $(this).find('.action-device').find('option:selected').val();
+        const deviceName = $(this).find('.action-device').find('option:selected').text();
+        const actionType = $(this).find('.action-type').find('option:selected').val();
+        actions.push({ action_id: actionId, device_id: deviceId, device_name: deviceName, action: actionType });
+
+    });
+    const routine = {
+        name: routineName,
+        actions: actions,
+        trigger: {
+            type: 'time',
+            value: routineTime
+        },
+        state: true
+
+    };
+    $.ajax({
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine/' + routineId,
+        type: 'PUT',
+        headers: {
+            'Authorization': localStorage.getItem('authToken'),
+            'Content-Type': 'application/json'
+        },
+        data: JSON.stringify(routine),
+            success: function (response) {
+                console.log('Routine erfolgreich erstellt:', response);
+                window.location.href = "routines.html";
+                window.location.reload();
+            },
+            
+        error: function (error) {
+            console.error('Fehler beim Erstellen der Routine:', error);
+        }
+    });
+});
 
 //Delete Routine
 function deletebuttonclick(id){

@@ -79,7 +79,52 @@
 
       <div class="row" id="content"></div>
 
-<!-- Delete User Popup Mask -->
+<!-- Edit Routine Popup Mask -->
+<div class="popup">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h5>Edit Routine</h5>
+      <button class="popup-close" id="closePopup"><span class="material-symbols-outlined">close</span></button>
+    </div>
+
+    <div class="popup-routine">
+      <label for="routineName" class="input-label">Device Name</label>
+      <input type="text" id="routineName" class="gap" name="routineName">
+      <div class="popup-device-separator"></div>
+
+        <label for="routineTime">Trigger Time:</label>
+          <input type="time" id="routineTime" name="routineTime" class="gap" required />
+            <div id="actions">
+              <div class="action">
+                <div class="action-group">
+                  <label for="actionDevice">Device:</label>
+                  <select class="actionDevice" required></select>
+                </div>
+                <div class="action-group">
+                  <label for="actionType">Action:</label>
+                  <select class="actionType" required>
+                    <option value="on">On</option>
+                    <option value="off">Off</option>
+                  </select>
+                </div>
+                <button type="button" class="delete-action">
+                  <span class="material-symbols-outlined">DELETE</span>
+                </button>
+              </div>
+            </div>
+            <button type="button" id="add-action" class="add-action">
+              Add Action
+            </button>
+            <br/>
+          </form>
+        <input type="hidden" id="deviceId">
+      <button class="submit-button" id="RoutinesaveBtn">Save</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Delete Routine Popup Mask -->
 <div class="deletepopup">
   <div class="popup-content">
     <div class="popup-header">
