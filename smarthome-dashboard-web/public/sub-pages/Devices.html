@@ -67,8 +67,7 @@
         <div class="header">
           <h1>Devices</h1>
           <button
-            onclick="location.href='add-device-mask.html'"
-            id="HeadButton"
+            id="deviceHeadButton"
             class="head-button"
           >
             Add Device
@@ -77,6 +76,29 @@
       </header>
       <div class="row" id="content"></div>
     
+    <!-- Add Popup Mask -->
+    <div class="popup">
+      <div class="popup-content">
+        <div class="popup-header">
+          <h5>Edit Device</h5>
+          <button class="popup-close" id="closePopup"><span class="material-symbols-outlined">close</span></button>
+        </div>
+      <div class="content-input" id="content">
+        <label for="deviceSmartThings" class="input-label"
+          >SmartThings Connection:</label
+        >
+        <select id="deviceSmartThings" required></select>
+
+        <label for="deviceName" class="input-label">Device Name:</label>
+        <input type="text" id="deviceName" required />
+
+        <label for="deviceType" class="input-label">Device Type:</label>
+        <select id="deviceType" required></select>
+        <label for="deviceLocation" class="input-label">Location:</label>
+          <select id="deviceLocation" class="gap" required></select>
+        <button class="submit-button" id="AddDeviceSubmit">Add</button>
+      </div>
+    </div>
 
     <!-- Edit Popup Mask-->
     <div class="popup">

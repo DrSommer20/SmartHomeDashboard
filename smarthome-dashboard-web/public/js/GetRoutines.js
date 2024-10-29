@@ -232,6 +232,11 @@ $('#RoutinesaveBtn').click(function (id) {
     });
 });
 
+
+//TODO: Device schaltfunktion einfügen
+// ist im Backend was, dass zu der Zeit was geschaltet wird?
+//wann und für was genau gibt man dann die Toggle function durch?
+
 //Delete Routine
 function deletebuttonclick(id){
     $('.deletepopup').css('display', 'flex');

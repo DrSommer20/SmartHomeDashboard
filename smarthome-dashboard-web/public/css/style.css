@@ -308,6 +308,9 @@ body {
 
 .display-card h3 {
   font-size: 1.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .display-card p {
