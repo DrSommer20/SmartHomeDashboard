@@ -59,22 +59,31 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   deleteRoom(roomId: string): void {
-    this.apollo
-      .mutate({
-        mutation: DELETE_ROOM,
-        variables: {
-          id: roomId,
-        },
-      })
-      .pipe(
-        tap(() => {
-          this.roomsQuery.refetch(); // Refresh the list of rooms
+    this.modalRef = this.modalContainer.createComponent(ModalComponent);
+    this.modalRef.instance.type = 'ConfirmDelete';
+
+    this.modalRef.instance.onConfirm.subscribe(() => {
+      this.modalRef.destroy();
+      this.apollo
+        .mutate({
+          mutation: DELETE_ROOM,
+          variables: {
+            id: roomId,
+          },
         })
-      )
-      .subscribe({
-        next: () => {},
-        error: (error) => console.error('Error deleting room:', error),
-      });
+        .pipe(
+          tap(() => {
+            this.roomsQuery.refetch();
+          })
+        )
+        .subscribe({
+          next: () => {},
+          error: (error) => console.error('Error deleting room:', error),
+        });
+    });
+    this.modalRef.instance.onCancel.subscribe(() => {
+      this.modalRef.destroy();
+    });
   }
 
   editRoom(roomId: string): void {
@@ -83,9 +92,29 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.modalRef.instance.data = { roomId };
     this.modalRef.instance.close.subscribe(() => {
       this.modalRef.destroy();
-      this.roomsQuery.refetch(); // Refresh the list of rooms after editing
+      this.roomsQuery.refetch();
     });
   }
+
+  switchRoom(roomId: string, state: boolean): void {
+    this.apollo
+      .mutate({
+        mutation: SWITCH_ROOM,
+        variables: {
+          id: roomId,
+          state: state,
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.roomsQuery.refetch();
+        })
+      )
+      .subscribe({
+        next: () => {},
+        error: (error) => console.error('Error switching room:', error),
+      });
+    }
 
   refreshContent(): void {
     this.roomsQuery.refetch();
@@ -104,5 +133,11 @@ const GET_ALL_ROOMS = gql`
 const DELETE_ROOM = gql`
   mutation DeleteRoom($id: ID!) {
     deleteRoom(id: $id)
+  }
+`;
+
+const SWITCH_ROOM = gql`
+  mutation SwitchRoom($id: ID!, $state: Boolean!) {
+    switchRoom(id: $id, state: $state)
   }
 `;

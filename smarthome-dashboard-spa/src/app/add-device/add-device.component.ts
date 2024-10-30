@@ -66,12 +66,7 @@ export class AddDeviceComponent implements OnInit {
 }
 
 const ADD_DEVICE = gql`
-  mutation AddDevice(
-    $device_id: String!
-    $name: String!
-    $typeId: String!
-    $location: String!
-  ) {
+  mutation CreateDevice($id: ID!, $name: String!, $typeId: ID!, $roomId: ID!) {
     createDevice(id: $id, name: $name, typeId: $typeId, roomId: $roomId)
   }
 `;
@@ -87,8 +82,8 @@ const ON_LOAD = gql`
       name
     }
     allDeviceTypes {
-      name
       id
+      name
     }
   }
 `;

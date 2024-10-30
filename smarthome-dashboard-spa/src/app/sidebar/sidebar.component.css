@@ -40,7 +40,7 @@
   margin-left: 23px;
 }
 
-.h4 {
+.sidebar-links h4 {
   /* Sidebar Links Title */
   color: var(--light-color);
   font-weight: 500;
@@ -49,17 +49,17 @@
   position: relative;
 }
 
-.h4 span {
+.sidebar-links h4 span {
   /* Sidebar Links Header invisible when folded*/
   opacity: 0;
 }
 
-.sidebar:hover .h4 span {
+.sidebar:hover .sidebar-links h4 span {
   /* Sidebar Links Header Hover Visibility Effect */
   opacity: 1;
 }
 
-.menu-separator {
+.sidebar-links .menu-separator {
   /* Sidebar Links Separator */
   /* Just a really small div that looks like a line*/
   position: absolute;
@@ -84,10 +84,7 @@
   margin-top: 20px;
   height: 80%;
   overflow-y: auto;
-  scrollbar-width: none; /* For Firefox */
-  -webkit-overflow-scrolling: touch; /* For Safari and iOS */
-  overflow: -moz-scrollbars-none; /* For older versions of Firefox */
-  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  scrollbar-width: none;
 }
 
 .sidebar-links li a {

@@ -19,9 +19,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import mosbach.dhbw.de.smarthome.dto.AllRoutines;
 import mosbach.dhbw.de.smarthome.dto.RoutineDTO;
+import mosbach.dhbw.de.smarthome.service.api.RoutineService;
 
 @Service
-public class RoutineClientService {
+public class RoutineClientService implements RoutineService {
 
     private static final String BASE_URL = "https://SmartHomeRoutines-optimistic-swan-pf.apps.01.cf.eu01.stackit.cloud/api/intern/routine";
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -83,15 +84,6 @@ public class RoutineClientService {
 
         HttpResponse response = httpClient.execute(request);
         return response.getStatusLine().getStatusCode() == 200;
-    }
-
-    public static void main(String[] args) {
-        RoutineClientService routineClientService = new RoutineClientService();
-        try {
-            System.out.println(routineClientService.getAllRoutines("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXhAbXVzdGVybWFubi5kZSIsImlhdCI6MTcyOTU0NDAyOCwiZXhwIjoxNzI5NTUxMjI4fQ.uJ6_xvo9udNM0lmj_j_lXkrTnvgU1CvdiCsYUZRxtaI").getRoutines().size());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private class MyResponseHandler<T> implements ResponseHandler<T> {

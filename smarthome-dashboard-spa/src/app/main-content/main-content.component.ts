@@ -53,7 +53,7 @@ export class MainContentComponent implements OnInit {
       activeComponent &&
       typeof activeComponent.refreshContent === 'function'
     ) {
-      activeComponent['refreshContent']();
+      activeComponent.refreshContent();
     }
   }
 

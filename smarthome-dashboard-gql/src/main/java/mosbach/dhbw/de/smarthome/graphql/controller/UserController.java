@@ -52,5 +52,13 @@ public class UserController {
         userService.updateUser(authenticatedUser);
         return authenticatedUser;
     }
-    
+
+    @MutationMapping
+    public boolean deleteUser() {
+        User authenticatedUser = AuthInterceptor.getAuthenticatedUser();
+        if (authenticatedUser == null) {
+            throw new RuntimeException("User not authenticated");
+        }
+        return userService.deleteUser(authenticatedUser.getEmail());
+    }
 }

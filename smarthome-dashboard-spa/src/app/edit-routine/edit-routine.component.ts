@@ -1,6 +1,10 @@
-// src/app/edit-routine/edit-routine.component.ts
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Apollo, gql } from 'apollo-angular';
 import { CommonModule } from '@angular/common';
 import { tap } from 'rxjs';
@@ -16,6 +20,7 @@ export class EditRoutineComponent implements OnInit {
   @Input() routineId!: string;
   @Output() routineUpdated = new EventEmitter<void>();
   routineForm: FormGroup;
+  devices: any[] = [];
 
   constructor(private fb: FormBuilder, private apollo: Apollo) {
     this.routineForm = this.fb.group({
@@ -26,30 +31,58 @@ export class EditRoutineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadRoutineDetails();
+    this.loadInitialData();
   }
 
-  loadRoutineDetails(): void {
+  loadInitialData(): void {
     this.apollo
       .watchQuery<any>({
-        query: GET_ROUTINE_BY_ID,
-        variables: { id: this.routineId },
+        query: GET_INITIAL_DATA,
+        variables: { routineId: this.routineId },
       })
       .valueChanges.pipe(
         tap(({ data }) => {
+          this.devices = data.allDevices || [];
           const routine = data.routineById;
           this.routineForm.patchValue({
             routineName: routine.name,
             routineTime: routine.triggerTime,
-            actions: routine.actions,
           });
+          this.setActions(routine.actions);
         })
       )
       .subscribe({
         next: () => {},
-        error: (error) =>
-          console.error('Error loading routine details:', error),
+        error: (error) => console.error('Error loading initial data:', error),
       });
+  }
+
+  setActions(actions: any[]): void {
+    const actionFGs = actions.map((action) =>
+      this.fb.group({
+        deviceID: [action.deviceID],
+        setTo: [action.setTo],
+      })
+    );
+    const actionFormArray = this.fb.array(actionFGs);
+    this.routineForm.setControl('actions', actionFormArray);
+  }
+
+  get actions(): FormArray {
+    return this.routineForm.get('actions') as FormArray;
+  }
+
+  addAction(): void {
+    this.actions.push(
+      this.fb.group({
+        deviceID: [''],
+        setTo: [''],
+      })
+    );
+  }
+
+  removeAction(index: number): void {
+    this.actions.removeAt(index);
   }
 
   updateRoutine(): void {
@@ -78,7 +111,7 @@ export class EditRoutineComponent implements OnInit {
 }
 
 const UPDATE_ROUTINE = gql`
-  mutation UpdateRoutine(
+  mutation updateRoutine(
     $id: ID!
     $name: String
     $triggerTime: String
@@ -95,9 +128,9 @@ const UPDATE_ROUTINE = gql`
   }
 `;
 
-const GET_ROUTINE_BY_ID = gql`
-  query GetRoutineById($id: ID!) {
-    routineById(id: $id) {
+const GET_INITIAL_DATA = gql`
+  query GetInitialData($routineId: ID!) {
+    routineById(id: $routineId) {
       id
       name
       triggerTime
@@ -107,6 +140,10 @@ const GET_ROUTINE_BY_ID = gql`
         setTo
       }
       state
+    }
+    allDevices {
+      id
+      name
     }
   }
 `;

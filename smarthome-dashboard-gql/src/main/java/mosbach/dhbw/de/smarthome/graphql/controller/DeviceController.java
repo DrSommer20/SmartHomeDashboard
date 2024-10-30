@@ -86,34 +86,25 @@ public class DeviceController {
         if (authenticatedUser == null) {
             throw new RuntimeException("User not authenticated");
         }
-        System.out.println(authenticatedUser.getPat());
-        AllDevices allDevices = smartThings.getAllDevices(authenticatedUser.getPat());
-        for(DeviceST deviceST : allDevices.getItems()){
-            System.out.println(deviceST.getDeviceId());
-            System.out.println(deviceST.getLabel());
-        }
-
         List<Device> devices = new ArrayList<>();
 
-        for(DeviceST deviceST : allDevices.getItems()){
-            Device device = new Device();
-            device.setId(deviceST.getDeviceId());
-            device.setName(deviceST.getLabel());
-            devices.add(device);
-        }
-
-        for(Device d : devices){
-            System.out.println(d.getId());
-            System.out.println(d.getName());
+        for(DeviceST deviceST : smartThings.getAllDevices(authenticatedUser.getPat()).getItems()){
+            if(deviceService.getDeviceById(deviceST.getDeviceId(), authenticatedUser.getId()) == null ) {
+                Device device = new Device();
+                device.setId(deviceST.getDeviceId());
+                device.setName(deviceST.getLabel());
+                devices.add(device);
+            }
+           
         }
         return devices;
     }
 
     @MutationMapping
-    public Device createDevice(@Argument String id, @Argument String name, @Argument String typeId, @Argument String roomId) {
+    public boolean createDevice(@Argument String id, @Argument String name, @Argument String typeId, @Argument String roomId) {
         User authenticatedUser = AuthInterceptor.getAuthenticatedUser();
         if (authenticatedUser == null) {
-            throw new RuntimeException("User not authenticated");
+            return false;
         }
         Device device = new Device();
         device.setId(id);
@@ -132,7 +123,7 @@ public class DeviceController {
         device.setRoom(room);
 
         deviceService.addDevice(device, authenticatedUser.getId());
-        return device;
+        return true;
     }
 
     @MutationMapping

@@ -4,7 +4,7 @@
     >SmartThings Connection:</label
   >
   <select id="deviceSmartThings" formControlName="smartThings" required>
-    <option *ngFor="let device of devices" [value]="device.device_id">
+    <option *ngFor="let device of devices" [value]="device.id">
       {{ device.name }}
     </option>
   </select>
@@ -12,13 +12,13 @@
   <input type="text" id="deviceName" formControlName="name" required />
   <label for="deviceType" class="input-label">Device Type:</label>
   <select id="deviceType" formControlName="type" required>
-    <option *ngFor="let type of deviceTypes" [value]="type.typeID">
-      {{ type.type }}
+    <option *ngFor="let type of deviceTypes" [value]="type.id">
+      {{ type.name }}
     </option>
   </select>
   <label for="deviceLocation" class="input-label">Device Location:</label>
   <select id="deviceLocation" formControlName="location" required>
-    <option *ngFor="let room of rooms" [value]="room.room_id">
+    <option *ngFor="let room of rooms" [value]="room.id">
       {{ room.name }}
     </option>
   </select>

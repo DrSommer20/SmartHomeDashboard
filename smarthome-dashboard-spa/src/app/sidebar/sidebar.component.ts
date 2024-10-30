@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
+import { Apollo, gql } from 'apollo-angular';
 import { LoginService } from '../login/login.service';
 import { HttpClient } from '@angular/common/http';
 
@@ -20,7 +21,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     private router: Router,
     private loginService: LoginService,
-    private http: HttpClient
+    private apollo: Apollo
   ) {}
 
   ngOnInit(): void {
@@ -44,21 +45,34 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['/auth/login']);
   }
 
-  getUserData() { //TODO: write GraphQL
-    this.http
-      .get<any>(
-        'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/user'
-      )
-      .subscribe(
-        (response) => {
-          this.firstName = response.firstName;
-          this.lastName = response.lastName;
-          this.initials =
-            response.firstName.charAt(0) + response.lastName.charAt(0);
+  getUserData() {
+    this.apollo
+      .watchQuery<any>({
+        query: GET_USER_INFO,
+      })
+      .valueChanges.subscribe(
+        ({ data }) => {
+          const user = data.userInfo;
+          this.firstName = user.firstName;
+          this.lastName = user.lastName;
+          this.initials = user.firstName.charAt(0) + user.lastName.charAt(0);
         },
         (error) => {
-          console.error('Fehler bei der Anfrage:', error);
+          console.error('Error fetching user data:', error);
         }
       );
   }
 }
+
+const GET_USER_INFO = gql`
+  query GetUserInfo {
+    userInfo {
+      id
+      firstName
+      lastName
+      email
+      pat
+      isVerified
+    }
+  }
+`;

@@ -39,12 +39,6 @@ public class SmartThingsImpl implements SmartThings{
             String response = client.execute(httpGet, new MyResponseHandler());
             System.out.println(response);
             AllDevices deviceResponse = objectMapper.readValue(response, AllDevices.class);
-            // for(DeviceST deviceST : deviceResponse.getItems()){
-            //     for(Capability capability :deviceST.getComponents().get(0).getCapabilities()){
-            //         System.out.println("Capabilities: " + capability.getId());
-            //     }
-            // }
-            
             return deviceResponse;
         }catch (Exception e) {
             return null;

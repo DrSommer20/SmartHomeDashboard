@@ -28,10 +28,9 @@ import { ModalComponent } from '../modal/modal.component';
   styleUrl: './routine.component.css',
 })
 export class RoutineComponent implements OnInit, OnDestroy {
-  @Output() titleEvent = new EventEmitter<string>();
   routines: any[] = [];
   refreshInterval: any;
-  getsQuery!: QueryRef<any>;
+  routinesQuery!: QueryRef<any>;
   @ViewChild('modalContainer', { read: ViewContainerRef })
   modalContainer!: ViewContainerRef;
   private modalRef!: ComponentRef<ModalComponent>;
@@ -40,15 +39,20 @@ export class RoutineComponent implements OnInit, OnDestroy {
   constructor(private apollo: Apollo) {}
 
   ngOnInit(): void {
-    this.getsQuery = this.apollo.watchQuery<any>({
+    this.routinesQuery = this.apollo.watchQuery<any>({
       query: GET_ALL_ROUTINES,
       pollInterval: 20000,
     });
-    this.querySubscription = this.getsQuery.valueChanges.subscribe(
-      ({ data, loading }) => {
-        this.routines = data.allRoutines || [];
-      }
-    );
+    this.querySubscription = this.routinesQuery.valueChanges
+      .pipe(
+        tap(({ data }) => {
+          this.routines = data.allRoutines || [];
+        })
+      )
+      .subscribe({
+        next: () => {},
+        error: (error) => console.error('Error loading routines:', error),
+      });
   }
 
   ngOnDestroy(): void {
@@ -69,7 +73,7 @@ export class RoutineComponent implements OnInit, OnDestroy {
       })
       .pipe(
         tap(() => {
-          this.getsQuery.refetch();
+          this.routinesQuery.refetch();
         })
       )
       .subscribe({
@@ -79,22 +83,32 @@ export class RoutineComponent implements OnInit, OnDestroy {
   }
 
   deleteRoutine(routineId: string): void {
-    this.apollo
-      .mutate({
-        mutation: DELETE_ROUTINE,
-        variables: {
-          id: routineId,
-        },
-      })
-      .pipe(
-        tap(() => {
-          this.getsQuery.refetch();
+    this.modalRef = this.modalContainer.createComponent(ModalComponent);
+    this.modalRef.instance.type = 'ConfirmDelete';
+
+    this.modalRef.instance.onConfirm.subscribe(() => {
+    this.modalRef.destroy();
+      this.apollo
+        .mutate({
+          mutation: DELETE_ROUTINE,
+          variables: {
+            id: routineId,
+          },
         })
-      )
-      .subscribe({
-        next: () => {},
-        error: (error) => console.error('Error deleting routine:', error),
-      });
+        .pipe(
+          tap(() => {
+            this.routinesQuery.refetch();
+          })
+        )
+        .subscribe({
+          next: () => {},
+          error: (error) => console.error('Error deleting routine:', error),
+        });
+    });
+    this.modalRef.instance.onCancel.subscribe(() => {
+      // Simply destroy the modal if cancelled
+      this.modalRef.destroy();
+    });
   }
 
   editRoutine(routineId: string): void {
@@ -103,12 +117,12 @@ export class RoutineComponent implements OnInit, OnDestroy {
     this.modalRef.instance.data = { routineId };
     this.modalRef.instance.close.subscribe(() => {
       this.modalRef.destroy();
-      this.getsQuery.refetch();
+      this.routinesQuery.refetch();
     });
   }
 
   refreshContent(): void {
-    this.getsQuery.refetch();
+    this.routinesQuery.refetch();
   }
 }
 

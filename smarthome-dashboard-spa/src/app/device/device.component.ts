@@ -88,6 +88,11 @@ export class AllDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   deleteDevice(deviceId: string): void {
+  this.modalRef = this.modalContainer.createComponent(ModalComponent);
+  this.modalRef.instance.type = 'ConfirmDelete';
+
+  this.modalRef.instance.onConfirm.subscribe(() => {
+    this.modalRef.destroy();
     this.apollo
       .mutate({
         mutation: DELETE_DEVICE,
@@ -103,6 +108,10 @@ export class AllDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
           console.error('Error deleting device:', error);
         }
       );
+    });
+    this.modalRef.instance.onCancel.subscribe(() => {
+      this.modalRef.destroy();
+    });
   }
 
   refreshContent(): void {
@@ -115,7 +124,7 @@ export class AllDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modalRef.instance.data = { deviceId };
     this.modalRef.instance.close.subscribe(() => {
       this.modalRef.destroy();
-      this.updateDevices(); // Refresh the list of devices after editing
+      this.updateDevices();
     });
   }
 }

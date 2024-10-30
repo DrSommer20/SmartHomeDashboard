@@ -23,9 +23,12 @@ import mosbach.dhbw.de.smarthome.dto.ChangeRequest;
 import mosbach.dhbw.de.smarthome.dto.MessageAnswer;
 import mosbach.dhbw.de.smarthome.dto.MessageReason;
 import mosbach.dhbw.de.smarthome.dto.RoomDTO;
+import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.Room;
 import mosbach.dhbw.de.smarthome.model.User;
+import mosbach.dhbw.de.smarthome.service.api.DeviceService;
 import mosbach.dhbw.de.smarthome.service.api.RoomService;
+import mosbach.dhbw.de.smarthome.service.api.SmartThings;
 import mosbach.dhbw.de.smarthome.service.api.UserService;
 
 @CrossOrigin(origins = {"https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", "https://smarthome-spa.apps.01.cf.eu01.stackit.cloud/"}, allowedHeaders = "*")
@@ -38,6 +41,12 @@ public class RoomController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private DeviceService deviceService;
+
+    @Autowired
+    private SmartThings smartThings;
     
     /**
      * Retrieves all rooms for the authenticated user.
@@ -152,6 +161,28 @@ public class RoomController {
             }
             roomService.updateRoom(room, user.getUserID());
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Room updated"), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PostMapping(
+        path = "/{id}/switch/{state}"
+    )
+    public ResponseEntity<?> switchRoom(@RequestHeader("Authorization") String token, @PathVariable int id, @PathVariable String state) {
+        User user = userService.getUser(token);
+        if(user != null){
+            Room room = roomService.getRoomById(id, user.getUserID());
+            if(room == null){
+                return new ResponseEntity<MessageReason>(new MessageReason("Room not found"), HttpStatus.NOT_FOUND);
+            }
+            for(Device device : deviceService.getDevices(user.getUserID())){
+                if(device.getLocation() == id){
+                    smartThings.setDeviceStatus(state, device.getId(), "switch",user.getPat());
+                }
+            }
+            return new ResponseEntity<MessageAnswer>(new MessageAnswer("Room switched"), HttpStatus.OK);
         }
         else {
             return new ResponseEntity<MessageReason>(new MessageReason("Wrong Credentials"), HttpStatus.UNAUTHORIZED);

@@ -24,9 +24,11 @@ type Mutation {
 
     createRoom(name: String!): Boolean
     updateRoom(id: ID!, name: String!): Room
+    switchRoom(id: ID!, state: Boolean): Boolean
     deleteRoom(id: ID!): Boolean
 
     updateUser(firstName: String, lastName: String, email: String, pat:String, isVerified: Boolean): User
+    deleteUser: Boolean
 }
 
 type Device {

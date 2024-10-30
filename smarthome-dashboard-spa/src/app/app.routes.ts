@@ -41,7 +41,7 @@ export const routes: Routes = [
         component: UserProfileComponent,
         data: { title: 'User Profile' },
       },
-    ], //canActivate: [AuthGuard]
+    ], canActivate: [AuthGuard]
   },
   {
     path: 'auth',

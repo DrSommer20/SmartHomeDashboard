@@ -101,7 +101,7 @@ input {
   font-size: medium;
   margin: 5px;
 }
-  
+
 .edit-button:hover {
   color: var(--primary-color);
   background-color: var(--light-color);
@@ -120,5 +120,21 @@ input {
 .delete-button:hover {
   background-color: #ff4d4d;
     color: white;
+}
+
+.switch-button {
+  background-color: var(--grey-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px;
+  margin: 5px;
+  width: 100px;
+  transition: background-color 0.3s ease;
+}
+
+.switch-button:hover {
+  background-color: var(--secondary-color);
 }
 

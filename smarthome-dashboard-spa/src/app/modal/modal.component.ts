@@ -16,6 +16,7 @@ import { AddRoomComponent } from '../add-room/add-room.component';
 import { EditDeviceComponent } from '../edit-device/edit-device.component';
 import { EditRoomComponent } from '../edit-room/edit-room.component';
 import { EditRoutineComponent } from '../edit-routine/edit-routine.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'an-modal',
@@ -26,6 +27,8 @@ import { EditRoutineComponent } from '../edit-routine/edit-routine.component';
 })
 export class ModalComponent implements AfterViewInit {
   @Output() close = new EventEmitter<void>();
+  @Output() onConfirm = new EventEmitter<void>();
+  @Output() onCancel = new EventEmitter<void>();
   @Input() type: string = 'default';
   @Input() data: any;
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
@@ -76,6 +79,17 @@ export class ModalComponent implements AfterViewInit {
         this.componentRef.instance.roomId = this.data.roomId;
         this.componentRef.instance.roomUpdated.subscribe(() => {
           this.closeModal();
+        });
+        break;
+      case 'ConfirmDelete':
+        this.componentRef = this.container.createComponent(
+          ConfirmDialogComponent
+        );
+        this.componentRef.instance.onConfirm.subscribe(() => {
+          this.onConfirm.emit();
+        });
+        this.componentRef.instance.onCancel.subscribe(() => {
+          this.onCancel.emit();
         });
         break;
       default:
