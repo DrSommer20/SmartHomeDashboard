@@ -99,5 +99,6 @@ export class ModalComponent implements AfterViewInit {
 
   closeModal() {
     this.close.emit();
+    this.onCancel.emit();
   }
 }

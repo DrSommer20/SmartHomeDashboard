@@ -1,25 +1,25 @@
 /* src/app/modal/modal.component.css */
 .modal {
-  display: block; /* Hidden by default */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
-  z-index: 1000; /* Ensure the modal is on top */
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
 }
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
-  z-index: 1001; /* Ensure the modal content is on top */
+  width: 65%;
+  z-index: 1001;
 }
-
 .close {
   color: #aaa;
   float: right;
