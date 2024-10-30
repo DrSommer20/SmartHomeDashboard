@@ -400,6 +400,7 @@ height:100px;
   border: none;
   border-radius: 5px;
   display:flex;
+  margin-top: 2vh;
 }
 
 .action-type{
@@ -551,8 +552,10 @@ margin-bottom: 20px;
   border-radius: 20px;
   width: 80%;
   max-width: 500px;
+  max-height: 80%;
   position: relative;
   text-align: center;
+  overflow-y:auto;
 }
 .popup-header {
   display: flex;
@@ -645,3 +648,29 @@ margin-bottom: 20px;
   background-color: var(--secondary-color);
   color: var(--light-color);
 }
+
+.onButton{
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 4rem;
+  padding: 0.5rem;
+}
+.onButton:hover{
+  background-color: var(--submit-color);
+}	
+
+.offButton{
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 4rem;
+  padding: 0.5rem;
+}
+.offButton:hover{
+  background-color: red;
+}	
