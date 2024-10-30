@@ -74,7 +74,39 @@
           </button>
         </div>
       </header>
+      <div class="row" id="content"></div>
 
+
+<!-- Popup Mask-->
+<div class="popup">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h5>Edit Room</h5>
+      <button class="popup-close" id="closePopup"><span class="material-symbols-outlined">close</span></button>
+    </div>
+
+    <div class="popup-room">
+      <label for="roomName" class="input-label">Room Name</label>
+      <input type="text" id="roomName" class="gap" name="roomName">
+      <div class="popup-device-separator"></div>
+        <input type="hidden" id="roomId">
+      <button class="submit-button" id="saveBtn">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete User Popup Mask -->
+<div class="deletepopup">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h5>Delete User</h5>
+      <button class="delete-popup-close" id="roomclosePopup"><span class="material-symbols-outlined">close</span></button>
+    </div>
+      <label class="input-label gap">Are you sure you want to delete this room?</label>
+      <button class="popup-delete-button" id="roomDeleteBtn">Delete</button>
+  </div>
+
+      <script src="../js/GetRooms.js"></script>
       <script src="../js/GetUserInfo.js"></script>
       <script src="../js/Sidebar.js"></script>
     </div>

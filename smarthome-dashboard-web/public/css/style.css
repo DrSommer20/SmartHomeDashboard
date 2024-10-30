@@ -50,7 +50,7 @@ body {
 
 .sidebar .sidebar-header img { /* Sidebar Logo */
   width: 42px;
-  border-radius: 50%; 
+  border-radius: 50%;
   -webkit-filter: invert(1);  /* Invertering the color of the Logo to white */
   filter: invert(1);
 }
@@ -85,13 +85,13 @@ body {
   left: 0;
   top: 50%;
   width: 100%;
-  height: 1px; 
+  height: 1px;
   background: var(--secondary-color);
   transition-delay: 0.2s;
 }
 
 .sidebar:hover .sidebar-links .menu-separator { /* Sidebar Links Separator invisible when Hover */
-  transition-delay: 0s; 
+  transition-delay: 0s;
   transform: scaleX(0);
 }
 
@@ -144,11 +144,11 @@ body {
 
 .user-profile .user-initials {
   border-radius: 50%;
-  font-weight: bold; 
+  font-weight: bold;
   border: 2px solid var(--light-color);
   background-color: var(--secondary-color);
   color: var(--light-color);
-  width: 50px; 
+  width: 50px;
   height: 50px;
   position: fixed;
   padding-top: 7px;
@@ -176,7 +176,7 @@ body {
 }
 
 .logout-button{
-  padding: 10px 10px 5px 10px;  
+  padding: 10px 10px 5px 10px;
   background-color: var(--secondary-color);
   color: var(--light-color);
   border: none;
@@ -210,7 +210,7 @@ body {
   color: white;
 }
 
-/* 
+/*
 ######################################################################
 ###########################Content CSS################################
 ######################################################################
@@ -246,7 +246,7 @@ body {
   margin-bottom: 1rem;
   left: 0;
   width: 100%;
-  height: 1px; 
+  height: 1px;
   background: var(--secondary-color);
 }
 
@@ -308,6 +308,9 @@ body {
 
 .display-card h3 {
   font-size: 1.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .display-card p {
@@ -324,20 +327,23 @@ body {
 
 .input-label {
   margin: 10px 0 5px;
+  width: 100%;
 }
 
 select{
-  padding: 8px;
+  padding: 10px;
   margin-bottom: 15px;
   border-radius: 4px;
   border: 1px solid var(--dark-color);
 }
 
 input {
-  padding: 8px;
+  padding: 10px;
   margin-bottom: 15px;
   border-radius: 4px;
   border: 1px solid var(--dark-color);
+  width: 100%;
+
 }
 
  .submit-button {
@@ -394,6 +400,7 @@ height:100px;
   border: none;
   border-radius: 5px;
   display:flex;
+  margin-top: 2vh;
 }
 
 .action-type{
@@ -451,3 +458,219 @@ height:100px;
 .action-display p {
   color: var(--light-color);
 }
+
+.edit-button{
+  color: var(--light-color);
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  float: right;
+  font-size: medium;
+  width: 4rem;
+}
+
+.edit-button:hover {
+  color: var(--primary-color);
+  background-color: var(--light-color);
+}
+
+.delete-button{
+  color: var(--light-color);
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  float: right;
+  font-size: 1rem;
+  align-items: center;
+  width: 4rem;
+}
+.delete-button:hover {
+  color: red;
+  background-color: var(--light-color);
+}
+
+.gap{
+margin-bottom: 20px;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.edit-userButton{
+  padding: 5px;
+  color: var(--light-color);
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 4rem;
+}
+.edit-userButton:hover{
+  background-color: var(--dark-color);
+  color: var(--light-color);
+}
+
+.delete-userButton{
+  padding: 5px;
+  color: var(--light-color);
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 4rem;
+}
+
+.delete-userButton:hover{
+  background-color: darkred;
+  color: var(--light-color);
+}
+
+.button-container {
+  display: flex;
+}
+
+/* PoP Up Fenster */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(110, 110, 110, 0.5); /* Halbtransparenter Hintergrund */
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+}
+.popup-content {
+  background-color: var(--light-color);
+  color: var(--dark-color);
+  padding: 20px;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 500px;
+  max-height: 80%;
+  position: relative;
+  text-align: center;
+  overflow-y:auto;
+}
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.popup-close {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  color: var(--dark-color);
+  background-color: var(--light-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popup-close:hover {
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+}
+.popup-device {
+  padding: 20px;
+  margin: 5px;
+  background-color: var(--light-color);
+  border-radius: 20px;
+}
+.popup-device-separator {
+  margin-bottom: 1rem;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--dark-color);
+}
+.popup-button {
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px;
+}
+.popup-button:hover {
+  background-color: var(--submit-color);
+  color: var(--light-color);
+}
+
+/* Delete PoP Up Fenster */
+.deletepopup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(110, 110, 110, 0.5); /* Halbtransparenter Hintergrund */
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-delete-button{
+  background-color: red;
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 4rem;
+  padding: 0.5rem;
+}
+.popup-delete-button:hover{
+  background-color: darkred;
+  color: var(--light-color);
+}
+
+.delete-popup-close {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  color: var(--dark-color);
+  background-color: var(--light-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.delete-popup-close:hover {
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+}
+
+.onButton{
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 4rem;
+  padding: 0.5rem;
+}
+.onButton:hover{
+  background-color: var(--submit-color);
+}	
+
+.offButton{
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 4rem;
+  padding: 0.5rem;
+}
+.offButton:hover{
+  background-color: red;
+}	

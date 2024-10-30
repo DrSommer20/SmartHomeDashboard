@@ -22,12 +22,42 @@
 
         $('#contentRoutine').on('submit', AddDeviceSubmit);
         
-    
-        
+        $('#add-action').click(function() {
+            addAction();
+        });      
+ 
     });
 
+    function addAction() {
+        const actionDiv = $(`
+            <div class="action">
+                <div class="action-group">
+                    <label for="action-device">Device:</label>
+                    <select class="action-device" required></select>
+                </div>
+                <div class="action-group">
+                    <label for="action-type">Action:</label>
+                    <select class="action-type" required>
+                        <option value="on">On</option>
+                        <option value="off">Off</option>
+                    </select>
+                </div>
+                <button type="button" class="delete-action">
+                    <span class="material-symbols-outlined">DELETE</span>
+                </button>
+            </div>
+        `);
+        devices.forEach(device => {
+            actionDiv.find('.action-device').append(new Option(device.name, device.device_id));
+        });
+        actionDiv.find('.delete-action').click(function() {
+            $(this).closest('.action').remove(); // Entfernt die Action
+        });
+        $('#actions').append(actionDiv);
+    }
+
     function AddDeviceSubmit(event){
-        event.preventDefault(); // Verhindert das Standardverhalten (Seiten-Reload)
+        event.preventDefault(); 
 
         const routineName = document.getElementById('routine-name').value;
         const routineTime = document.getElementById('routine-time').value;
@@ -52,7 +82,6 @@
 
         };
 
-
         $.ajax({
             url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine',
             type: 'POST',
@@ -63,7 +92,7 @@
             },
             success: function (data) {
                 console.log('Routine added', data);
-                window.location.href = 'Routines.html'; // Weiterleitung auf eine andere Seite
+                window.location.href = 'Routines.html'; 
             },
             data: JSON.stringify(routineData),
             contentType: "application/json; charset=UTF-8",
