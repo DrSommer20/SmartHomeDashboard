@@ -1,6 +1,7 @@
 package mosbach.dhbw.de.smarthome.graphql.controller;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -8,6 +9,9 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
+import mosbach.dhbw.de.smarthome.dto.smartthings.AllDevices;
+import mosbach.dhbw.de.smarthome.dto.smartthings.DeviceST;
+import mosbach.dhbw.de.smarthome.dto.smartthings.GetFullStatusResponse;
 import mosbach.dhbw.de.smarthome.graphql.interceptor.AuthInterceptor;
 import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.DeviceType;
@@ -15,6 +19,7 @@ import mosbach.dhbw.de.smarthome.model.Room;
 import mosbach.dhbw.de.smarthome.model.User;
 import mosbach.dhbw.de.smarthome.service.api.DeviceService;
 import mosbach.dhbw.de.smarthome.service.api.RoomService;
+import mosbach.dhbw.de.smarthome.service.api.SmartThings;
 
 @Controller
 public class DeviceController {
@@ -24,6 +29,9 @@ public class DeviceController {
 
     @Autowired
     RoomService roomService;
+
+    @Autowired
+    SmartThings smartThings;
 
     @QueryMapping
     public Device deviceById(@Argument String id) {
@@ -40,7 +48,26 @@ public class DeviceController {
         if (authenticatedUser == null) {
             throw new RuntimeException("User not authenticated");
         }
-        return deviceService.getDevices(authenticatedUser.getId());
+        List<Device> devices = deviceService.getDevices(authenticatedUser.getId());
+        devices.forEach(device -> {
+            // Get full status of each device from SmartThings
+            GetFullStatusResponse response = smartThings.getDeviceFullStatus(device.getId(), authenticatedUser.getPat());
+
+            if (response != null) {
+                boolean isOn = false;
+                boolean isOnline = false;
+                String status = response.getSwitch().getSwitch().getValue();
+                String state = response.getHealthCheck().getDeviceWatchDeviceStatus().getValue();
+                if (state != null) isOnline = state.equals("online");
+                if (status != null) isOn = status.equals("on");
+                device.setStatus(isOnline ? "Online" : "Offline");
+                device.setState(isOn ? "On" : "Off");
+            } else {
+                device.setStatus("Offline");
+                device.setState("Off");
+            }
+        });
+        return devices;
     }
 
     @QueryMapping
@@ -53,11 +80,31 @@ public class DeviceController {
         return deviceService.getTypes();
     }
 
-    @MutationMapping
-    public Device createDevice(@Argument String id, @Argument String name, @Argument String typeId, @Argument String roomId) {
+    @QueryMapping
+    public List<Device> smartThingsDevices() {
         User authenticatedUser = AuthInterceptor.getAuthenticatedUser();
         if (authenticatedUser == null) {
             throw new RuntimeException("User not authenticated");
+        }
+        List<Device> devices = new ArrayList<>();
+
+        for(DeviceST deviceST : smartThings.getAllDevices(authenticatedUser.getPat()).getItems()){
+            if(deviceService.getDeviceById(deviceST.getDeviceId(), authenticatedUser.getId()) == null ) {
+                Device device = new Device();
+                device.setId(deviceST.getDeviceId());
+                device.setName(deviceST.getLabel());
+                devices.add(device);
+            }
+           
+        }
+        return devices;
+    }
+
+    @MutationMapping
+    public boolean createDevice(@Argument String id, @Argument String name, @Argument String typeId, @Argument String roomId) {
+        User authenticatedUser = AuthInterceptor.getAuthenticatedUser();
+        if (authenticatedUser == null) {
+            return false;
         }
         Device device = new Device();
         device.setId(id);
@@ -76,7 +123,7 @@ public class DeviceController {
         device.setRoom(room);
 
         deviceService.addDevice(device, authenticatedUser.getId());
-        return device;
+        return true;
     }
 
     @MutationMapping
@@ -112,7 +159,7 @@ public class DeviceController {
     }
 
     @MutationMapping
-    public Device switchDevice(@Argument String id, @Argument String status) {
+    public Device switchDevice(@Argument String id, @Argument String state) {
         User authenticatedUser = AuthInterceptor.getAuthenticatedUser();
         if (authenticatedUser == null) {
             throw new RuntimeException("User not authenticated");
@@ -121,8 +168,9 @@ public class DeviceController {
         if (device == null) {
             throw new RuntimeException("Device not found");
         }
-        device.setStatusBoolean(Boolean.parseBoolean(status));
-        deviceService.updateDevice(device, authenticatedUser.getId());
+        if(smartThings.setDeviceStatus(state, id, "switch", authenticatedUser.getPat())) {
+            device.setState(state);
+        }
         return device;
     }
 

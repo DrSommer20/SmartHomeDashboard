@@ -1,31 +1,40 @@
 <div class="row" *ngIf="routines.length">
-  <div *ngFor="let routine of routines; let i = index" class="col-sm-12 col-md-12 col-lg-6 col-xl-4">
+  <div
+    *ngFor="let routine of routines; let i = index"
+    class="col-sm-12 col-md-12 col-lg-6 col-xl-4"
+  >
     <div class="display-card">
       <div class="display-card-header">
         <h3>
-          <span class="material-symbols-outlined">schedule</span> {{ routine.name }}
-          <button class="delete-button" (click)="deleteRoutine(routine.id)">
-            <span class="material-symbols-outlined">delete</span>
-          </button>
-          <button class="delete-button" (click)="editRoutine(routine.id)">
-            Edit
-          </button>
+          <span class="material-symbols-outlined">schedule</span>
+          {{ routine.name }}
         </h3>
-        
+        <button class="delete-button" (click)="deleteRoutine(routine.id)">
+          <span class="material-symbols-outlined">delete</span>
+        </button>
+        <button class="edit-button" (click)="editRoutine(routine.id)">
+          Edit
+        </button>
       </div>
       <div class="card-separator"></div>
       <div class="routine-info">
-        <p>Trigger Time: {{ routine.trigger.value }}</p>
+        <p *ngIf="routine.triggerTime">
+          Trigger Time: {{ routine.triggerTime }}
+        </p>
         <div class="actions-display">
           <h5>Actions:</h5>
           <div *ngFor="let action of routine.actions" class="action-display">
-            <p>Device: {{ action.device_name }}</p>
-            <p>Action: Turn {{ action.action }}</p>
+            <p>Device: {{ action.deviceName }}</p>
+            <p>Action: Turn {{ action.setTo }}</p>
           </div>
         </div>
-        <input type="checkbox" [id]="'toggleCheckbox' + i" class="toggleCheckbox"
-               [checked]="routine.state"
-               (change)="toggleRoutine($event, routine.id)" />
+        <input
+          type="checkbox"
+          [id]="'toggleCheckbox' + i"
+          class="toggleCheckbox"
+          [checked]="routine.state"
+          (change)="toggleRoutine($event, routine.id)"
+        />
         <label [for]="'toggleCheckbox' + i" class="toggleContainer">
           <div>OFF</div>
           <div>ON</div>
@@ -34,3 +43,5 @@
     </div>
   </div>
 </div>
+<!-- Modal Container -->
+<div #modalContainer></div>

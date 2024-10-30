@@ -23,7 +23,7 @@ import mosbach.dhbw.de.smarthome.service.api.UserService;
 public class AuthServiceImpl implements AuthService {
 
 
-    private String secretKey = "Wg8z36qD8g9nkYIFtPg1yhci8AWg7UOY3NWTOpG2w2A4guv5M7Hv623OVzSizUIECxfZ8dtX6aGLIUQC1km2yGHO2iNP9rmf9XVp";
+    private String secretKey = System.getenv("JWT_SECRET");
 
     private final long jwtExpiration = 1000 * 60 * 60 * 2;
 
@@ -99,11 +99,11 @@ public class AuthServiceImpl implements AuthService {
                 .compact();
     }
 
-    @SuppressWarnings(value = { "" })
     public static void main(String[] args) {
         AuthServiceImpl authService = new AuthServiceImpl();
         UserService userService = new UserServicePostgres();
         User user = userService.getUserById(1);
-        System.out.println(authService.generateToken(user));
+        String token = authService.generateToken(user);
+        System.out.println(token);
     }
 }

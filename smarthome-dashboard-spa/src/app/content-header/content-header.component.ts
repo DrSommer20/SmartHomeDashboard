@@ -1,4 +1,14 @@
-import { Component, Input, ViewChild, ComponentRef, ViewContainerRef, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  ComponentRef,
+  ViewContainerRef,
+  OnInit,
+  OnDestroy,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { ModalComponent } from '../modal/modal.component';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -10,20 +20,21 @@ import { filter, map } from 'rxjs/operators';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './content-header.component.html',
-  styleUrl: './content-header.component.css'
+  styleUrl: './content-header.component.css',
 })
 export class ContentHeaderComponent implements OnInit, OnDestroy {
   @Input() title = 'Title of Page';
   @Input() buttonTitle: string = '';
   @Output() refreshContent = new EventEmitter<void>();
-  @ViewChild('modalContainer', { read: ViewContainerRef }) modalContainer!: ViewContainerRef;
- 
+  @ViewChild('modalContainer', { read: ViewContainerRef })
+  modalContainer!: ViewContainerRef;
+
   private modalRef!: ComponentRef<ModalComponent>;
   private routerSubscription!: Subscription;
   currentRoute: string = '';
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.urlAfterRedirects;
       }
@@ -34,7 +45,7 @@ export class ContentHeaderComponent implements OnInit, OnDestroy {
     this.buttonTitle = this.getRouteButton();
     this.routerSubscription = this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         map(() => this.getRouteButton())
       )
       .subscribe((title: string) => {

@@ -1,16 +1,17 @@
 package mosbach.dhbw.de.smarthome.service.impl;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import javax.sql.DataSource;
-
-import org.springframework.stereotype.Service;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.sql.DataSource;
+
+import org.springframework.stereotype.Service;
 
 import mosbach.dhbw.de.smarthome.config.PostgresConnectionPool;
 import mosbach.dhbw.de.smarthome.model.Action;
@@ -267,7 +268,12 @@ public class RoutineServicePostgres implements RoutineService {
     @Override
     public void updateRoutine(Routine routine, int userID) {
         String updateRoutineString = "UPDATE group18_routine SET name = ?, trigger_time = ? WHERE id = ? AND group18_user_id = ?";
+        String checkActionExistsString = "SELECT COUNT(*) FROM group18_action WHERE id = ? AND group18_routine_id = ?";
         String updateActionString = "UPDATE group18_action SET name = ?, group18_device_id = ? WHERE id = ? AND group18_routine_id = ?";
+        String insertActionString = "INSERT INTO group18_action (name, group18_device_id, group18_routine_id) VALUES (?, ?, ?)";
+        String selectExistingActionsString = "SELECT id FROM group18_action WHERE group18_routine_id = ?";
+        String deleteActionString = "DELETE FROM group18_action WHERE id = ? AND group18_routine_id = ?";
+        
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false); // Start transaction
 
@@ -279,16 +285,45 @@ public class RoutineServicePostgres implements RoutineService {
                 routineStatement.setInt(4, userID);
                 routineStatement.executeUpdate();
 
-                // Update actions
-                try (PreparedStatement actionStatement = connection.prepareStatement(updateActionString)) {
-                    for (Action action : routine.getActions()) {
-                        actionStatement.setString(1, action.getSetTo());
-                        actionStatement.setString(2, action.getDeviceID());
-                        actionStatement.setInt(3, action.getId());
-                        actionStatement.setInt(4, routine.getId());
-                        actionStatement.addBatch();
+
+                Set<Integer> existingActionIds = new HashSet<>();
+                try (PreparedStatement selectExistingActionsStatement = connection.prepareStatement(selectExistingActionsString)) {
+                    selectExistingActionsStatement.setInt(1, routine.getId());
+                    try (ResultSet resultSet = selectExistingActionsStatement.executeQuery()) {
+                        while (resultSet.next()) {
+                            existingActionIds.add(resultSet.getInt("id"));
+                        }
                     }
-                    actionStatement.executeBatch();
+                }
+
+                for (Action action : routine.getActions()) {
+                    if (existingActionIds.contains(action.getId())) {
+                        try (PreparedStatement updateActionStatement = connection.prepareStatement(updateActionString)) {
+                            updateActionStatement.setString(1, action.getSetTo());
+                            updateActionStatement.setString(2, action.getDeviceID());
+                            updateActionStatement.setInt(3, action.getId());
+                            updateActionStatement.setInt(4, routine.getId());
+                            updateActionStatement.executeUpdate();
+                        }
+                        // Remove the action ID from the set of existing action IDs
+                        existingActionIds.remove(action.getId());
+                    } else {
+                        try (PreparedStatement insertActionStatement = connection.prepareStatement(insertActionString)) {
+                            insertActionStatement.setString(1, action.getSetTo());
+                            insertActionStatement.setString(2, action.getDeviceID());
+                            insertActionStatement.setInt(3, routine.getId());
+                            insertActionStatement.executeUpdate();
+                        }
+                    }
+                }
+
+                // Delete actions that are no longer in the new routine
+                for (Integer actionId : existingActionIds) {
+                    try (PreparedStatement deleteActionStatement = connection.prepareStatement(deleteActionString)) {
+                        deleteActionStatement.setInt(1, actionId);
+                        deleteActionStatement.setInt(2, routine.getId());
+                        deleteActionStatement.executeUpdate();
+                    }
                 }
                 scheduledRoutines.removeIf(r -> r.getId() == routine.getId());
                 scheduledRoutines.add(routine);
@@ -321,6 +356,5 @@ public class RoutineServicePostgres implements RoutineService {
             e.printStackTrace();
             return false;
         }
-    }
-    
+    }    
 }

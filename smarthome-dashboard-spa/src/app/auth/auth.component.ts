@@ -1,5 +1,11 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, RouterModule, RouterOutlet, RouterLink, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  RouterModule,
+  RouterOutlet,
+  RouterLink,
+  Router,
+} from '@angular/router';
 import { boxResizeAnimation } from './boxResizeAnimation';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { SignupComponent } from '../signup/signup.component';
@@ -16,15 +22,22 @@ import { CommonModule } from '@angular/common';
     trigger('routeAnimation', [
       transition('* <=> *', [
         style({ opacity: 0, transform: 'translateY(-20px)' }),
-        animate('0.5s ease-in-out', style({ opacity: 1, transform: 'translateY(0)' }))
-      ])
-    ])
-  ]
+        animate(
+          '0.5s ease-in-out',
+          style({ opacity: 1, transform: 'translateY(0)' })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class AuthComponent {
   isSignUpPage = false;
 
-  constructor(public route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) { }
+  constructor(
+    public route: ActivatedRoute,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   onRouteChange(event: any): void {
     this.isSignUpPage = event instanceof SignupComponent;
@@ -32,6 +45,10 @@ export class AuthComponent {
   }
 
   prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+    return (
+      outlet &&
+      outlet.activatedRouteData &&
+      outlet.activatedRouteData['animation']
+    );
   }
 }

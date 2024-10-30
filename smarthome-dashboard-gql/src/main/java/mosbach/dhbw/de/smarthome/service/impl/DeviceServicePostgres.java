@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mosbach.dhbw.de.smarthome.config.PostgresConnectionPool;
@@ -17,15 +16,11 @@ import mosbach.dhbw.de.smarthome.model.Device;
 import mosbach.dhbw.de.smarthome.model.DeviceType;
 import mosbach.dhbw.de.smarthome.model.Room;
 import mosbach.dhbw.de.smarthome.service.api.DeviceService;
-import mosbach.dhbw.de.smarthome.service.api.RoutineService;
 
 @Service
 public class DeviceServicePostgres implements DeviceService{
 
     DataSource dataSource = PostgresConnectionPool.getDataSource();
-
-    @Autowired
-    private RoutineService routineService;
 
     @Override
     public void addDevice(Device device, Integer userID) {
@@ -122,7 +117,6 @@ public class DeviceServicePostgres implements DeviceService{
 
     @Override
     public boolean deleteDevice(String id, Integer userID) {
-        routineService.deleteActionsByDevice(id);
         String deleteDeviceString = "DELETE FROM \"group18_device\" WHERE id = ? AND group18_user_id = ?";
         try (Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(deleteDeviceString)) {

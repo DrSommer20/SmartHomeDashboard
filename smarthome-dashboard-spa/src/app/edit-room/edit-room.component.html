@@ -1,0 +1,6 @@
+<h2>Edit Room</h2>
+<form [formGroup]="roomForm" (ngSubmit)="updateRoom()" class="content-input">
+  <label for="roomName" class="input-label">Room Name:</label>
+  <input type="text" id="roomName" formControlName="name" required />
+  <button type="submit" class="submit-button">Update Room</button>
+</form>

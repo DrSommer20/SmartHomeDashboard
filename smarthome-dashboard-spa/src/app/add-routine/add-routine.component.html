@@ -1,31 +1,54 @@
 <h2>Add new Routine</h2>
-<form [formGroup]="routineForm" (ngSubmit)="addRoutineSubmit()" class="content-input">
-    <label for="routine-name" class="input-label">Routine Name:</label>
-    <input class="input-label" type="text" id="routine-name" formControlName="routineName" required />
-    <label for="routine-time" class="input-label">Trigger Time:</label>
-    <input class="input-label" type="time" id="routine-time" formControlName="routineTime" required />
+<form
+  [formGroup]="routineForm"
+  (ngSubmit)="addRoutineSubmit()"
+  class="content-input"
+>
+  <label for="routine-name" class="input-label">Routine Name:</label>
+  <input
+    class="input-label"
+    type="text"
+    id="routine-name"
+    formControlName="routineName"
+    required
+  />
+  <label for="routine-time" class="input-label">Trigger Time:</label>
+  <input
+    class="input-label"
+    type="time"
+    id="routine-time"
+    formControlName="routineTime"
+    required
+  />
 
-    <div formArrayName="actions">
-    <div  class="action" *ngFor="let action of actions.controls; let i=index" [formGroupName]="i">
-        <div class="action-group">
+  <div formArrayName="actions">
+    <div
+      class="action"
+      *ngFor="let action of actions.controls; let i = index"
+      [formGroupName]="i"
+    >
+      <div class="action-group">
         <label for="device_id">Device ID:</label>
         <select formControlName="device_id">
-        <option *ngFor="let device of devices" [value]="device.device_id">{{ device.name }}</option>
+          <option *ngFor="let device of devices" [value]="device.device_id">
+            {{ device.name }}
+          </option>
         </select>
-        </div>
-        <div class="action-group">
+      </div>
+      <div class="action-group">
         <label for="action">Action:</label>
         <select class="action-type" formControlName="action">
-        <option value="on">On</option>
-        <option value="off">Off</option>
+          <option value="on">On</option>
+          <option value="off">Off</option>
         </select>
-        </div>
-        <button class="delete-action" type="button" (click)="removeAction(i)">
-            <span class="material-symbols-outlined">DELETE</span>
-        </button>
+      </div>
+      <button class="delete-action" type="button" (click)="removeAction(i)">
+        <span class="material-symbols-outlined">DELETE</span>
+      </button>
     </div>
-    <button class="add-action" type="button" (click)="addAction()">Add Action</button>
-    </div>
-    <button class="submit-button" type="submit">Add</button>
+    <button class="add-action" type="button" (click)="addAction()">
+      Add Action
+    </button>
+  </div>
+  <button class="submit-button" type="submit">Add</button>
 </form>
-  

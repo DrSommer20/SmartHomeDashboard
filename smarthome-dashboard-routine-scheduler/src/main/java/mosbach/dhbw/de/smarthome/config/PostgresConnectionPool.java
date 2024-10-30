@@ -7,9 +7,9 @@ import javax.sql.DataSource;
 
 public class PostgresConnectionPool {
 
-    private static final String databaseConnectionnUrl = "jdbc:postgresql://b8b0e4b9-8325-4a3f-be73-74f20266cd1a.postgresql.eu01.onstackit.cloud:5432/stackit";
-    private static final String username = "mhartwig";
-    private static final String password = "BE1yEbCLMjy7r2ozFRGHZaE6jHZUx0fFadiuqgW7TtVs1k15XZVwPSBkPLZVTle6";
+    private static final String databaseConnectionnUrl = "jdbc:postgresql://b8b0e4b9-8325-4a3f-be73-74f20266cd1a.postgresql.eu01.onstackit.cloud:5432/stackit";//System.getenv("DB_CONN");
+    private static final String username = "mhartwig";//System.getenv("DB_USER");
+    private static final String password = "BE1yEbCLMjy7r2ozFRGHZaE6jHZUx0fFadiuqgW7TtVs1k15XZVwPSBkPLZVTle6";//System.getenv("DB_PASS");
 
 
     private static BasicDataSource dataSource;

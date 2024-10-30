@@ -21,7 +21,6 @@ import mosbach.dhbw.de.smarthome.service.api.AuthService;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-
     private String secretKey = System.getenv("JWT_SECRET");
 
     private final long jwtExpiration = 1000 * 60 * 60 * 2;

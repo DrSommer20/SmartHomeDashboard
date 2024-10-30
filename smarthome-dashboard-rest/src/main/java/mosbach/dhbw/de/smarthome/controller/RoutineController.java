@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mosbach.dhbw.de.smarthome.dto.AllRoutines;
@@ -23,8 +22,8 @@ import mosbach.dhbw.de.smarthome.dto.MessageAnswer;
 import mosbach.dhbw.de.smarthome.dto.MessageReason;
 import mosbach.dhbw.de.smarthome.dto.RoutineDTO;
 import mosbach.dhbw.de.smarthome.model.User;
+import mosbach.dhbw.de.smarthome.service.api.RoutineService;
 import mosbach.dhbw.de.smarthome.service.api.UserService;
-import mosbach.dhbw.de.smarthome.service.impl.RoutineClientService;
 
 @CrossOrigin(origins = {"https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud/", "https://smarthome-spa.apps.01.cf.eu01.stackit.cloud/"}, allowedHeaders = "*")
 @RestController
@@ -32,7 +31,7 @@ import mosbach.dhbw.de.smarthome.service.impl.RoutineClientService;
 public class RoutineController {
 
     @Autowired
-    private RoutineClientService routineService;
+    private RoutineService routineService;
 
     @Autowired
     private UserService userService;
@@ -52,7 +51,6 @@ public class RoutineController {
             try {
                 allRoutines = routineService.getAllRoutines(token);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return new ResponseEntity<>(allRoutines, HttpStatus.OK);
@@ -194,7 +192,7 @@ public class RoutineController {
     @PostMapping(
         path = "/{id}/{state}"
     )
-    public ResponseEntity<?> switchRoutine(@RequestHeader("Authorization") String token, @RequestParam String state, @RequestParam int id) {
+    public ResponseEntity<?> switchRoutine(@RequestHeader("Authorization") String token, @PathVariable String state, @PathVariable int id) {
         User user = userService.getUser(token);
         if(user != null){
             try {

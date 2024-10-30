@@ -1,0 +1,11 @@
+applications:
+- name: SmartHomeGraphQL
+  instances: 1
+  host: smartHomeGraphQL{random-word}
+  path: target/smartHomeGraphQL-0.0.1-SNAPSHOT.jar
+  random-route: true
+  memory: 750M
+  buildpacks:
+    - java_buildpack
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'

@@ -1,11 +1,6 @@
 package mosbach.dhbw.de.smarthome.model;
 
-import java.time.LocalTime;
 import java.util.List;
-
-
-import mosbach.dhbw.de.smarthome.service.api.RoutineScheduler;
-import mosbach.dhbw.de.smarthome.service.impl.RoutineSchedulerImpl;
 
 public class Routine {
 
@@ -14,7 +9,6 @@ public class Routine {
     private List<Action> actions;
     private String triggerTime;
     private boolean state;
-    private RoutineScheduler routineScheduler;
 
     /**
      * Constructor
@@ -31,9 +25,6 @@ public class Routine {
         this.actions = actions;
         this.triggerTime = triggerTime;
         this.state = state;
-        if(state) {
-            activateRoutine();
-        }
     }
 
     public Routine(String name, List<Action> actions, String triggerTime, boolean state) {
@@ -77,33 +68,6 @@ public class Routine {
 
     public boolean isState() {
         return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-        if(state) {
-            activateRoutine();
-        }
-        else {
-            deactivateRoutine();
-        }
-    }
-
-    public void refresh(){
-        this.routineScheduler.deactivateDailyRoutine();
-        if(state)activateRoutine();
-        else routineScheduler = null;
-
-    }
-
-    public void activateRoutine() {
-        LocalTime routineTime = LocalTime.parse(triggerTime);
-        this.routineScheduler = new RoutineSchedulerImpl(actions);
-        this.routineScheduler.activateDailyRoutine(routineTime);
-    }
-
-    public void deactivateRoutine() {
-        this.routineScheduler.deactivateDailyRoutine();
     }
 }
 

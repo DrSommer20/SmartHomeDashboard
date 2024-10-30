@@ -6,28 +6,28 @@
     <div class="display-card">
       <div class="display-card-header">
         <h3>
-          <span class="material-symbols-outlined">{{ device.typeIcon }}</span>
+          <span class="material-symbols-outlined">{{ device.type.icon }}</span>
           {{ device.name }}
-          <button
-            *ngIf="isDevicesRoute"
-            class="delete-button"
-            (click)="deleteDevice(device.device_id)"
-          >
-            <span class="material-symbols-outlined">delete</span>
-          </button>
-          <button
-            *ngIf="isDevicesRoute"
-            class="edit-button"
-            (click)="editDevice(device.device_id)"
-          >
-            Edit
-          </button>
         </h3>
+        <button
+          *ngIf="isDevicesRoute"
+          class="delete-button"
+          (click)="deleteDevice(device.id)"
+        >
+          <span class="material-symbols-outlined">delete</span>
+        </button>
+        <button
+          *ngIf="isDevicesRoute"
+          class="edit-button"
+          (click)="editDevice(device.id)"
+        >
+          Edit
+        </button>
       </div>
       <div class="card-separator"></div>
       <div class="device-info">
-        <p>Type: {{ device.type }}</p>
-        <p>Location: {{ device.roomName }}</p>
+        <p>Type: {{ device.type.name }}</p>
+        <p>Location: {{ device.room.name }}</p>
         <p>State: {{ device.status }}</p>
 
         <!-- Toggle Switch -->
@@ -46,3 +46,4 @@
     </div>
   </div>
 </div>
+<div #modalContainer></div>

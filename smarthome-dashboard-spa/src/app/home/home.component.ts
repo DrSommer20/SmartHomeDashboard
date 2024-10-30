@@ -7,7 +7,7 @@ import { MainContentComponent } from '../main-content/main-content.component';
   standalone: true,
   imports: [SidebarComponent, MainContentComponent],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
 })
 export class HomeComponent {
   marginLeft: string = '90px';

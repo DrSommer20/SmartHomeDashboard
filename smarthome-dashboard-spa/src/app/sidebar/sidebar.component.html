@@ -1,12 +1,17 @@
-<nav class="sidebar" id="sidebar" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+<nav
+  class="sidebar"
+  id="sidebar"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
   <div class="sidebar-header">
     <img src="img/logo.png" alt="logo" width="60" />
     <h2>Smart Home <br />Hub</h2>
   </div>
   <ul class="sidebar-links">
     <h4>
-      <span>Menu</span>
-      <div class="menu-separator"></div>
+    <span>Menu</span>
+    <div class="menu-separator"></div>
     </h4>
     <li>
       <a [routerLink]="['/home/dashboard']">
@@ -19,20 +24,24 @@
       </a>
     </li>
     <li>
-      <a [routerLink]="['/home/routines']"><span class="material-symbols-outlined"> overview</span>Routines</a>
+      <a [routerLink]="['/home/routines']"
+        ><span class="material-symbols-outlined"> overview</span>Routines</a
+      >
     </li>
     <li>
-      <a [routerLink]="['/home/rooms']"><span class="material-symbols-outlined">Room</span>Rooms</a>
+      <a [routerLink]="['/home/rooms']"
+        ><span class="material-symbols-outlined">Room</span>Rooms</a
+      >
     </li>
   </ul>
   <div class="user-profile">
     <button class="user-p-btn" id="user-profile-btn" (click)="navigateToUser()">
       <div class="user-initials">
-        <h3 id="sidebarinitials">{{initials}}</h3>
+        <h3 id="sidebarinitials">{{ initials }}</h3>
       </div>
       <div class="user-detail">
-        <h3 id="sidebarfirstname">{{firstName}}</h3>
-        <h3 id="sidebarlastname">{{lastName}}</h3>
+        <h3 id="sidebarfirstname">{{ firstName }}</h3>
+        <h3 id="sidebarlastname">{{ lastName }}</h3>
       </div>
     </button>
     <button id="logout-btn" class="logout-button" (click)="logout()">

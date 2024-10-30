@@ -1,6 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormBuilder, FormGroup, FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  FormControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 interface Device {
@@ -19,9 +25,8 @@ interface Action {
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './add-routine.component.html',
-  styleUrl: './add-routine.component.css'
+  styleUrl: './add-routine.component.css',
 })
-
 export class AddRoutineComponent implements OnInit {
   @Output() routineAdded = new EventEmitter<void>();
   devices: Device[] = [];
@@ -31,7 +36,7 @@ export class AddRoutineComponent implements OnInit {
     this.routineForm = this.fb.group({
       routineName: [''],
       routineTime: [''],
-      actions: this.fb.array([])
+      actions: this.fb.array([]),
     });
   }
 
@@ -40,14 +45,17 @@ export class AddRoutineComponent implements OnInit {
   }
 
   loadDevices(): void {
-    this.http.get<any>('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device')
+    this.http
+      .get<any>(
+        'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/device'
+      )
       .subscribe({
         next: (response) => {
           this.devices = response.devices;
         },
         error: (error) => {
           console.error('Fehler bei der Anfrage:', error);
-        }
+        },
       });
   }
 
@@ -56,9 +64,15 @@ export class AddRoutineComponent implements OnInit {
     const actions: Action[] = [];
 
     (formData.actions as Array<any>).forEach((action: any) => {
-      const selectedDevice = this.devices.find(device => device.device_id === action.device_id);
+      const selectedDevice = this.devices.find(
+        (device) => device.device_id === action.device_id
+      );
       if (selectedDevice) {
-        actions.push({ device_id: action.device_id, device_name: selectedDevice.name, action: action.action });
+        actions.push({
+          device_id: action.device_id,
+          device_name: selectedDevice.name,
+          action: action.action,
+        });
       }
     });
 
@@ -67,12 +81,16 @@ export class AddRoutineComponent implements OnInit {
       actions: actions,
       trigger: {
         type: 'time',
-        value: formData.routineTime
+        value: formData.routineTime,
       },
-      state: true
+      state: true,
     };
 
-    this.http.post('https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine', routineData)
+    this.http
+      .post(
+        'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine',
+        routineData
+      )
       .subscribe({
         next: (data) => {
           this.routineAdded.emit();
@@ -80,7 +98,7 @@ export class AddRoutineComponent implements OnInit {
         error: (error) => {
           console.log('Error: ' + error.status + ' ' + error.message);
           alert('An error occurred during adding routine. Please try again.');
-        }
+        },
       });
   }
 
@@ -89,10 +107,12 @@ export class AddRoutineComponent implements OnInit {
   }
 
   addAction(): void {
-    this.actions.push(this.fb.group({
-      device_id: [''],
-      action: ['']
-    }));
+    this.actions.push(
+      this.fb.group({
+        device_id: [''],
+        action: [''],
+      })
+    );
   }
 
   removeAction(index: number): void {

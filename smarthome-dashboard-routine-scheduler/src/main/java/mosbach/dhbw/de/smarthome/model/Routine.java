@@ -89,12 +89,6 @@ public class Routine {
         this.routineScheduler = routineScheduler;
     }
 
-    public void refresh(){
-        this.routineScheduler.deactivateDailyRoutine();
-        if(state)activateRoutine();
-        else routineScheduler = null;
-    }
-
     public void activateRoutine() {
         LocalTime routineTime = LocalTime.parse(triggerTime);
         this.routineScheduler = new RoutineSchedulerImpl(actions);
@@ -105,4 +99,3 @@ public class Routine {
         this.routineScheduler.deactivateDailyRoutine();
     }
 }
-

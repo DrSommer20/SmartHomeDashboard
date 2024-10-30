@@ -1,6 +1,7 @@
 type Query {
     deviceById(id: ID!): Device
     allDevices: [Device]!
+    smartThingsDevices: [Device]!
     deviceTypeById(id: ID!): DeviceType
     allDeviceTypes: [DeviceType]!
     roomById(id: ID!): Room
@@ -13,7 +14,7 @@ type Query {
 type Mutation {
     createDevice(id: ID!, name: String!, typeId: ID!, roomId: ID!): Boolean
     updateDevice(id: ID!, name: String, typeId: ID, roomId: ID): Device
-    switchDevice(id: ID!, status: String!): Device
+    switchDevice(id: ID!, state: String!): Device
     deleteDevice(id: ID!): Boolean
 
     createRoutine(name: String!, actions: [ActionInput]!, triggerTime: String!): Boolean
@@ -23,16 +24,18 @@ type Mutation {
 
     createRoom(name: String!): Boolean
     updateRoom(id: ID!, name: String!): Room
+    switchRoom(id: ID!, state: Boolean): Boolean
     deleteRoom(id: ID!): Boolean
 
     updateUser(firstName: String, lastName: String, email: String, pat:String, isVerified: Boolean): User
+    deleteUser: Boolean
 }
 
 type Device {
     id: ID!
     name: String!
-    type: DeviceType!
-    room: Room!
+    type: DeviceType
+    room: Room
     status: String
     state: String
 }

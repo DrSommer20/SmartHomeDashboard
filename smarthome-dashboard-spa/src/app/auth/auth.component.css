@@ -7,8 +7,8 @@
   justify-content: center; /* Zentriert horizontal */
   align-items: center; /* Zentriert vertikal */
   color: #6a6f8c;
-  font: 100% 'Open Sans',sans-serif;
-  background: linear-gradient(120deg, #1e90ff,blue, green);
+  font: 100% "Open Sans", sans-serif;
+  background: linear-gradient(120deg, #1e90ff, blue, green);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   height: 100vh;
@@ -38,17 +38,16 @@
   text-align: center;
   border: none;
   border-radius: 25px;
-  background-color: #1161ee;  
+  background-color: #1161ee;
   text-decoration: none;
   transition: background-color 0.3s;
 }
 
-  .button:hover {
-    color: #fff;
-    text-decoration: none;
-    background-color: #1162ee59;
-  }
-
+.button:hover {
+  color: #fff;
+  text-decoration: none;
+  background-color: #1162ee59;
+}
 
 .login-box {
   width: auto;
@@ -56,22 +55,18 @@
   border-radius: 15px;
   padding: 5vw;
   background-color: var(--dark-color-transparent);
-  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
   border: none;
   outline: none;
   transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
 }
-
 
 .login-snip .login,
 .login-snip .sign-up-form,
 .login-snip .login-space {
   position: relative;
 }
-
-
-
-
 
 .login-snip .sign-in,
 .login-snip .sign-up,
@@ -106,35 +101,35 @@
   padding: 2px;
 }
 
-  .group .input,
-  .group .button {
-    width: 100%;
-    color: #fff;
-    display: inline-block;
-  }
+.group .input,
+.group .button {
+  width: 100%;
+  color: #fff;
+  display: inline-block;
+}
 
-  .group .input,
-  .group .button {
-    border: none;
-    padding: 15px 20px;
-    border-radius: 25px;
-    background: rgba(255,255,255,.1);
-  }
+.group .input,
+.group .button {
+  border: none;
+  padding: 15px 20px;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.1);
+}
 
-  .group .label {
-    color: var(--grey-color);
-    font-size: 15px;
-    font-weight: bold;
-  }
+.group .label {
+  color: var(--grey-color);
+  font-size: 15px;
+  font-weight: bold;
+}
 
-  .group .button {
-    background: #1161ee;
-  }
+.group .button {
+  background: #1161ee;
+}
 
-  .group .checkbox-label {
-    color: white;
-    padding-left:1vw;
-  }
+.group .checkbox-label {
+  color: white;
+  padding-left: 1vw;
+}
 
 .sign-up-message {
   background-color: var(--secondary-color);
