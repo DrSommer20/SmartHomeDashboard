@@ -3,7 +3,7 @@
 <p class="has-line-data" data-line-start="4" data-line-end="5">The <strong>Smart Home Dashboard</strong> is a RESTful API system designed for controlling, managing, and monitoring smart home devices, users, rooms, and routines. It provides a wide range of functionalities such as device control, user authentication, room management, and automation through routines.</p>
 <h1 class="code-line" data-line-start=6 data-line-end=7 ><a id="API_Endpoints_6"></a>API Endpoints</h1>
 
-<a href="openAPI.md">Click here for API Documentation</a>
+<a href="Dokumentation_SmarthomeDashboard.md">Click here for Documentation (german)</a>
 
 
 <h2 class="code-line" data-line-start=303 data-line-end=304 ><a id="Contributers"></a>Contributors</h2>
