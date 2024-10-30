@@ -25,7 +25,6 @@ import { filter, map } from 'rxjs/operators';
 export class ContentHeaderComponent implements OnInit, OnDestroy {
   @Input() title = 'Title of Page';
   @Input() buttonTitle: string = '';
-  @Output() refreshContent = new EventEmitter<void>();
   @ViewChild('modalContainer', { read: ViewContainerRef })
   modalContainer!: ViewContainerRef;
 
@@ -84,7 +83,6 @@ export class ContentHeaderComponent implements OnInit, OnDestroy {
     this.modalRef.instance.type = 'Device';
     this.modalRef.instance.close.subscribe(() => {
       this.modalRef.destroy();
-      this.refreshContent.emit();
     });
   }
 
@@ -93,7 +91,6 @@ export class ContentHeaderComponent implements OnInit, OnDestroy {
     this.modalRef.instance.type = 'Routine';
     this.modalRef.instance.close.subscribe(() => {
       this.modalRef.destroy();
-      this.refreshContent.emit();
     });
   }
 
@@ -102,7 +99,6 @@ export class ContentHeaderComponent implements OnInit, OnDestroy {
     this.modalRef.instance.type = 'Rooms';
     this.modalRef.instance.close.subscribe(() => {
       this.modalRef.destroy();
-      this.refreshContent.emit();
     });
   }
 

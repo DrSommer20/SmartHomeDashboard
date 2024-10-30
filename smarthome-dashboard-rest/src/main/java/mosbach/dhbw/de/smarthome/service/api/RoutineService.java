@@ -2,11 +2,6 @@ package mosbach.dhbw.de.smarthome.service.api;
 
 import java.io.IOException;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.util.EntityUtils;
-
 import mosbach.dhbw.de.smarthome.dto.AllRoutines;
 import mosbach.dhbw.de.smarthome.dto.RoutineDTO;
 

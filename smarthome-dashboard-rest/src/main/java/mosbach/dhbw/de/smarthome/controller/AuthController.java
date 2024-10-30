@@ -90,7 +90,7 @@ public class AuthController {
             else user = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail(), userRequest.getPassword());
             userService.addUser(user);
             String verificationToken = authService.generateVerificationToken(user);
-            verificationService.sendVerificationEmail(user.getEmail(), "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud//public/login-page/verify-email.html?token="+verificationToken);  //TODO: Change URL
+            verificationService.sendVerificationEmail(user.getEmail(), "https://smarthomefrontend-terrific-wolverine-ur.apps.01.cf.eu01.stackit.cloud//public/login-page/verify-email.html?token="+verificationToken);
             return new ResponseEntity<MessageAnswer>(new MessageAnswer("Account created"), HttpStatus.OK);
         }
         else{

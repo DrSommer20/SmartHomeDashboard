@@ -46,10 +46,11 @@ public class UserServicePostgres implements UserService {
             preparedStatement.setBoolean(6, user.isVerified());
             preparedStatement.executeUpdate();
 
-            roomService.addRoom(new Room("Default Room"), user.getUserID());
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        roomService.addRoom(new Room("Default Room"), getUserByEmail(user.getEmail()).getUserID());
 
     }
 

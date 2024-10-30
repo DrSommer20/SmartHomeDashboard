@@ -120,10 +120,6 @@ export class RoutineComponent implements OnInit, OnDestroy {
       this.routinesQuery.refetch();
     });
   }
-
-  refreshContent(): void {
-    this.routinesQuery.refetch();
-  }
 }
 
 const GET_ALL_ROUTINES = gql`

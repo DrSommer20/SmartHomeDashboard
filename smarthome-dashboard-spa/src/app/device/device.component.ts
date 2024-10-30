@@ -49,6 +49,7 @@ export class AllDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
         this.devices.set(data.allDevices);
       }
     );
+    
   }
 
   ngAfterViewInit(): void {
@@ -114,9 +115,6 @@ export class AllDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  refreshContent(): void {
-    this.updateDevices();
-  }
 
   editDevice(deviceId: string): void {
     this.modalRef = this.modalContainer.createComponent(ModalComponent);

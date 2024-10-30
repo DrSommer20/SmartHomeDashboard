@@ -28,9 +28,6 @@ export class MainContentComponent implements OnInit {
 
   ngOnInit() {
     this.setPageTitle();
-    this.contentHeader.refreshContent.subscribe(() => {
-      this.refreshContent();
-    });
   }
   ngAfterViewChecked() {
     this.router.events
@@ -44,19 +41,6 @@ export class MainContentComponent implements OnInit {
         }
       });
   }
-
-  refreshContent() {
-    const activeComponent = this.outlet.component as {
-      refreshContent?: () => void;
-    };
-    if (
-      activeComponent &&
-      typeof activeComponent.refreshContent === 'function'
-    ) {
-      activeComponent.refreshContent();
-    }
-  }
-
   private setPageTitle() {
     const title = this.getRouteTitle();
     if (title) {

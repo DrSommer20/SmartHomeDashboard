@@ -116,9 +116,6 @@ export class RoomComponent implements OnInit, OnDestroy {
       });
     }
 
-  refreshContent(): void {
-    this.roomsQuery.refetch();
-  }
 }
 
 const GET_ALL_ROOMS = gql`

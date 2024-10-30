@@ -115,23 +115,23 @@ export class UserProfileComponent implements OnInit {
   }
 
   deleteProfile(): void {
-     this.modalRef = this.modalContainer.createComponent(ModalComponent);
+    this.modalRef = this.modalContainer.createComponent(ModalComponent);
     this.modalRef.instance.type = 'ConfirmDelete';
 
     this.modalRef.instance.onConfirm.subscribe(() => {
       this.modalRef.destroy();
       this.apollo
-        .watchQuery<any>({
-          query: DELETE_USER,
+        .mutate({
+          mutation: DELETE_USER,
         })
-        .valueChanges.subscribe(
-          (response) => {
-            this.router.navigate(['/auth/login']);
-          },
-          (error) => {
-            console.error('Error deleting profile:', error);
-          }
-        );
+        .subscribe(
+        ({ data }) => {
+          this.router.navigate(['/auth/login']);
+        },
+        (error) => {
+          console.error('Error deleting profile:', error);
+        }
+      );
     });
     this.modalRef.instance.onCancel.subscribe(() => {
       // Simply destroy the modal if cancelled
