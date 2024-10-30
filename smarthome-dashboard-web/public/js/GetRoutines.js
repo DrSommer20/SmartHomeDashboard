@@ -87,9 +87,44 @@ function displayRoutine(routines) {
            }
        );
    }
-   function handleChange(isChecked, device_id, uniqueId, checkboxElement){
 }
+   function handleChange(isChecked, device_id, uniqueId, checkboxElement){
+         $.ajax({
+              url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine/' + device_id + '/'+ (isChecked ? 'on' : 'off'),
+              type: 'POST',
+              headers: {
+                'Authorization': localStorage.getItem('authToken')
+            },
+              success: function(response) {
+                onSuccess(device_id, uniqueId);
+              },
+              error: function(error) {
+                console.error('Error changing routine state:', error);
+              }
+         });
+   }
 
+function onSuccess(device_id, uniqueId){
+$.ajax({
+        url: 'https://smarthomebackend-spontaneous-bilby-ni.apps.01.cf.eu01.stackit.cloud/api/routine/' + device_id,
+        type: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('authToken'),
+            'Content-Type': 'application/json'
+        },
+        success: function(response) {
+            const checkbox = document.getElementById(uniqueId);
+            if (response.state === true) {
+                checkbox.checked = true;
+            } else {
+                checkbox.checked = false;
+            }
+        },
+        error: function(error) {
+            console.error('Fehler bei der Anfrage:', error);
+        }
+    });
+}
 //Edit Routine
 const devices = [];
 
@@ -101,7 +136,6 @@ $(document).ready(function() {
             'Authorization': localStorage.getItem('authToken')
         },
         success: function (response) {
-            console.log('Geräte erfolgreich abgerufen:', response);
             response.devices.forEach(device => {
                 devices.push(device); 
             });
@@ -232,6 +266,7 @@ $('#RoutinesaveBtn').click(function (id) {
     });
 });
 
+
 //Delete Routine
 function deletebuttonclick(id){
     $('.deletepopup').css('display', 'flex');
@@ -257,4 +292,4 @@ function deletebuttonclick(id){
         $('.deletepopup').css('display', 'none');
     });
 }
-};
+
